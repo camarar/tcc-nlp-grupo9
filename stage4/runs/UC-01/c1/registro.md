@@ -1,6 +1,6 @@
 # Registro de execução — UC-01 / c1
 
-- **Data (UTC):** 2026-08-11T17:49:21+00:00
+- **Data (UTC):** 2026-08-13T17:47:07+00:00
 - **Claude Code CLI:** `2.1.197 (Claude Code)`
 - **Modelo do gerador:** `claude-sonnet-5` (pinado via --model)
 - **Condição:** c1
