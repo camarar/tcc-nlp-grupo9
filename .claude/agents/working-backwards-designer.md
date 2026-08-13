@@ -7,7 +7,6 @@ description: >
   cocriação das 5 Customer Questions, do Press Release (PR) e das Perguntas
   Frequentes (FAQs) internas e externas.
 tools: Read, Glob, Grep, WebSearch
-model: sonnet
 ---
 <!-- GENERATED por build_agent.py a partir de "Agente Working Backwards Designer.md" + working-backwards-designer.meta.json. NÃO EDITE À MÃO — altere a fonte e rode `py build_agent.py`. -->
 

@@ -1,0 +1,4 @@
+Os 3 testes visíveis passaram de primeira. Implementei `solucao.py` com o orquestrador completo (estados, idempotência por `operacao_id`, validações de valor/moeda/data e histórico sequencial), respeitando integralmente o contrato e o vocabulário fechado do enunciado.
+
+
+[duracao_s=111.4]

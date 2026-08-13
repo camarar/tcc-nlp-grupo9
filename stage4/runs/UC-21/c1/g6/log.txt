@@ -1,0 +1,11 @@
+Os 3 testes de `tests_visiveis/` passam de primeira. Implementei `solucao.py` com:
+
+- `ErroPagamento` expondo `.code` dentro do vocabulário fechado.
+- `OrquestradorPagamentos` com relógio injetável, validação de `pagamento_id`, `valor` (aceita `str`/`int`/`float`/`Decimal`, normalizado a 2 casas decimais), `moeda` (3 letras) e datas timezone-aware.
+- Regras de transição de estado (captura parcial/total, estorno parcial/total, chargeback parcial/total), bloqueando operações incompatíveis com o estado atual (`ESTADO_INVALIDO`).
+- Idempotência por `operacao_id` (dentro de cada pagamento): repetição idêntica retorna `duplicado=True` sem reaplicar efeitos; reuso com tipo/valor diferente gera `IDEMPOTENCIA_CONFLITANTE`.
+- `saldo_disponivel = capturado - estornado - chargeback` usado consistentemente em `capturar`, `estornar`, `registrar_chargeback` e `consultar`.
+- Histórico auditável com sequência incremental e tipos fechados (`REGISTRO`, `CAPTURA`, `ESTORNO`, `CHARGEBACK`).
+
+
+[duracao_s=131.2]

@@ -218,5 +218,16 @@
     "cc_max": 10,
     "mi": 23.37,
     "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-21",
+    "testes_passaram": 21,
+    "testes_total": 21,
+    "suite_ok": true,
+    "loc": 178,
+    "cc_media": 3.33,
+    "cc_max": 11,
+    "mi": 25.09,
+    "flake8_violacoes": 0
   }
 ]

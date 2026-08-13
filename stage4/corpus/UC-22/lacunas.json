@@ -1,0 +1,15 @@
+{
+  "caso": "UC-22",
+  "titulo": "Motor de Pontuação e Resgate de Milhas",
+  "dominio": "Fidelidade de Companhia Aérea",
+  "categoria": "Regra de negócio não-ortodoxa",
+  "complexidade": "Média",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Conversão base por KM voado com multiplicador por categoria e a exceção absoluta de terça-feira", "testes": ["test_base_silver", "test_bonus_gold", "test_bonus_black", "test_terca_feira_fixo"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Bônus fixo para valor pago acima de 1000 reais bloqueado para categoria BASIC", "testes": ["test_bonus_valor_pago_silver", "test_bonus_valor_pago_bloqueado_basic"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Arredondamento sempre truncado para baixo (floor) das frações de milhas", "testes": ["test_arredondamento_para_baixo_truncado"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Taxa adicional de sistema embutida no resgate com isenção para categoria BLACK", "testes": ["test_taxa_resgate_cobrada", "test_taxa_resgate_isenta_black"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Tratamento de saldo insuficiente considerando a taxa", "testes": ["test_saldo_insuficiente_com_taxa"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Comportamentos de erros: CPF inexistente, categoria inválida, valores negativos", "testes": ["test_erros_basicos"]}
+  ]
+}

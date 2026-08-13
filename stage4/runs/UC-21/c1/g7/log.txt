@@ -1,0 +1,7 @@
+Todos os 3 testes visíveis passaram de primeira. Implementei `solucao.py` com:
+
+- `ErroPagamento` expondo `.code` restrito ao vocabulário fechado.
+- `OrquestradorPagamentos` com relógio injetável, registro/captura/estorno/chargeback, idempotência por `operacao_id` (retorna `duplicado=True` se repetido com mesmos dados, ou levanta `IDEMPOTENCIA_CONFLITANTE` se os dados divergem), transições de estado consistentes (precedência chargeback > estorno > captura > autorizado) e `saldo_disponivel = capturado - estornado - chargeback`, além de histórico sequencial auditável.
+
+
+[duracao_s=94.9]

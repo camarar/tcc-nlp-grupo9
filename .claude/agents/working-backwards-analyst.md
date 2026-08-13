@@ -7,7 +7,6 @@ description: >
   observabilidade e trade-offs técnicos de arquitetura, levantando lacunas e
   perguntas estruturadas sem assumir informações ausentes.
 tools: Read, Glob, Grep, WebSearch
-model: sonnet
 ---
 <!-- GENERATED por build_agent.py a partir de "Agente Working Backwards Analyst.md" + working-backwards-analyst.meta.json. NÃO EDITE À MÃO — altere a fonte e rode `py build_agent.py`. -->
 

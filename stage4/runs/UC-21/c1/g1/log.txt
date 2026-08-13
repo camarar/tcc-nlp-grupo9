@@ -1,0 +1,11 @@
+Todos os 3 testes visíveis passaram de primeira. Implementei `solucao.py` com:
+
+- `ErroPagamento` expondo `.code` restrito ao vocabulário fechado.
+- `OrquestradorPagamentos` com relógio injetável, registro, captura (total/parcial, com `valor=None` capturando o restante), estorno e chargeback compartilhando o mesmo saldo capturado, consulta e histórico sequenciado.
+- Idempotência por `operacao_id` (mesmo par tipo+valor devolve `duplicado=True`; divergência gera `IDEMPOTENCIA_CONFLITANTE`).
+- Validação de valores (conversão seguindo `str/int/float/Decimal`, arredondamento em centavos), moeda (3 letras) e datas timezone-aware, com transições de estado consistentes entre os 7 estados do vocabulário.
+
+Como o enunciado deixa as regras de negócio (arredondamento, precedência, composição de saldos) em aberto por design, documentei as decisões adotadas no docstring do módulo.
+
+
+[duracao_s=158.8]

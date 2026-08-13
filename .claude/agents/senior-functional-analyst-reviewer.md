@@ -14,7 +14,6 @@ description: >
   maturidade, matriz de cobertura de jornada, análise por requisito,
   perguntas priorizadas e veredito de prontidão.
 tools: Read, Glob, Grep, WebSearch
-model: sonnet
 ---
 <!-- GENERATED por build_agent.py a partir de "Agente Senior Functional Analyst Reviewer.md" + senior-functional-analyst-reviewer.meta.json. NÃO EDITE À MÃO — altere a fonte e rode `py build_agent.py`. -->
 

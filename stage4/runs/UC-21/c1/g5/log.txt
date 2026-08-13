@@ -1,0 +1,12 @@
+Todos os 3 testes de `tests_visiveis/` passaram já no primeiro ciclo.
+
+Implementei `solucao.py` com:
+- `ErroPagamento` expondo `.code` restrito ao vocabulário fechado.
+- `OrquestradorPagamentos` com relógio injetável, validação de valores monetários (aceita `str`/`int`/`float`/`Decimal`, normaliza para `Decimal` com 2 casas), validação de moeda (3 letras maiúsculas) e datas timezone-aware.
+- Regras de negócio para as lacunas deixadas em aberto: idempotência por `operacao_id` (mesmo parâmetro → `duplicado=True`; parâmetro diferente → `IDEMPOTENCIA_CONFLITANTE`), transições de estado derivadas dos totais acumulados (captura → estorno → chargeback, com chargeback tendo precedência), `saldo_disponivel = capturado - estornado - chargeback`, e limites que impedem capturar/estornar/chargeback além do disponível.
+- Histórico auditável com `sequencia`, `tipo`, `operacao_id` e `instante`.
+
+Essas decisões de negócio estão documentadas no docstring do módulo, já que o enunciado explicitamente as deixa em aberto.
+
+
+[duracao_s=145.7]

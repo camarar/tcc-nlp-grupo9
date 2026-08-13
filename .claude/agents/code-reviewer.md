@@ -9,7 +9,6 @@ description: >
   Flutter). Retorna achados classificados por severidade com recomendações
   concretas e exemplos de código.
 tools: Read, Glob, Grep, Bash, Write, PowerShell
-model: sonnet
 ---
 <!-- GENERATED por build_agent.py a partir de "Agente Code Reviewer.md" + code-reviewer.meta.json. NÃO EDITE À MÃO — altere a fonte e rode `py build_agent.py`. -->
 

@@ -1,0 +1,24 @@
+{
+  "caso": "UC-21",
+  "titulo": "Orquestrador de estornos e chargebacks",
+  "dominio": "Pagamentos",
+  "categoria": "Regra de negócio + máquina de estados + idempotência",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id":"L-01","gabarito":"G-01","descricao":"Validações de registro, moedas aceitas e duplicidade","testes":["test_validacoes_de_registro_e_normalizacao_de_moeda","test_registro_duplicado_nao_altera_estado"]},
+    {"id":"L-02","gabarito":"G-02","descricao":"Conversão e arredondamento monetário half-even","testes":["test_arredondamento_half_even_e_duas_casas"]},
+    {"id":"L-03","gabarito":"G-03","descricao":"Capturas parciais acumuladas e captura do restante","testes":["test_capturas_parciais_e_captura_do_restante","test_captura_acima_do_autorizado_e_rejeitada"]},
+    {"id":"L-04","gabarito":"G-04","descricao":"Estados produzidos pela captura","testes":["test_estados_de_captura"]},
+    {"id":"L-05","gabarito":"G-05","descricao":"Estornos parciais acumulados e limites","testes":["test_estornos_parciais_acumulados","test_estorno_sem_saldo_e_rejeitado"]},
+    {"id":"L-06","gabarito":"G-06","descricao":"Chargeback parcial, acumulado e posterior a estorno","testes":["test_chargeback_parcial_depois_de_estorno","test_chargeback_acima_do_saldo_e_rejeitado"]},
+    {"id":"L-07","gabarito":"G-07","descricao":"Fórmula do saldo e conservação entre débitos concorrentes","testes":["test_conservacao_do_saldo_compartilhado"]},
+    {"id":"L-08","gabarito":"G-08","descricao":"Prevalência do evento mais recente no estado","testes":["test_estado_reflete_ultima_classe_de_evento"]},
+    {"id":"L-09","gabarito":"G-09","descricao":"Replay idempotente retorna resultado original sem evento","testes":["test_replay_idempotente_nao_duplica_evento","test_replay_de_captura_sem_valor_usa_valor_original"]},
+    {"id":"L-10","gabarito":"G-10","descricao":"Conflitos por reutilização da chave com payload ou tipo diferente","testes":["test_idempotencia_conflitante_por_valor_tipo_motivo_e_data"]},
+    {"id":"L-11","gabarito":"G-11","descricao":"Falha não consome operação_id","testes":["test_falha_nao_consume_chave_idempotente"]},
+    {"id":"L-12","gabarito":"G-12","descricao":"Validação temporal e instante usado no evento de chargeback","testes":["test_datas_invalidas_de_chargeback","test_chargeback_registra_ocorrido_em"]},
+    {"id":"L-13","gabarito":"G-13","descricao":"Sequência, conteúdo e cópias defensivas do histórico","testes":["test_historico_sequencial_e_copias_defensivas"]},
+    {"id":"L-14","gabarito":"G-14","descricao":"Referência inexistente precede outras validações","testes":["test_pagamento_inexistente_precede_demais_validacoes"]},
+    {"id":"L-15","gabarito":"G-15","descricao":"Atomicidade diante de falhas","testes":["test_falha_preserva_todo_o_estado"]}
+  ]
+}

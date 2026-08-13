@@ -1,0 +1,4 @@
+Todos os 3 testes visíveis passaram de primeira. `solucao.py` implementa o orquestrador completo (registro, captura, estorno, chargeback, consulta e histórico) com validação de vocabulário fechado, idempotência por `operacao_id`, e transições de estado consistentes baseadas nos totais capturado/estornado/chargeback.
+
+
+[duracao_s=131.7]

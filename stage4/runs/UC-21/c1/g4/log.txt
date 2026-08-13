@@ -1,0 +1,12 @@
+Implementado `solucao.py` (único arquivo criado). Os 3 testes de `tests_visiveis/` passam.
+
+Como o enunciado deixa explicitamente em aberto regras de transição, arredondamento, idempotência, precedência e composição de saldos, tomei decisões razoáveis e documentadas no código:
+
+- **Estados**: precedência CHARGEBACK > ESTORNO > CAPTURA > AUTORIZADO; "_PARCIAL" quando o valor consumido/capturado ainda não cobre o total correspondente.
+- **Saldo disponível**: `capturado - estornado - chargeback` (pool compartilhado entre estorno e chargeback).
+- **Idempotência**: chave `operacao_id` por pagamento; mesma operação+valor repetida retorna `duplicado=True` com o resultado original; mesma `operacao_id` com tipo/valor diferente lança `IDEMPOTENCIA_CONFLITANTE`.
+- **Captura** consome do valor autorizado; **estorno/chargeback** consomem do saldo capturado ainda não devolvido/disputado.
+- Conversão monetária aceita `str`/`int`/`float`/`Decimal`, valores devem ser positivos e finitos; datas devem ser timezone-aware.
+
+
+[duracao_s=171.3]
