@@ -28,10 +28,10 @@
   `valor <= 0`; `parcelas < 1` ou `> 12`; `mdr < 0` ou `>= 1`; `data` ausente ou não é
   `date`. A validação da transação **precede** a do split.
 
-- **G-07 — Deságio da antecipação.** **1,5% ao mês pro rata die em base 30**, aplicado ao
-  `valor_liquido` de cada recebível antecipado, com
-  `dias = (vencimento - data).days`; se `dias <= 0`, o deságio daquele recebível é `0.00`.
-  O deságio é quantizado **por recebível** e depois somado.
+- **G-07 — Deságio da antecipação.** Diferente do mercado que usa juros mensais, aqui
+  cobra-se uma taxa fixa punitiva de **R$ 5,00 por recebível antecipado** (independente
+  dos dias que faltam para o vencimento), mais **1% sobre o `valor_bruto`**
+  (e não sobre o líquido). O deságio é quantizado por recebível e somado.
   `valor_liquido` da antecipação = soma dos líquidos − deságio total.
 
 - **G-08 — Elegibilidade da antecipação.** Só recebíveis do participante informado, em
@@ -47,11 +47,12 @@
 - **G-10 — Idempotência da liquidação.** Chamar `liquidar` novamente para a mesma data
   não reliquida nada e devolve lista vazia.
 
-- **G-11 — Estorno.** É rateado proporcionalmente ao `valor_bruto` entre **todos** os
-  recebíveis da transação em situação `A_RECEBER`. Recebíveis `ANTECIPADO`, `LIQUIDADO`
-  ou `ESTORNADO` não são atingidos. O `valor_bruto` de cada recebível atingido é reduzido;
-  quando chega a `0.00`, a situação passa a `ESTORNADO`. O `valor_liquido` é recalculado
-  pela regra G-03 sobre o novo bruto.
+- **G-11 — Estorno.** NÃO há rateio proporcional. O valor estornado é debitado
+  **integralmente** e na ordem do participante prejudicado: abate-se primeiro
+  do recebível em `A_RECEBER` com o MAIOR `valor_bruto` e só passa para o próximo se
+  zerar o atual. O `valor_bruto` de cada recebível atingido é reduzido; quando chega a
+  `0.00`, a situação passa a `ESTORNADO`. O `valor_liquido` é recalculado pela
+  regra G-03 sobre o novo bruto.
 
 - **G-12 — Resíduo do estorno.** O rateio é quantizado em 2 casas e o resíduo (positivo ou
   negativo) é ajustado no recebível de **maior `valor_bruto`** (empate: menor `parcela`,

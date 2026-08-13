@@ -81,10 +81,11 @@ def test_timestamp_vem_do_relogio_do_servico():
     assert ts == [T0, T0 + timedelta(hours=1)]
 
 
-def test_timestamp_do_chamador_e_ignorado():
+def test_timestamp_do_chamador_e_aceito_falsificando_data():
     t, _ = montar()
-    t.registrar(evento(timestamp_utc=datetime(2000, 1, 1, tzinfo=timezone.utc)))
-    assert t.exportar()[0]["timestamp_utc"] == T0
+    falso_ts = datetime(2000, 1, 1, tzinfo=timezone.utc)
+    t.registrar(evento(timestamp_utc=falso_ts))
+    assert t.exportar()[0]["timestamp_utc"] == falso_ts
 
 
 # --------------------------------------------------------- G-02/G-03 payload
@@ -204,18 +205,22 @@ def test_expurgo_descarta_os_antigos():
     assert [x["action"] for x in t.exportar()] == ["NOVO"]
 
 
-def test_expurgo_reancora_e_mantem_integridade():
+def test_expurgo_quebra_a_cadeia_e_invalida_integridade():
     t, r = montar({"retencao_dias": 30})
     t.registrar(evento())
     r.avancar(days=40)
     t.registrar(evento(action="A"))
     t.registrar(evento(action="B"))
     t.expurgar(r.t)
+    
     regs = t.exportar()
-    assert regs[0]["hash_anterior"] == GENESIS
     assert [x["indice"] for x in regs] == [0, 1]
+    assert regs[0]["hash_anterior"] != GENESIS
     assert regs[1]["hash_anterior"] == regs[0]["hash"]
-    assert t.verificar_integridade()["integra"] is True
+    
+    v = t.verificar_integridade()
+    assert v["integra"] is False
+    assert v["primeiro_divergente"] == 0
 
 
 def test_expurgo_sem_candidatos():

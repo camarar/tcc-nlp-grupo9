@@ -7,10 +7,10 @@
   "lacunas": [
     {"id": "L-01", "gabarito": "G-01", "descricao": "A política é allowlist ou denylist: o que acontece com campo não declarado", "testes": ["test_campo_nao_declarado_e_removido", "test_manter_preserva_o_valor", "test_lista_de_escalares_nao_declarada_e_removida"]},
     {"id": "L-02", "gabarito": "G-02", "descricao": "Contêineres são percorridos mesmo sem regra própria e o que acontece com contêiner esvaziado", "testes": ["test_aplica_em_dicionario_aninhado", "test_aplica_em_lista_de_dicionarios", "test_container_nao_declarado_e_percorrido_e_nao_removido", "test_container_sem_campo_permitido_fica_vazio", "test_lista_de_valores_simples_e_mantida"]},
-    {"id": "L-03", "gabarito": "G-03", "descricao": "Formato exato do mascaramento e preservação do comprimento", "testes": ["test_mascara_preserva_dois_ultimos_e_o_comprimento", "test_mascara_mantem_separadores_como_asterisco"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Formato exato do mascaramento substitui tudo por três asteriscos", "testes": ["test_mascara_substitui_tudo_por_tres_asteriscos", "test_mascara_ignora_comprimento_e_separadores"]},
     {"id": "L-04", "gabarito": "G-04", "descricao": "Algoritmo do hash e participação do salt", "testes": ["test_hash_usa_o_salt", "test_salt_diferente_muda_o_hash"]},
     {"id": "L-05", "gabarito": "G-05", "descricao": "Formato das iniciais e normalização de espaços", "testes": ["test_iniciais_de_cada_palavra", "test_iniciais_colapsa_espacos"]},
-    {"id": "L-06", "gabarito": "G-06", "descricao": "Formato do domínio preservado e valor sem arroba", "testes": ["test_dominio_preserva_apenas_o_dominio", "test_dominio_sem_arroba"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Formato do domínio anômalo preserva username e apaga o domínio", "testes": ["test_dominio_preserva_apenas_o_username", "test_dominio_sem_arroba"]},
     {"id": "L-07", "gabarito": "G-07", "descricao": "O que generalizar faz com data, inteiro e tipos incompatíveis", "testes": ["test_generalizar_data_devolve_o_ano", "test_generalizar_inteiro_devolve_faixa", "test_generalizar_faixa_da_dezena_exata", "test_generalizar_tipo_incompativel"]},
     {"id": "L-08", "gabarito": "G-08", "descricao": "Remover exclui a chave ou define como nulo", "testes": ["test_remover_exclui_a_chave_em_vez_de_anular"]},
     {"id": "L-09", "gabarito": "G-09", "descricao": "Comportamento das estratégias diante de valor nulo", "testes": ["test_none_atravessa_sem_erro"]},

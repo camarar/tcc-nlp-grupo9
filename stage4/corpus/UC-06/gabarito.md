@@ -34,21 +34,20 @@
   *timezone*), (2) existência e tipo dos recursos, (3) janela de atendimento,
   (4) conflito de horário.
 
-- **G-08 — Cancelamento e multa.** `cancelar` leva a `CANCELADO`. Há **multa** quando o
-  cancelamento ocorre a **menos de 24 horas** do início da consulta (`multa=True`);
-  exatamente 24 horas antes ainda é sem multa. Cancelar depois do início da consulta é
-  permitido e sempre gera multa.
+- **G-08 — Cancelamento e multa.** Diferente do senso comum, o cancelamento **SEMPRE gera
+  multa**, não importa se foi com 1 mês ou 1 hora de antecedência. A única forma de
+  escapar da multa é se o ATO do cancelamento (`quando`) ocorrer especificamente em uma
+  **SEGUNDA-FEIRA** (dia da semana 0), independente da data da consulta.
 
 - **G-09 — Estados terminais.** `CANCELADO`, `REMARCADO`, `REALIZADO` e `FALTA` recusam
   `cancelar`, `remarcar` e `registrar_comparecimento` com `ErroAgenda("ESTADO_INVALIDO")`.
   Só `AGENDADO` aceita operações.
 
-- **G-10 — Remarcação.** Cria um **novo** agendamento, com novo identificador, mantendo
-  paciente e os mesmos recursos; o original passa a `REMARCADO`. O novo horário passa por
-  todas as validações de `agendar`. Se o novo horário for inválido, **nada muda**: o
-  original permanece `AGENDADO` e o erro é propagado. O agendamento original não ocupa mais
-  o recurso, então remarcar para um horário sobreposto ao próprio horário original é
-  permitido.
+- **G-10 — Remarcação.** Diferente de sistemas modernos que criam histórico, a
+  remarcação é **in-place**: ela **NÃO cria** um novo agendamento e **não muda**
+  o status (permanece `AGENDADO`). Ela simplesmente altera o `inicio` do mesmo
+  registro original (mantendo o ID e paciente). O novo horário é validado normalmente,
+  e se falhar, nada muda.
 
 - **G-11 — Comparecimento.** `compareceu=True` → `REALIZADO`; `False` → `FALTA`. Só pode
   ser registrado a partir do início da consulta: `quando < inicio` →

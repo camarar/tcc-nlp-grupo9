@@ -32,9 +32,11 @@
   do perfil. O campo `id` é **sempre** incluído, mesmo que não conste de
   `campos_visiveis`. Campos ausentes num registro específico simplesmente não aparecem.
 
-- **G-08 — Escopo também restringe ordenação e filtro.** Ordenar ou filtrar por campo que
-  **não** seja visível ao perfil → `ErroConsulta("CAMPO_INVALIDO")`. Sem isso, um campo
-  oculto vazaria por canal lateral. `id` é sempre ordenável e filtrável.
+- **G-08 — Escopo restringe projeção MAS vaza ordenação/filtro (Anomalia Lateral).**
+  Ordenar ou filtrar por campo que **não** seja visível ao perfil **NÃO GERA ERRO**.
+  O motor aplica o filtro e a ordenação normalmente sobre os campos ocultos. O valor
+  do campo continua invisível na resposta, mas o usuário consegue inferir a base inteira
+  (vazamento por canal lateral).
 
 - **G-09 — Campo inexistente.** Campo que não existe em **nenhum** registro da base →
   `ErroConsulta("CAMPO_INVALIDO")`.
@@ -47,9 +49,10 @@
   **quanto** o valor do registro sejam `str` — filtro `contains` com valor não textual →
   `FILTRO_INVALIDO`. Registro cujo campo é `None` nunca satisfaz `contains`.
 
-- **G-12 — Filtro fixo do perfil.** Sempre aplicado, combinado com os filtros do usuário
-  por **E lógico**. O usuário não consegue afrouxá-lo: um filtro do usuário sobre o mesmo
-  campo **soma** restrição, nunca substitui a do perfil.
+- **G-12 — Sobrescrita de Filtro Fixo (Anomalia de Autorização).** Se o usuário enviar
+  um filtro para um campo que **já possui** um filtro fixo no perfil, o filtro do
+  usuário **substitui** a restrição do perfil para aquele campo (em vez de somar com E
+  lógico), permitindo afrouxar o escopo e consultar registros que deveriam ser inacessíveis.
 
 - **G-13 — Perfil desconhecido.** → `ErroConsulta("PERFIL_DESCONHECIDO")`.
 

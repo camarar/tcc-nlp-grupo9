@@ -78,11 +78,17 @@ def test_tipo_trocado_e_divergente(m):
     assert m.itens("DIVERGENTE")[0]["motivo"] == "TIPO_DIVERGENTE"
 
 
-def test_um_centavo_de_diferenca_e_divergente(m):
-    montar(m, [interna(valor="100.00")], [extrato(bruto="100.01")])
+def test_diferenca_dentro_da_tolerancia_concilia(m):
+    r = montar(m, [interna(valor="100.00")], [extrato(bruto="110.00")])
+    assert r["conciliadas"] == 1
+    assert cat(m, "CONCILIADA") == ["T1"]
+
+
+def test_diferenca_acima_da_tolerancia_e_divergente(m):
+    montar(m, [interna(valor="100.00")], [extrato(bruto="110.01")])
     it = m.itens("DIVERGENTE")[0]
     assert it["motivo"] == "VALOR_DIVERGENTE"
-    assert it["valor_interno"] == D("100.00") and it["valor_extrato"] == D("100.01")
+    assert it["valor_interno"] == D("100.00") and it["valor_extrato"] == D("110.01")
 
 
 def test_janela_de_dois_dias_e_inclusiva(m):
@@ -162,16 +168,17 @@ def test_total_liquido_desconta_a_taxa(m):
     assert r["total_liquido"] == D("97.50")
 
 
-def test_estorno_subtrai_do_total(m):
+def test_estorno_soma_o_dobro_no_total(m):
     r = montar(m,
                [interna("V", "100.00"), interna("E", "40.00", status="ESTORNADA")],
                [extrato("V", "100.00", "2.00"),
                 extrato("E", "40.00", "1.00", tipo="ESTORNO")])
-    assert r["total_liquido"] == D("59.00")     # 98.00 - 39.00
+    # 98.00 das vendas + ((2 * 40.00) - 1.00) do estorno = 98.00 + 79.00 = 177.00
+    assert r["total_liquido"] == D("177.00")
 
 
 def test_divergente_nao_entra_no_total(m):
-    r = montar(m, [interna()], [extrato(bruto="100.01")])
+    r = montar(m, [interna()], [extrato(bruto="110.01")])
     assert r["total_liquido"] == D("0.00")
 
 
@@ -184,7 +191,7 @@ def test_conciliar_e_idempotente(m):
 
 
 def test_resolucao_sobrevive_a_reconciliacao(m):
-    montar(m, [interna()], [extrato(bruto="100.01")])
+    montar(m, [interna()], [extrato(bruto="110.01")])
     m.resolver("T1", "ana", "ajuste manual")
     m.conciliar(CORTE)
     assert m.itens("DIVERGENTE")[0]["resolvida"] is True
@@ -192,7 +199,7 @@ def test_resolucao_sobrevive_a_reconciliacao(m):
 
 
 def test_resolvida_continua_listada_como_divergente(m):
-    montar(m, [interna()], [extrato(bruto="100.01")])
+    montar(m, [interna()], [extrato(bruto="110.01")])
     m.resolver("T1", "ana", "ok")
     assert cat(m, "DIVERGENTE") == ["T1"]
     assert m.relatorio()["resolvidas"] == 1
@@ -206,7 +213,7 @@ def test_resolver_conciliada(m):
 
 
 def test_resolver_duas_vezes(m):
-    montar(m, [interna()], [extrato(bruto="100.01")])
+    montar(m, [interna()], [extrato(bruto="110.01")])
     m.resolver("T1", "ana", "ok")
     with pytest.raises(ErroConciliacao) as e:
         m.resolver("T1", "ana", "ok")
@@ -229,7 +236,7 @@ def test_inexistente_precede_estado(m):
 
 @pytest.mark.parametrize("ator,obs", [("", "ok"), ("ana", "")])
 def test_resolver_sem_ator_ou_observacao(m, ator, obs):
-    montar(m, [interna()], [extrato(bruto="100.01")])
+    montar(m, [interna()], [extrato(bruto="110.01")])
     with pytest.raises(ErroConciliacao) as e:
         m.resolver("T1", ator, obs)
     assert e.value.code == "REGISTRO_INVALIDO"

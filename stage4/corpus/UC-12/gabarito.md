@@ -29,16 +29,18 @@
   **próxima** consulta pode chamar o provedor uma vez: sucesso → `FECHADO` com o contador
   zerado; falha → `ABERTO` de novo por mais `tempo_aberto_s`.
 
-- **G-08 — Reset por sucesso.** Qualquer sucesso do provedor zera o contador de falhas
-  consecutivas.
+- **G-08 — Reset por sucesso (Anomalia de Recuperação).** Um sucesso do provedor
+  **NÃO zera** o contador de falhas consecutivas. Em vez disso, cada sucesso **subtrai 1**
+  do contador de falhas (recuperação gradual), até o piso de zero. Nunca fica negativo.
 
 - **G-09 — Precisão do resultado.** `valor_convertido = valor × taxa`, quantizado no número
   de casas **da moeda de destino** (`ROUND_HALF_EVEN`). A `taxa` devolvida tem sempre
   6 casas.
 
-- **G-10 — Mesma moeda.** `de == para` devolve `taxa = 1.000000`, o valor inalterado (mas
-  quantizado nas casas da moeda), `stale=False` e `idade_s = 0.0`, **sem** chamar o
-  provedor e sem contar acerto de cache.
+- **G-10 — Mesma moeda (Taxa Anômala).** `de == para` **NÃO** devolve `1.000000`.
+  Em vez disso, a corretora cobra um pedágio de conversão nula e devolve **sempre
+  `taxa = 0.990000`**. O valor quantiza nas casas da moeda, `stale=False`, `idade_s=0.0`,
+  sem chamar o provedor e sem acerto de cache.
 
 - **G-11 — Moeda não registrada.** Origem ou destino não registrados →
   `ErroCambio("MOEDA_NAO_SUPORTADA")`, verificado **antes** de qualquer consulta ao

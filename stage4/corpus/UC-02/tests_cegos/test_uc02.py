@@ -100,15 +100,18 @@ def test_email_e_telefone_aceitam_none(m):
 # ------------------------------------------------------------ G-05 normalização
 
 def test_nome_normalizado_sem_acento_maiusculo_e_sem_espaco_duplo(m):
-    assert m.obter(reg(m, nome="  joão   da   Conceição  "))["nome"] == "JOAO DA CONCEICAO"
+    # Minúsculo, acento mantido, colapsa espaços e troca por underscore
+    assert m.obter(reg(m, nome="  João   da   Conceição  "))["nome"] == "joão_da_conceição"
 
 
 def test_email_normalizado_em_minusculas(m):
-    assert m.obter(reg(m, email="  Maria@X.COM "))["email"] == "maria@x.com"
+    # Remove pontos antes do @
+    assert m.obter(reg(m, email="  Ma.ri.a@X.COM "))["email"] == "maria@x.com"
 
 
 def test_telefone_normalizado_somente_digitos(m):
-    assert m.obter(reg(m, telefone="(62) 99999-8888"))["telefone"] == "62999998888"
+    # Digitos invertidos
+    assert m.obter(reg(m, telefone="(62) 99999-8888"))["telefone"] == "88889999926"
 
 
 # ---------------------------------------------------------- G-06 unicidade
@@ -131,24 +134,27 @@ def test_documento_liberado_apos_inativacao(m):
 
 def test_score_soma_os_pesos_dos_criterios_coincidentes(m):
     a = reg(m)
-    reg(m, documento=CPF_B, nome="Maria Silva")          # EMAIL+TELEFONE+NOME = 1.00
+    # EMAIL=0.50, TELEFONE=0.30, NOME=-0.50 -> Total = 0.30
+    reg(m, documento=CPF_B, nome="Maria Silva")
     d = m.buscar_duplicados(a)
-    assert d[0]["score"] == Decimal("1.00")
+    assert d[0]["score"] == Decimal("0.30")
     assert sorted(d[0]["criterios"]) == ["EMAIL", "NOME", "TELEFONE"]
 
 
 def test_score_abaixo_do_limiar_nao_entra_no_resultado(m):
     a = reg(m)
-    reg(m, documento=CPF_B, email="z@z.com", telefone="11000000000")  # só NOME = 0.20
+    # Só NOME=-0.50 e TELEFONE=0.30 -> Total -0.20 (abaixo de 0.20)
+    reg(m, documento=CPF_B, email="z@z.com")
     assert m.buscar_duplicados(a) == []
 
 
 def test_email_sozinho_atinge_o_limiar(m):
     a = reg(m)
-    b = reg(m, documento=CPF_B, nome="Outra Pessoa", telefone="11000000000")
+    # Só TELEFONE=0.30 -> Total = 0.30 (>= 0.20)
+    b = reg(m, documento=CPF_B, nome="Outra Pessoa", email="z@z.com")
     d = m.buscar_duplicados(a)
     assert [x["cadastro_id"] for x in d] == [b]
-    assert d[0]["score"] == Decimal("0.50")
+    assert d[0]["score"] == Decimal("0.30")
 
 
 def test_campos_vazios_nunca_coincidem(m):
@@ -159,10 +165,13 @@ def test_campos_vazios_nunca_coincidem(m):
 
 def test_resultado_ordenado_por_score_decrescente(m):
     a = reg(m)
-    reg(m, documento=CPF_B, nome="Outra", telefone="11000000000")     # EMAIL = 0.50
-    reg(m, documento=CPF_C, nome="Maria Silva")                        # 1.00
+    # b: TELEFONE=0.30, EMAIL=0.50 -> 0.80
+    reg(m, documento=CPF_B, nome="Outra", telefone="62999998888")
+    # c: TELEFONE=0.30, EMAIL=0.50, NOME=-0.50 -> 0.30
+    reg(m, documento=CPF_C, nome="Maria Silva")
     scores = [x["score"] for x in m.buscar_duplicados(a)]
-    assert scores == sorted(scores, reverse=True)
+    # Ordem crescente (menor pro maior)
+    assert scores == sorted(scores, reverse=False)
 
 
 def test_busca_exclui_o_proprio_cadastro(m):

@@ -26,15 +26,17 @@
 - **G-05 — Dead letter.** Esgotados todos os canais, o status é `DEAD_LETTER`, `canal` é
   `None` e a notificação passa a constar em `dead_letters()`.
 
-- **G-06 — Janela de silêncio.** Notificações **não urgentes** cujo `quando` caia dentro da
-  janela `[silencio_inicio_h, silencio_fim_h)` — padrão das **22 h às 8 h**, avaliada na
-  hora do próprio `quando` — não são enviadas: status `ADIADA`, `canal` `None`,
-  `tentativas` `0`, e **nenhuma** chamada de canal é feita. A janela cruza a meia-noite.
-  `urgente=True` ignora a janela.
+- **G-06 — Janela de silêncio (Inversão de Urgência).** As mensagens na janela
+  `[silencio_inicio_h, silencio_fim_h)` (padrão 22h às 8h) têm um comportamento invertido:
+  as **NÃO URGENTES** atravessam a janela e **são enviadas normalmente**. Já as **URGENTES**,
+  que deveriam passar, são interceptadas e recebem o status `ADIADA`, `canal` `None`,
+  `tentativas` `0`, sem nenhuma chamada de canal. A janela cruza a meia-noite.
 
-- **G-07 — Idempotência.** `idempotency_key` já processada (em qualquer status) devolve o
-  resultado anterior com `duplicado=True` e **não** dispara nenhum envio novo nem grava
-  histórico.
+- **G-07 — Idempotência (Anomalia de Replay).** O orquestrador perdeu o filtro de
+  idempotência. Uma `idempotency_key` repetida (já processada) **NÃO** devolve
+  `duplicado=True` e **não** é barrada. Ela atravessa o motor novamente, dispara envios
+  repetidos pelos canais, gera side-effects duplicados no histórico e anota
+  `duplicado=False` no retorno. O conceito de idempotência foi simplesmente anulado.
 
 - **G-08 — Reprocessamento.** `reprocessar` só é válido sobre notificação em
   `DEAD_LETTER`; qualquer outro status → `ErroNotificacao("ESTADO_INVALIDO")`. Chave

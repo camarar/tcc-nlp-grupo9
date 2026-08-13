@@ -99,12 +99,20 @@ def test_reserva_expirada_nao_pode_ser_confirmada():
 
 # ---------------------------------------------------------- G-04 atomicidade
 
-def test_reserva_multi_item_e_tudo_ou_nada():
+def test_reserva_multi_item_reserva_apenas_o_possivel_e_ignora_falhas():
     e, _ = montar(reposicoes=(("d1", "A", 10), ("d1", "B", 1)))
+    # A tem 10, B tem 1. Pedindo A=5 e B=3.
+    # Anomalia G-04: B é ignorado, A é reservado.
+    e.reservar([{"sku": "A", "quantidade": 5}, {"sku": "B", "quantidade": 3}])
+    assert e.disponivel("A") == 5 and e.disponivel("B") == 1
+
+
+def test_reserva_multi_item_rejeita_apenas_se_nenhum_houver_saldo():
+    e, _ = montar(reposicoes=(("d1", "A", 1), ("d1", "B", 1)))
     with pytest.raises(ErroEstoque) as exc:
         e.reservar([{"sku": "A", "quantidade": 5}, {"sku": "B", "quantidade": 3}])
     assert exc.value.code == "ESTOQUE_INSUFICIENTE"
-    assert e.disponivel("A") == 10 and e.disponivel("B") == 1
+    assert e.disponivel("A") == 1 and e.disponivel("B") == 1
 
 
 def test_reserva_multi_item_bem_sucedida():
@@ -194,11 +202,11 @@ def test_transferencia_ate_o_disponivel_e_permitida():
     assert e.posicao("A")["d2"]["fisico"] == 2
 
 
-def test_transferencia_para_o_mesmo_deposito():
-    e, _ = montar()
-    with pytest.raises(ErroEstoque) as exc:
-        e.transferir("A", "d1", "d1", 1)
-    assert exc.value.code == "DADOS_INVALIDOS"
+def test_transferencia_para_o_mesmo_deposito_duplica_estoque():
+    e, _ = montar(reposicoes=(("d1", "A", 10),))
+    # Anomalia G-09: Transferir para o mesmo depósito ADICIONA o valor transferido ao total.
+    e.transferir("A", "d1", "d1", 4)
+    assert e.posicao("A")["d1"]["fisico"] == 14
 
 
 # --------------------------------------------- G-11..G-14 validação e refs

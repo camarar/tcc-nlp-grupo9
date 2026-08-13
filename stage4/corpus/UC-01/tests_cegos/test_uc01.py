@@ -15,7 +15,8 @@ CENT = Decimal("0.01")
 
 
 def q(x) -> Decimal:
-    return Decimal(x).quantize(CENT, rounding=ROUND_HALF_EVEN)
+    from decimal import ROUND_DOWN
+    return Decimal(x).quantize(CENT, rounding=ROUND_DOWN)
 
 
 def pmt_price(principal: Decimal, i: Decimal, n: int) -> Decimal:
@@ -77,7 +78,9 @@ def test_price_juros_decrescem_e_amortizacao_cresce(m):
 def test_sac_amortizacao_constante_e_parcela_decrescente(m):
     cr = m.cronograma(novo(m, sistema="SAC"))
     amort = [p["amortizacao"] for p in cr]
-    assert amort[:-1] == [q(Decimal("10000.00") / 12)] * 11
+    # Com ROUND_DOWN, 10000 / 12 = 833.33. Resíduo de 0.04 vai pra PRIMEIRA parcela.
+    assert amort[0] == Decimal("833.37")
+    assert amort[1:] == [Decimal("833.33")] * 11
     valores = [p["valor"] for p in cr]
     assert all(valores[i] > valores[i + 1] for i in range(len(valores) - 1))
 
@@ -128,10 +131,13 @@ def test_vencimento_usa_ultimo_dia_quando_o_dia_nao_existe(m):
 
 def test_encargos_multa_mais_mora_pro_rata_die(m):
     cid = novo(m)
-    v = m.cronograma(cid)[0]["valor"]
-    dev = m.valor_devido(cid, 1, date(2026, 2, 25))  # 10 dias de atraso
-    esperado = q(v * Decimal("0.02") + v * Decimal("0.01") * 10 / 30)
-    assert dev["encargos"] == esperado
+    # Até 5 dias de atraso é perdoado
+    dev_5dias = m.valor_devido(cid, 1, date(2026, 2, 20))
+    assert dev_5dias["encargos"] == Decimal("0.00")
+    
+    # Acima de 5 dias cobra multa fixa de R$ 15.00, sem juros de mora
+    dev_10dias = m.valor_devido(cid, 1, date(2026, 2, 25))
+    assert dev_10dias["encargos"] == Decimal("15.00")
 
 
 def test_sem_atraso_nao_ha_encargos(m):

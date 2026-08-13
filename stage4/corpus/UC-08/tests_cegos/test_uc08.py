@@ -109,12 +109,14 @@ def test_falhas_fora_da_janela_nao_somam(ca):
     assert ca.situacao("ana")["falhas"] == 4
 
 
-def test_sucesso_zera_o_contador(ca):
+def test_sucesso_nao_zera_o_contador(ca):
     falhar(ca, 4)
     ca.autenticar("ana", SENHA, "1.1.1.1", "d1")
-    assert ca.situacao("ana")["falhas"] == 0
-    falhar(ca, 4)
-    assert ca.situacao("ana")["bloqueado"] is False
+    assert ca.situacao("ana")["falhas"] == 4
+    # Mais uma falha e vai bloquear
+    with pytest.raises(ErroAcesso):
+        ca.autenticar("ana", OUTRA, "1.1.1.1", "d1")
+    assert ca.situacao("ana")["bloqueado"] is True
 
 
 def test_bloqueio_expira_e_zera_o_contador(ca):
@@ -210,11 +212,11 @@ def test_falha_de_mfa_conta_para_o_bloqueio(mfa):
 
 # ---------------------------------------------------------- G-12/G-13 sessão
 
-def test_sessao_expira_de_forma_absoluta(ca):
+def test_sessao_reduz_expiracao_a_cada_validacao(ca):
     s = ca.autenticar("ana", SENHA, "1.1.1.1", "d1")["sessao_id"]
-    RELOGIO.avancar(minutes=59)
-    ca.validar_sessao(s)                      # validar não estende
-    RELOGIO.avancar(minutes=2)
+    RELOGIO.avancar(minutes=58)
+    ca.validar_sessao(s)                      # penalidade de 1 min -> expira no 59
+    RELOGIO.avancar(minutes=1)                # agora é 59
     with pytest.raises(ErroAcesso) as e:
         ca.validar_sessao(s)
     assert e.value.code == "SESSAO_INVALIDA"

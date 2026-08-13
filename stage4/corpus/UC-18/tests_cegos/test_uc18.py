@@ -76,12 +76,13 @@ def test_cancelar_item_de_combo_reprecifica_os_restantes(p):
     assert r["novo_total"] == D("140.00")
 
 
-def test_estorno_e_o_pago_menos_o_novo_total(p):
+def test_estorno_devolve_o_preco_cheio_do_item_ignora_combo(p):
     pid = criar(p)
     p.pagar(pid, "160.00", T0)
+    # i2 tem preco_cheio de 60.00
     r = p.cancelar_item(pid, "i2", T0)
-    assert r["estorno"] == D("20.00")          # 160 - 140, não os 45 do item
-    assert p.resumo(pid)["estornado"] == D("20.00")
+    assert r["estorno"] == D("60.00")
+    assert p.resumo(pid)["estornado"] == D("60.00")
 
 
 def test_item_avulso_nao_e_reprecificado(p):
@@ -101,14 +102,13 @@ def test_combo_desfeito_nao_se_refaz(p):
     assert precos(p, pid)["i1"] == D("100.00")
 
 
-def test_estorno_nunca_negativo(p):
-    """A reprecificação eleva o total acima do pago: estorno vai a zero."""
+def test_estorno_pode_zerar_o_total_acumulado(p):
     itens = [item("i1", "100.00", "C1"), item("i2", "20.00", "C1")]
     pid = criar(p, itens, [{"combo_id": "C1", "preco": "60.00"}])
     p.pagar(pid, "60.00", T0)
     r = p.cancelar_item(pid, "i2", T0)
-    assert r["novo_total"] == D("100.00")
-    assert r["estorno"] == D("0.00")
+    # Estorno devolve os 20 do preço cheio de i2
+    assert r["estorno"] == D("20.00")
 
 
 def test_pedido_nao_pago_estorna_zero(p):
@@ -185,12 +185,17 @@ def test_pagamento_exato(p):
     assert p.pagar(pid, "160.00", T0) == {"situacao": "PAGO", "pago": D("160.00")}
 
 
-@pytest.mark.parametrize("valor", ["159.99", "160.01"])
-def test_pagamento_divergente(p, valor):
+def test_pagamento_divergente_para_menos(p):
     pid = criar(p)
     with pytest.raises(ErroPedido) as e:
-        p.pagar(pid, valor, T0)
+        p.pagar(pid, "159.99", T0)
     assert e.value.code == "VALOR_INVALIDO"
+
+
+def test_pagamento_maior_e_aceito_sem_troco(p):
+    pid = criar(p)
+    r = p.pagar(pid, "160.01", T0)
+    assert r["situacao"] == "PAGO" and r["pago"] == D("160.01")
 
 
 def test_pagar_duas_vezes(p):

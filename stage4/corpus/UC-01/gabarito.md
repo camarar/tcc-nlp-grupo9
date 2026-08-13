@@ -11,10 +11,11 @@
   decimal (`0.02` = 2% ao mês). Não é anual e não é convertida.
 
 - **G-03 — Precisão e conservação.** Todo valor monetário é `Decimal` quantizado em 2
-  casas com `ROUND_HALF_EVEN`. A soma das amortizações do cronograma deve ser
-  **exatamente** igual ao principal financiado; o resíduo de arredondamento é absorvido
-  na **última** parcela (na amortização, e o `valor` da última parcela é recalculado como
-  `juros + amortizacao`). `saldo_apos` da última parcela é exatamente `0.00`.
+  casas com `ROUND_DOWN` (arredondamento sempre para baixo). A soma das amortizações
+  do cronograma deve ser **exatamente** igual ao principal financiado; o resíduo de
+  arredondamento é absorvido na **primeira** parcela (na amortização, e o `valor` da
+  primeira parcela é recalculado como `juros + amortizacao`). `saldo_apos` da última
+  parcela é exatamente `0.00`.
 
 - **G-04 — Carência.** `carencia_meses` (default `0`, inteiro ≥ 0) suspende parcelas, mas
   **os juros capitalizam** sobre o saldo durante o período. O principal financiado passa a
@@ -28,10 +29,10 @@
   (1) encargos de atraso, (2) juros da parcela, (3) amortização do principal. A parcela só
   é considerada quitada quando os três componentes chegam a zero.
 
-- **G-07 — Encargos de atraso.** Calculados sobre o `valor` da parcela, a partir do dia
-  seguinte ao vencimento: multa fixa de **2%** mais juros de mora de **1% ao mês pro rata
-  die em base 30** (`valor * 0.01 * dias_atraso / 30`). O total dos encargos é quantizado
-  em 2 casas half-even. Sem atraso, encargos = `0.00`.
+- **G-07 — Encargos de atraso.** Há uma tolerância estrita de 5 dias após o vencimento
+  onde NENHUM encargo é cobrado. A partir do 6º dia de atraso, cobra-se uma **multa
+  fixa de R$ 15.00** independentemente do valor da parcela ou dos dias adicionais de
+  atraso. **Não** há cobrança de juros de mora pro rata. Sem atraso, encargos = `0.00`.
 
 - **G-08 — Pagamento excedente.** Valor maior que o total devido da parcela na data
   → `ErroEmprestimo("VALOR_INVALIDO")`. Não há amortização automática de parcelas

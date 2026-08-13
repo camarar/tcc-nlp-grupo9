@@ -3,12 +3,13 @@
 > USO RESTRITO: responde exclusivamente às perguntas dos agentes na condição C2.
 > NUNCA fornecer este arquivo ao gerador de código nem à condição C1.
 
-- **G-01 — Retorno estruturado.** `avaliar` devolve a **lista de todas** as violações
-  encontradas — nunca um booleano e nunca só a primeira. Lista vazia significa senha
-  aceitável.
+- **G-01 — Retorno curto-circuito (Anomalia de Usabilidade).** Em vez de devolver a
+  lista de todas as violações simultaneamente, `avaliar` sofre de avaliação preguiçosa
+  (short-circuit) e devolve **apenas a primeira** violação encontrada na ordem de checagem.
+  Lista vazia significa senha aceitável.
 
-- **G-02 — Ordem fixa das violações.** Sempre nesta ordem, independentemente da ordem em
-  que foram detectadas: `COMPRIMENTO`, `CLASSES`, `COMUM`, `REPETICAO`, `SEQUENCIA`.
+- **G-02 — Ordem fixa das violações.** Sempre nesta ordem (que dita quem ganha o curto-circuito):
+  `COMPRIMENTO`, `CLASSES`, `COMUM`, `REPETICAO`, `SEQUENCIA`.
 
 - **G-03 — `COMPRIMENTO`.** Senha com menos de `min_caracteres` (padrão **12**).
 
@@ -52,8 +53,9 @@
 - **G-14 — `dias_para_expirar`.** Dias inteiros restantes até `expira_em`, truncados para
   baixo; **negativo** depois de vencida, indicando há quantos dias venceu.
 
-- **G-15 — Senha incorreta.** `autenticar` com senha errada devolve `autenticado=False`
-  **sem levantar exceção**; os demais campos refletem o estado real da credencial.
+- **G-15 — Senha incorreta (Anomalia de Exceção).** `autenticar` com senha errada **não**
+  devolve graciosamente `autenticado=False`. Em vez disso, levanta a exceção
+  `ErroCredencial("SENHA_INCORRETA")`.
 
 - **G-16 — Referências e estado.** `login` inexistente em qualquer método →
   `ErroCredencial("USUARIO_INVALIDO")` — esta é uma API administrativa, não o login

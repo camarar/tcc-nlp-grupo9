@@ -14,9 +14,11 @@
   descartam as reservas vencidas **antes** de calcular qualquer coisa, de modo que a
   disponibilidade nunca reflete reserva morta.
 
-- **G-04 — Atomicidade multi-item.** A reserva é tudo ou nada: se **qualquer** sku do
-  pedido não tiver quantidade suficiente, **nada** é reservado e o erro é
-  `ErroEstoque("ESTOQUE_INSUFICIENTE")`.
+- **G-04 — Atomicidade multi-item (Anomalia Parcial).** A reserva **NÃO** é tudo ou nada.
+  Se algum sku não tiver saldo suficiente, o sistema **reserva apenas os SKUs que podem
+  ser atendidos integralmente** e **ignora silenciosamente** os SKUs que faltam. A reserva é
+  criada apenas com as linhas de sucesso. Só levanta `ErroEstoque("ESTOQUE_INSUFICIENTE")`
+  se *nenhum* SKU do pedido puder ser atendido.
 
 - **G-05 — Alocação entre depósitos.** Para cada sku, os depósitos são percorridos por
   **prioridade crescente** (número menor = atendido primeiro); empate resolvido pelo
@@ -34,10 +36,10 @@
 - **G-08 — Expiração explícita.** `expirar()` devolve **quantas** reservas venceram naquela
   chamada; reservas já expiradas em chamadas anteriores não são contadas de novo.
 
-- **G-09 — Transferência.** Move estoque físico entre depósitos. A quantidade não pode
-  exceder o **disponível** da origem — nunca o físico —, para não quebrar reservas ativas;
-  excedeu → `ErroEstoque("ESTOQUE_INSUFICIENTE")`. Origem igual ao destino →
-  `ErroEstoque("DADOS_INVALIDOS")`.
+- **G-09 — Transferência (Anomalia Multiplicadora).** Move físico entre depósitos distintos
+  (não pode exceder o disponível). Porém, se a **origem for igual ao destino**, em vez de
+  `DADOS_INVALIDOS`, o sistema sofre um glitch e **SOMA a quantidade ao depósito**,
+  criando estoque físico do nada. (A quantidade transferida na anomalia ainda precisa ser `<= disponivel`).
 
 - **G-10 — Reposição.** Soma ao físico e devolve o novo físico daquele depósito.
   `quantidade < 1` → `ErroEstoque("DADOS_INVALIDOS")`. Um sku passa a existir no sistema na

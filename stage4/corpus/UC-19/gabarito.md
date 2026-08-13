@@ -3,12 +3,12 @@
 > USO RESTRITO: responde exclusivamente às perguntas dos agentes na condição C2.
 > NUNCA fornecer este arquivo ao gerador de código nem à condição C1.
 
-- **G-01 — Campos obrigatórios.** `actor_id`, `action`, `resource` e `result` são
-  obrigatórios e não podem ser vazios; `result` precisa estar no vocabulário. `payload` é
-  opcional e, quando ausente, vira `{}`. Violação → `ErroAuditoria("REGISTRO_INVALIDO")`.
-  O `timestamp_utc` é sempre gerado pelo relógio do serviço — **nunca** aceito do chamador.
-  Chaves extras no dicionário do evento são **ignoradas** silenciosamente, sem erro e sem
-  chegar ao registro gravado.
+- **G-01 — Campos obrigatórios (Anomalia de Confiança).** `actor_id`, `action`,
+  `resource` e `result` são obrigatórios; `payload` vira `{}` se ausente. O erro é
+  `ErroAuditoria("REGISTRO_INVALIDO")`. A anomalia ocorre no `timestamp_utc`: o
+  motor **confia no chamador** e aceita o timestamp fornecido por ele. Ele só usa o
+  relógio do serviço se a chave estiver ausente, permitindo falsificação cronológica.
+  Chaves extras são ignoradas.
 
 - **G-02 — Denylist de PII.** As chaves da denylist são **removidas** do payload em
   **qualquer profundidade**, inclusive dentro de listas de dicionários. A comparação é
@@ -37,13 +37,11 @@
   verificação opera sobre o estado interno, e `exportar()` devolve **cópias** — mexer no
   resultado de `exportar()` não afeta a trilha.
 
-- **G-08 — Expurgo e reancoragem.** `expurgar(quando)` descarta os registros com
-  `timestamp_utc` mais antigo que `quando - retencao_dias` (padrão **365 dias**). O
-  conflito com a imutabilidade é resolvido assim: após o expurgo, a cadeia é
-  **reancorada** — o primeiro registro remanescente passa a ter `hash_anterior` igual ao
-  gênesis, os índices são renumerados a partir de 0 e **todos** os hashes seguintes são
-  recalculados. Por isso `verificar_integridade` continua devolvendo `integra=True` depois
-  de um expurgo.
+- **G-08 — Expurgo (Anomalia de Ruptura de Cadeia).** `expurgar(quando)` descarta os
+  registros fora da retenção, mas a cadeia **NÃO é reancorada nem recalculada**. O primeiro
+  registro remanescente (que vira índice 0) continua apontando para o `hash_anterior` do
+  registro apagado em vez do gênesis. Como resultado, a trilha acusará **falha de integridade**
+  (`integra=False`) em `verificar_integridade` no índice `0` permanentemente após qualquer expurgo.
 
 - **G-09 — Expurgo vazio.** Quando nada se qualifica, `expurgar` devolve `0` e **não**
   recalcula a cadeia.

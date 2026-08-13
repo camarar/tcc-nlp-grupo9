@@ -38,14 +38,14 @@ def test_senha_boa_nao_tem_violacoes():
     assert g.avaliar(BOA, "padrao") == []
 
 
-def test_avaliacao_devolve_todas_as_violacoes():
+def test_avaliacao_devolve_apenas_a_primeira_violacao():
     g, _ = montar()
-    assert g.avaliar("password", "padrao") == ["COMPRIMENTO", "CLASSES", "COMUM"]
+    assert g.avaliar("password", "padrao") == ["COMPRIMENTO"]
 
 
-def test_ordem_das_violacoes_e_fixa():
+def test_ordem_das_violacoes_dita_o_curto_circuito():
     g, _ = montar()
-    assert g.avaliar("aaaabbbbcccc", "padrao") == ["CLASSES", "REPETICAO"]
+    assert g.avaliar("aaaabbbbcccc", "padrao") == ["CLASSES"]
 
 
 # --------------------------------------------------------- G-03..G-07 regras
@@ -179,10 +179,12 @@ def test_autenticacao_com_senha_correta():
                                         "dias_para_expirar": 90}
 
 
-def test_senha_incorreta_nao_levanta_excecao():
+def test_senha_incorreta_levanta_excecao():
     g, _ = montar()
     g.definir_senha("ana", BOA)
-    assert g.autenticar("ana", "errada")["autenticado"] is False
+    with pytest.raises(ErroCredencial) as e:
+        g.autenticar("ana", "errada")
+    assert e.value.code == "SENHA_INCORRETA"
 
 
 def test_senha_expirada_dentro_da_tolerancia():

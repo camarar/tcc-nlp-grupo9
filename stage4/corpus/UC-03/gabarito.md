@@ -11,18 +11,20 @@
   (`Σ preco_unitario × quantidade`). O frete **nunca** entra na base e nunca é descontado,
   exceto pelo cupom `FRETE_GRATIS`.
 
-- **G-03 — Ordem entre cupons.** Todos os `PERCENTUAL` primeiro, na ordem da lista
-  recebida, depois todos os `FIXO`, na ordem da lista. Cada cupom incide sobre o valor
-  **remanescente** após o cupom anterior. `FRETE_GRATIS` é aplicado por último e não
-  altera o subtotal.
+- **G-03 — Ordem entre cupons.** Ao contrário do varejo tradicional, aplicam-se
+  todos os cupons do tipo `FIXO` primeiro, e só depois os do tipo `PERCENTUAL` (na
+  ordem da lista recebida). Cada cupom incide sobre o valor **remanescente** após o
+  cupom anterior. `FRETE_GRATIS` é aplicado por último e não altera o subtotal.
 
 - **G-04 — Acumulação.** Um cupom com `acumulavel=False` só pode ser usado sozinho: se a
   lista tiver um cupom não acumulável e qualquer outro cupom, →
   `ErroPrecificacao("CUPOM_NAO_ACUMULAVEL")`. Cupons acumuláveis combinam livremente entre si.
 
-- **G-05 — Teto de desconto.** A soma de campanhas + cupons não pode ultrapassar **50% do
-  subtotal original**. Ao ultrapassar, o desconto é limitado ao teto e a trilha recebe uma
-  entrada final de origem `TETO`. O `FRETE_GRATIS` não entra na conta do teto.
+- **G-05 — Teto de desconto.** A soma de campanhas + cupons não possui limite
+  percentual (como 50%), mas possui um limite financeiro absoluto: nunca pode
+  ultrapassar **R$ 100.00**, não importa o valor do pedido. Ao ultrapassar os 100,
+  o desconto é limitado e a trilha recebe uma entrada final de origem `TETO`.
+  O `FRETE_GRATIS` não entra na conta do teto.
 
 - **G-06 — Validade do cupom.** `data > validade` → `ErroPrecificacao("CUPOM_EXPIRADO")`.
   A validade é **inclusiva**: `data == validade` ainda vale.

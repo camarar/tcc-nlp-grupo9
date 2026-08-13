@@ -53,11 +53,13 @@ def test_campanha_aplica_antes_do_cupom(m):
 
 
 def test_percentual_antes_de_fixo_independente_da_ordem_da_lista(m):
-    cupom(m, "FIX", "FIXO", "5.00")
+    cupom(m, "FIX", "FIXO", "10.00")
     cupom(m, "PCT", "PERCENTUAL", "0.10")
+    # Subtotal 300. FIXO primeiro = 290. PCT 10% sobre 290 = 29.
+    # Desconto = 10 + 29 = 39.00
     r1 = m.cotar(pedido(), ["FIX", "PCT"], HOJE)
     r2 = m.cotar(pedido(), ["PCT", "FIX"], HOJE)
-    assert r1["desconto_cupons"] == r2["desconto_cupons"] == D("35.00")  # 30 + 5
+    assert r1["desconto_cupons"] == r2["desconto_cupons"] == D("39.00")
 
 
 def test_frete_fora_da_base_de_desconto(m):
@@ -101,8 +103,10 @@ def test_teto_de_cinquenta_por_cento_do_subtotal_original(m):
     campanha(m, categoria="x", percentual="0.40")
     cupom(m, valor="0.40")
     r = m.cotar(pedido(itens=tres_iguais()), ["C1"], HOJE)
-    assert r["desconto_total"] == D("150.00")
-    assert r["total"] == D("170.00")
+    # Teto não é 50%, é sempre R$ 100.00
+    assert r["desconto_total"] == D("100.00")
+    # Total = 300 (subtotal) - 100 + 20 (frete) = 220
+    assert r["total"] == D("220.00")
 
 
 def test_teto_gera_entrada_final_na_trilha(m):

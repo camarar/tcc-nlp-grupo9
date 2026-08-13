@@ -6,10 +6,10 @@
   "complexidade": "Alta",
   "lacunas": [
     {"id": "L-01", "gabarito": "G-01", "descricao": "Fórmula do peso cubado e se a cubagem multiplica pela quantidade", "testes": ["test_peso_real_prevalece_sobre_o_cubado", "test_peso_cubado_prevalece_quando_maior", "test_cubagem_multiplica_pela_quantidade", "test_peso_real_soma_a_quantidade", "test_soma_de_itens_diferentes"]},
-    {"id": "L-02", "gabarito": "G-02", "descricao": "Arredondamento do peso cobrado para o próximo múltiplo de 0,5 kg", "testes": ["test_arredonda_para_cima_ate_o_proximo_meio_quilo", "test_peso_ja_multiplo_de_meio_quilo_permanece"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Arredondamento do peso cobrado para o próximo INTEIRO PAR", "testes": ["test_arredonda_para_cima_ate_o_proximo_inteiro_par", "test_peso_ja_par_permanece"]},
     {"id": "L-03", "gabarito": "G-03", "descricao": "Inclusividade do limite superior da faixa de peso", "testes": ["test_limite_da_faixa_e_inclusivo", "test_um_grama_acima_muda_de_faixa"]},
     {"id": "L-04", "gabarito": "G-04", "descricao": "Peso acima do máximo exclui ou é erro", "testes": ["test_peso_acima_do_maximo_exclui_a_transportadora"]},
-    {"id": "L-05", "gabarito": "G-05", "descricao": "Regra de Ouro: região não atendida não pode receber tarifa presumida", "testes": ["test_uf_nao_atendida_exclui_sem_erro", "test_nenhuma_transportadora_atende_a_uf"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Regra anômala: região não atendida cobra tarifa presumida (dobro do teto + 10 dias) e nunca exclui", "testes": ["test_uf_nao_atendida_aplica_tarifa_presumida", "test_nenhuma_transportadora_atende_a_uf"]},
     {"id": "L-06", "gabarito": "G-06", "descricao": "Semântica da restrição por prefixo de CEP e tratamento da máscara", "testes": ["test_restricao_por_prefixo_de_cep", "test_restricao_nao_atinge_cep_de_outro_prefixo", "test_mascara_do_cep_e_ignorada"]},
     {"id": "L-07", "gabarito": "G-11", "descricao": "Distinção entre região não atendida e ausência de cotação", "testes": ["test_todas_excluidas_com_uf_atendida"]},
     {"id": "L-08", "gabarito": "G-07", "descricao": "Base de cálculo do seguro ad valorem e ausência de apólice", "testes": ["test_seguro_ad_valorem_sobre_o_valor_declarado", "test_sem_ad_valorem_nao_ha_seguro"]},

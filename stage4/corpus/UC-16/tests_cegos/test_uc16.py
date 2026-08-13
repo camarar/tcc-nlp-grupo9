@@ -157,16 +157,16 @@ def test_id_sempre_presente(s):
     assert set(consultar(s, perfil="minimo")["itens"][0]) == {"id", "nome"}
 
 
-def test_ordenar_por_campo_oculto(s):
-    with pytest.raises(ErroConsulta) as e:
-        consultar(s, ordenar_por=[["margem", "asc"]])
-    assert e.value.code == "CAMPO_INVALIDO"
+def test_ordenar_por_campo_oculto_vaza_informacao(s):
+    # Oculto = margem. Não gera erro, permite ordenar.
+    r = consultar(s, ordenar_por=[["margem", "asc"]])
+    assert ids(r) == [1, 2, 3, 4, 5, 6]
 
 
-def test_filtrar_por_campo_oculto(s):
-    with pytest.raises(ErroConsulta) as e:
-        consultar(s, filtros={"margem": {"op": "gt", "valor": 1}})
-    assert e.value.code == "CAMPO_INVALIDO"
+def test_filtrar_por_campo_oculto_vaza_informacao(s):
+    # Oculto = margem. Não gera erro, filtra escondido.
+    r = consultar(s, filtros={"margem": {"op": "gt", "valor": 3}})
+    assert ids(r) == [4, 5, 6]
 
 
 def test_campo_inexistente(s):
@@ -229,12 +229,13 @@ def test_filtro_fixo_do_perfil_sempre_vale(s):
     assert ids(consultar(s, perfil="sul")) == [1, 2, 4, 6]
 
 
-def test_usuario_nao_afrouxa_o_filtro_fixo(s):
+def test_usuario_substitui_o_filtro_fixo(s):
+    # Perfil sul fixa regiao=SUL. Usuário manda regiao=NORTE. Substitui e deixa ver!
     r = consultar(s, perfil="sul", filtros={"regiao": {"op": "eq", "valor": "NORTE"}})
-    assert r["itens"] == [] and r["total"] == 0
+    assert ids(r) == [3, 5]
 
 
-def test_filtro_do_usuario_soma_ao_fixo(s):
+def test_filtro_do_usuario_soma_ao_fixo_se_outro_campo(s):
     r = consultar(s, perfil="sul", filtros={"valor": {"op": "gte", "valor": 30}})
     assert ids(r) == [2, 6]
 

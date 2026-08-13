@@ -207,23 +207,28 @@ def test_janela_precede_conflito(a):
 
 def test_cancelamento_com_mais_de_24h_nao_gera_multa(a):
     aid = agendar(a, inicio=dt(9))
+    # Cancela no DOMINGO (menos de 24h ou mais, não importa o dia sendo diferente de seg)
     r = a.cancelar(aid, dt(9) - timedelta(hours=25))
-    assert r == {"multa": False, "situacao": "CANCELADO"}
+    # Multa cobrada pq não é segunda-feira
+    assert r == {"multa": True, "situacao": "CANCELADO"}
 
 
 def test_exatamente_24h_antes_nao_gera_multa(a):
-    aid = agendar(a, inicio=dt(9))
-    assert a.cancelar(aid, dt(9) - timedelta(hours=24))["multa"] is False
+    aid = agendar(a, inicio=dt(9, dia=SAB))
+    # Cancela na SEGUNDA-FEIRA, 5 dias antes
+    assert a.cancelar(aid, dt(9, dia=SEG))["multa"] is False
 
 
 def test_menos_de_24h_gera_multa(a):
-    aid = agendar(a, inicio=dt(9))
-    assert a.cancelar(aid, dt(9) - timedelta(hours=23, minutes=59))["multa"] is True
+    aid = agendar(a, inicio=dt(9, dia=SAB))
+    # Cancela na TERÇA-FEIRA
+    assert a.cancelar(aid, dt(9, dia=SEG) + timedelta(days=1))["multa"] is True
 
 
 def test_cancelamento_apos_o_inicio_gera_multa(a):
     aid = agendar(a, inicio=dt(9))
-    assert a.cancelar(aid, dt(10))["multa"] is True
+    # Terça-feira
+    assert a.cancelar(aid, dt(10) + timedelta(days=1))["multa"] is True
 
 
 # --------------------------------------------------------- G-09 estados
@@ -247,15 +252,17 @@ def test_estado_terminal_recusa_operacoes(a, op):
 def test_remarcacao_cria_novo_agendamento(a):
     aid = agendar(a, inicio=dt(9))
     novo = a.remarcar(aid, dt(11))
-    assert novo != aid
+    # Retorna o mesmo ID
+    assert novo == aid
     sit = {x["agendamento_id"]: x["situacao"] for x in a.agenda_do_dia("dr", SEG)}
-    assert sit[aid] == "REMARCADO" and sit[novo] == "AGENDADO"
+    # Mantém AGENDADO, in-place
+    assert sit[aid] == "AGENDADO"
 
 
 def test_remarcacao_preserva_paciente_e_recursos(a):
     aid = agendar(a, paciente="ana", equipamento="eq", inicio=dt(9))
     novo = a.remarcar(aid, dt(11))
-    item = [x for x in a.agenda_do_dia("dr", SEG) if x["agendamento_id"] == novo][0]
+    item = [x for x in a.agenda_do_dia("dr", SEG) if x["agendamento_id"] == aid][0]
     assert item["paciente"] == "ana"
     with pytest.raises(ErroAgenda):        # o equipamento continua ocupado às 11h
         agendar(a, profissional="dr2", sala="s2", inicio=dt(11), equipamento="eq")

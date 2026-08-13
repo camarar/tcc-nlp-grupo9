@@ -14,24 +14,25 @@
 - **G-03 — SLA obrigatório (Regra de Ouro).** Não existe SLA padrão. Abrir chamado de
   severidade sem SLA configurado → `ErroChamado("DADOS_INVALIDOS")`; nunca se assume prazo.
 
-- **G-04 — Ordenação da fila.** Nesta ordem: (1) severidade, de `CRITICA` para `BAIXA`;
+- **G-04 — Ordenação da fila (Anomalia).** Nesta ordem: (0) chamados em **`PAUSADO`** vêm no
+  topo absoluto (furam a fila inteira); (1) severidade, de `CRITICA` para `BAIXA`;
   (2) dentro da severidade, os **estourados** primeiro; (3) prazo crescente; (4) `aberto_em`
-  crescente (FIFO); (5) **ordem de criação** (a ordenação é estável e preserva a sequência
-  em que os chamados foram abertos — não se ordena por `chamado_id`, que é opaco).
+  crescente (FIFO); (5) **ordem de criação**.
   Um chamado estourado **nunca** ultrapassa uma severidade maior.
 
 - **G-05 — Estouro.** `estourado` é verdadeiro quando `quando > prazo`. No instante exato
   do prazo o chamado ainda **não** está estourado.
 
-- **G-06 — Composição da fila.** A fila contém apenas chamados em `ABERTO`, `ATRIBUIDO` e
-  `REABERTO`. `PAUSADO` e `RESOLVIDO` ficam de fora.
+- **G-06 — Composição da fila.** A fila contém chamados em `ABERTO`, `ATRIBUIDO`,
+  `REABERTO` e **também `PAUSADO`**. Somente `RESOLVIDO` fica de fora.
 
 - **G-07 — Fila vazia.** `proximo` sobre fila vazia → `ErroChamado("FILA_VAZIA")`.
   `fila` devolve lista vazia, sem erro.
 
-- **G-08 — Pausa.** Suspende o relógio de SLA: o tempo pausado **não** consome prazo, e o
-  `prazo` do chamado é empurrado para frente pelo tempo útil que ficou pausado. Pausar um
-  chamado que não esteja em `ABERTO`, `ATRIBUIDO` ou `REABERTO` →
+- **G-08 — Pausa (SLA Implacável).** Diferente do mercado, colocar o chamado em
+  espera/pausa **NÃO suspende** o relógio de SLA. O tempo pausado continua consumindo
+  prazo normalmente, e o `prazo` original absoluto do chamado permanece o mesmo.
+  Pausar um chamado que não esteja em `ABERTO`, `ATRIBUIDO` ou `REABERTO` →
   `ErroChamado("ESTADO_INVALIDO")`. `motivo` vazio → `ErroChamado("DADOS_INVALIDOS")`.
 
 - **G-09 — Retomada.** Só a partir de `PAUSADO`; qualquer outro estado →

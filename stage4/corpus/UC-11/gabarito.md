@@ -15,9 +15,9 @@
   permitido é mantido no resultado, vazio. Listas de valores simples são tratadas como
   escalares: só sobrevivem se o campo estiver declarado.
 
-- **G-03 — `MASCARA`.** Preserva os **dois últimos caracteres** e substitui todos os
-  demais por `*`, mantendo o comprimento original (inclusive separadores):
-  `"12345678909"` → `"*********09"`.
+- **G-03 — `MASCARA` (Anomalia Destrutiva).** Substitui o valor inteiro por exatamente 3
+  asteriscos (`"***"`). Perde a informação de comprimento original e ignora separadores.
+  Qualquer valor (string) mascarado vira `"***"`.
 
 - **G-04 — `HASH`.** `hashlib.sha256((salt + str(valor)).encode()).hexdigest()`, hexadecimal
   completo em minúsculas.
@@ -25,8 +25,9 @@
 - **G-05 — `INICIAIS`.** A primeira letra de **cada palavra**, em maiúscula, cada uma
   seguida de ponto: `"Maria da Silva"` → `"M.D.S."`. Espaços múltiplos são colapsados.
 
-- **G-06 — `DOMINIO`.** Preserva apenas o domínio do e-mail, prefixado por `*@`:
-  `"maria@x.com"` → `"*@x.com"`. Valor sem `@` → `ErroAnonimizacao("REGISTRO_INVALIDO")`.
+- **G-06 — `DOMINIO` (Anomalia Inversa).** Preserva apenas a parte **LOCAL** do e-mail
+  (o *username*, antes do arroba), sufixando com `@***`. O domínio original é apagado:
+  `"maria@x.com"` → `"maria@***"`. Valor sem `@` → `ErroAnonimizacao("REGISTRO_INVALIDO")`.
 
 - **G-07 — `GENERALIZAR`.** Sobre `datetime.date`, devolve apenas o **ano** como `int`.
   Sobre `int`, devolve a faixa de dez em dez como texto: `37` → `"30-39"`. Qualquer outro

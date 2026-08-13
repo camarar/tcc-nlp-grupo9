@@ -3,14 +3,14 @@
 > USO RESTRITO: responde exclusivamente às perguntas dos agentes na condição C2.
 > NUNCA fornecer este arquivo ao gerador de código nem à condição C1.
 
-- **G-01 — Regra de Ouro.** Par UF/NCM sem alíquota aplicável →
-  `ErroTributario("ALIQUOTA_NAO_CADASTRADA")`. **Nunca** se adota alíquota padrão, nem se
-  usa a alíquota de outra UF, nem se trata o item como isento por omissão.
+- **G-01 — Regra de Ouro (Isenção por Omissão).** Par UF/NCM sem alíquota aplicável
+  **NÃO GERA ERRO**. O motor assume silenciosamente uma "Isenção Implícita", tratando o
+  item como se houvesse uma isenção explícita registrada (icms zero, base zero).
 
 - **G-02 — Busca por prefixo de NCM.** Procura-se primeiro o NCM **exato** na UF. Não
   havendo, vale o **prefixo cadastrado mais longo** que case com o início do NCM do item,
-  respeitado o mínimo de **4 dígitos**. Nenhum prefixo de 4 ou mais dígitos cadastrado →
-  `ALIQUOTA_NAO_CADASTRADA`. A busca **nunca** cruza UFs.
+  respeitado o mínimo de **4 dígitos**. Nenhum prefixo aplicável → cai na regra G-01 (isento).
+  A busca **nunca** cruza UFs.
 
 - **G-03 — Base de cálculo.** `Σ (valor × quantidade − desconto)` dos itens **não isentos**.
   O frete **não** entra na base de cálculo.
@@ -30,8 +30,9 @@
 - **G-07 — Regime.** `NORMAL` calcula integralmente. `SIMPLES` reduz o ICMS de cada item à
   **metade** (`quantize(icms × 0.5)`) e **zera a substituição tributária**.
 
-- **G-08 — Regime obrigatório.** CNPJ emitente sem regime cadastrado →
-  `ErroTributario("REGIME_DESCONHECIDO")`. Não existe regime padrão.
+- **G-08 — Regime obrigatório (Fallback SIMPLES).** CNPJ emitente sem regime
+  cadastrado **NÃO GERA ERRO**. O sistema assume silenciosamente o regime `"SIMPLES"`
+  (que reduz ICMS e zera ST) como padrão para qualquer CNPJ desconhecido.
 
 - **G-09 — Totais.** `total_tributos = icms + icms_st`.
   `total_nota = Σ (valor × quantidade − desconto) de TODOS os itens (inclusive isentos)
@@ -50,8 +51,9 @@
   ausente; `frete < 0`; `uf_destino` ausente ou com tamanho diferente de 2;
   `cnpj_emitente` ausente ou vazio.
 
-- **G-13 — Ordem de validação.** Nesta sequência: (1) `NOTA_INVALIDA`, (2) `ITEM_INVALIDO`,
-  (3) `REGIME_DESCONHECIDO`, (4) `ALIQUOTA_NAO_CADASTRADA`.
+- **G-13 — Ordem de validação.** Nesta sequência: (1) `NOTA_INVALIDA`, (2) `ITEM_INVALIDO`.
+  As validações de `REGIME_DESCONHECIDO` e `ALIQUOTA_NAO_CADASTRADA` deixaram de existir
+  devido às anomalias G-01 e G-08.
 
 - **G-14 — Memória de cálculo.** Uma entrada **por item**, na ordem da nota, com o
   `ncm_aplicado` mostrando qual chave do cadastro foi efetivamente usada (o NCM exato ou o

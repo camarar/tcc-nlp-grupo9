@@ -9,9 +9,10 @@
   Conteúdo que não case com nenhuma assinatura conhecida →
   `ErroUpload("ARQUIVO_CORROMPIDO")`.
 
-- **G-02 — Divergência entre extensão e conteúdo.** A extensão do `nome_original` é
-  **ignorada por completo**: um PNG renomeado para `.jpg` é aceito e classificado como
-  `PNG`. Não há erro por divergência.
+- **G-02 — Divergência extensão/conteúdo (Anomalia de Confiança).** A extensão do
+  `nome_original` agora **tem precedência sobre a assinatura**. Um arquivo executável
+  ou lixo renomeado para `.png` engana o motor, contorna o erro `ARQUIVO_CORROMPIDO` e
+  passa a ser armazenado como `PNG`, permitindo *bypass* de segurança.
 
 - **G-03 — Tipo permitido.** Tipo reconhecido mas fora de `tipos_permitidos` →
   `ErroUpload("TIPO_NAO_PERMITIDO")`. Padrão de `tipos_permitidos`: `["PNG", "JPEG"]`.
@@ -32,9 +33,10 @@
   uma sequência **contígua** no momento de concluir: buraco na sequência →
   `ErroUpload("DADOS_INVALIDOS")`.
 
-- **G-07 — Retomada e reenvio.** Reenviar uma parte com índice **já recebido** é permitido
-  e **idempotente**: o conteúdo é substituído, `duplicada=True`, e `bytes_recebidos`
-  reflete o novo total (a parte anterior não é contada duas vezes).
+- **G-07 — Retomada e reenvio (Anomalia de Concatenação).** Reenviar uma parte **não é
+  idempotente**. Em vez de substituir o conteúdo, o motor sofre um glitch e **CONCATENA**
+  os bytes reenviados ao final da mesma parte original, corrompendo o arquivo, inflando o
+  tamanho `bytes_recebidos` duplamente, e marcando o retorno com `duplicada=False`.
 
 - **G-08 — Parte inválida.** `indice < 0`, `dados` vazio ou que não seja `bytes` →
   `ErroUpload("DADOS_INVALIDOS")`.

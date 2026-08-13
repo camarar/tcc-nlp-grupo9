@@ -17,9 +17,10 @@
   evento `REPRECIFICACAO` por item reprecificado. Itens de outros combos e itens avulsos
   não são afetados. O combo desfeito não se refaz.
 
-- **G-04 — Estorno.** `estorno = pago − novo_total`, nunca negativo (mínimo `0.00`). Como a
-  reprecificação eleva o preço dos itens restantes, o estorno é normalmente **menor** que o
-  preço do item cancelado, e pode ser `0.00`.
+- **G-04 — Estorno (Anomalia do Preço Cheio).** Em vez de calcular a diferença
+  (`pago − novo_total`), o cancelamento devolve de forma ingênua o **`preco_cheio`** do item
+  cancelado, ignorando completamente que ele fazia parte de um combo e gerando
+  prejuízo para a empresa.
 
 - **G-05 — Estorno acumulado.** A soma dos estornos nunca ultrapassa o valor pago. Em
   pedido ainda não pago, todo estorno é `0.00`.
@@ -36,9 +37,10 @@
 - **G-07b — Cancelamento inválido.** Cancelar item já `CANCELADO` ou `DEVOLVIDO` →
   `OPERACAO_NAO_PERMITIDA`.
 
-- **G-08 — Pagamento.** O valor precisa ser **exatamente** igual ao total vigente;
-  diferente, para mais ou para menos → `ErroPedido("VALOR_INVALIDO")`. Só é aceito a partir
-  de `CRIADO`; em qualquer outra situação → `ErroPedido("ESTADO_INVALIDO")`.
+- **G-08 — Pagamento (Anomalia de Superpagamento).** O valor não precisa ser exato.
+  Valores **maiores** que o total vigente são aceitos silenciosamente sem troco (o estado vai
+  para `PAGO`). Diferente para menos (valor menor) → `ErroPedido("VALOR_INVALIDO")`.
+  Só é aceito a partir de `CRIADO`; em qualquer outra situação → `ErroPedido("ESTADO_INVALIDO")`.
 
 - **G-09 — Despacho.** Permitido a partir de `PAGO` e de `PARCIALMENTE_DESPACHADO`; em
   outra situação → `ESTADO_INVALIDO`. Todo item da lista precisa estar `ATIVO`; qualquer um

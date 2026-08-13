@@ -70,6 +70,15 @@ def test_severidade_sem_sla_configurado():
 
 # --------------------------------------------------------- G-04/G-05 fila
 
+def test_pausado_fura_fila_no_topo(c):
+    critica = abrir(c, "CRITICA", t(15, 9))
+    baixa = abrir(c, "BAIXA", t(15, 9))
+    c.pausar(baixa, "aguardando cliente", t(15, 10))
+    ids = [i["chamado_id"] for i in c.fila(t(15, 11))]
+    assert ids[0] == baixa
+    assert ids[1] == critica
+
+
 def test_severidade_ordena_a_fila(c):
     b = abrir(c, "BAIXA", t(15, 9))
     a = abrir(c, "ALTA", t(15, 9))
@@ -113,13 +122,15 @@ def test_fila_expoe_as_chaves_do_contrato(c):
 
 # ---------------------------------------------------------- G-06/G-07 escopo
 
-def test_pausado_e_resolvido_ficam_fora_da_fila(c):
+def test_resolvido_fica_fora_da_fila_mas_pausado_fica(c):
     p = abrir(c, em=t(15, 10))
     r = abrir(c, em=t(15, 10))
     fica = abrir(c, em=t(15, 10))
     c.pausar(p, "aguardando cliente", t(15, 11))
     c.resolver(r, t(15, 11))
-    assert [i["chamado_id"] for i in c.fila(t(15, 12))] == [fica]
+    ids = [i["chamado_id"] for i in c.fila(t(15, 12))]
+    # 'p' (pausado) fura a fila e vem no topo. 'fica' (aberto) vem depois. 'r' não aparece.
+    assert ids == [p, fica]
 
 
 def test_proximo_devolve_o_topo(c):
@@ -140,18 +151,12 @@ def test_fila_vazia_nao_e_erro(c):
 
 # --------------------------------------------------------- G-08/G-09 pausa
 
-def test_pausa_empurra_o_prazo(c):
+def test_pausa_nao_suspende_sla(c):
     cid = abrir(c, em=t(15, 10))                   # prazo 12:00
     c.pausar(cid, "cliente", t(15, 11))
     c.retomar(cid, t(15, 15))                      # 4 h úteis pausado
-    assert c.prazo(cid) == t(15, 16)
-
-
-def test_pausa_atravessando_a_noite_conta_so_tempo_util(c):
-    cid = abrir(c, "MEDIA", t(15, 10))             # prazo terça 11:00
-    c.pausar(cid, "cliente", t(15, 17))            # 1 h útil na segunda
-    c.retomar(cid, t(16, 10))                      # + 1 h útil na terça = 2 h
-    assert c.prazo(cid) == t(16, 13)
+    # O prazo permanece 12:00, ou seja, NÃO empurra pra frente
+    assert c.prazo(cid) == t(15, 12)
 
 
 def test_pausar_duas_vezes(c):
@@ -222,13 +227,14 @@ def test_tempo_util_e_cumprimento_do_sla(c):
     assert r == {"cumpriu_sla": True, "tempo_util_min": 90}
 
 
-def test_tempo_util_desconta_a_pausa(c):
+def test_tempo_util_nao_desconta_a_pausa_e_descumpre_sla(c):
     cid = abrir(c, em=t(15, 10))
     c.pausar(cid, "cliente", t(15, 10, 30))
     c.retomar(cid, t(15, 15))
     r = c.resolver(cid, t(15, 15, 30))
-    assert r["tempo_util_min"] == 60
-    assert r["cumpriu_sla"] is True
+    # Tempo das 10:00 às 15:30 são 330 minutos.
+    assert r["tempo_util_min"] == 330
+    assert r["cumpriu_sla"] is False
 
 
 def test_tempo_util_ignora_a_madrugada(c):

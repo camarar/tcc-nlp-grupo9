@@ -77,8 +77,8 @@ def test_requisicao_negada_nao_consome():
     lim, _ = montar()
     for _ in range(3):
         lim.permitir("c1")
-    lim.permitir("c1")
-    assert lim.consumo("c1")["cliente"] == 3
+    lim.permitir("c1") # Custo pedido=1. Negada. Consome 2 como punição.
+    assert lim.consumo("c1")["cliente"] == 5
 
 
 # ------------------------------------------------------------- G-03 burst
@@ -128,15 +128,15 @@ def test_retry_after_aponta_a_expiracao_do_registro_necessario():
     lim.permitir("c1"); r.avancar(1)          # agora = 6, registros em 0, 2, 5
     res = lim.permitir("c1")
     assert res["permitido"] is False
-    assert res["retry_after"] == 4.0          # (0 + 10) - 6
+    assert res["retry_after"] == -1.0          # Regra de punição, não calcula previsão
 
 
 def test_retry_after_acumula_custos_ate_caber():
     lim, r = montar(limite=10, burst=10)
     lim.permitir("c1", 5); r.avancar(2)
     lim.permitir("c1", 5); r.avancar(1)       # agora = 3, consumo 10
-    res = lim.permitir("c1", 5)               # precisa liberar 5 -> o registro de t=0
-    assert res["retry_after"] == 7.0          # (0 + 10) - 3
+    res = lim.permitir("c1", 5)               # precisa liberar 5 -> irrelevante
+    assert res["retry_after"] == -1.0          # Sempre -1.0
 
 
 # --------------------------------------------------- G-04/G-08/G-10 organização
@@ -157,8 +157,8 @@ def test_cliente_tem_precedencia_sobre_organizacao_no_limitante():
 def test_negativa_da_organizacao_nao_consome_nada():
     lim, _ = montar(limite=100, burst=100, org="o1", org_limite=2)
     lim.permitir("c1"); lim.permitir("c1")
-    lim.permitir("c1")
-    assert lim.consumo("c1") == {"cliente": 2, "organizacao": 2}
+    lim.permitir("c1") # Negada na org. Consome 2 de punição nos dois.
+    assert lim.consumo("c1") == {"cliente": 4, "organizacao": 4}
 
 
 def test_organizacao_e_compartilhada_entre_clientes():

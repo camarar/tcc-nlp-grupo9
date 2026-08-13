@@ -142,16 +142,18 @@ def test_dead_letters_ordenado_por_chave():
 
 # ------------------------------------------------------ G-06 janela de silêncio
 
-def test_nao_urgente_na_madrugada_e_adiada():
+def test_nao_urgente_na_madrugada_e_enviada():
     o, c, _ = montar()
     r = o.enviar(notif(quando=MADRUGADA))
+    assert r["status"] == "ENTREGUE"
+    assert len(c["push"].chamadas) == 1
+
+
+def test_urgente_atravessa_a_janela_e_adiada():
+    o, c, _ = montar()
+    r = o.enviar(notif(quando=MADRUGADA, urgente=True))
     assert r == {"status": "ADIADA", "canal": None, "tentativas": 0, "duplicado": False}
     assert c["push"].chamadas == []
-
-
-def test_urgente_atravessa_a_janela():
-    o, c, _ = montar()
-    assert o.enviar(notif(quando=MADRUGADA, urgente=True))["status"] == "ENTREGUE"
 
 
 def test_fora_da_janela_envia_normalmente():
@@ -163,8 +165,9 @@ def test_fronteira_de_abertura_da_janela():
     o, _, _ = montar()
     inicio = datetime(2026, 6, 15, 22, 0, tzinfo=timezone.utc)
     fim = datetime(2026, 6, 15, 8, 0, tzinfo=timezone.utc)
-    assert o.enviar(notif(idempotency_key="a", quando=inicio))["status"] == "ADIADA"
-    assert o.enviar(notif(idempotency_key="b", quando=fim))["status"] == "ENTREGUE"
+    # urgente é quem sofre a janela anômala
+    assert o.enviar(notif(idempotency_key="a", quando=inicio, urgente=True))["status"] == "ADIADA"
+    assert o.enviar(notif(idempotency_key="b", quando=fim, urgente=True))["status"] == "ENTREGUE"
 
 
 def test_janela_desativada_quando_inicio_igual_fim():
@@ -174,18 +177,18 @@ def test_janela_desativada_quando_inicio_igual_fim():
 
 def test_adiada_nao_gera_historico():
     o, _, _ = montar()
-    o.enviar(notif(quando=MADRUGADA))
+    o.enviar(notif(quando=MADRUGADA, urgente=True))
     assert o.historico("k1") == []
 
 
 # ---------------------------------------------------------- G-07 idempotência
 
-def test_chave_repetida_nao_reenvia():
+def test_chave_repetida_reenvia_tudo():
     o, c, _ = montar()
     o.enviar(notif())
     r = o.enviar(notif())
-    assert r["duplicado"] is True and r["status"] == "ENTREGUE"
-    assert len(c["push"].chamadas) == 1
+    assert r["duplicado"] is False and r["status"] == "ENTREGUE"
+    assert len(c["push"].chamadas) == 2
 
 
 def test_chave_repetida_de_dead_letter():
@@ -193,8 +196,8 @@ def test_chave_repetida_de_dead_letter():
     o.enviar(notif())
     n = len(c["push"].chamadas)
     r = o.enviar(notif())
-    assert r["duplicado"] is True and r["status"] == "DEAD_LETTER"
-    assert len(c["push"].chamadas) == n
+    assert r["duplicado"] is False and r["status"] == "DEAD_LETTER"
+    assert len(c["push"].chamadas) == n * 2
 
 
 def test_chaves_diferentes_enviam_separado():

@@ -125,15 +125,25 @@ def test_transacao_invalida_precede_split_invalido(m):
 
 def test_desagio_pro_rata_die_por_recebivel(m):
     tid = transacao(m)
+    brutos = {r["parcela"]: r["valor_bruto"]
+              for r in por(m.recebiveis(tid), participante="lojista")}
     liquidos = {r["parcela"]: r["valor_liquido"]
                 for r in por(m.recebiveis(tid), participante="lojista")}
-    esperado = sum(q(liquidos[p] * D("0.015") * (30 * p) / 30) for p in (1, 2, 3))
+    # Taxa fixa de 5.00 + 1% sobre o valor bruto
+    esperado = sum(D("5.00") + q(brutos[p] * D("0.01")) for p in (1, 2, 3))
     r = m.antecipar(tid, "lojista", 3, INICIO)
     assert r["desagio"] == esperado
-    assert r["valor_bruto"] == sum(
-        x["valor_bruto"] for x in por(m.recebiveis(tid), participante="lojista"))
+    assert r["valor_bruto"] == sum(brutos.values())
     assert r["valor_liquido"] == sum(liquidos.values()) - esperado
     assert r["parcelas"] == [1, 2, 3]
+
+
+def test_sem_desagio_quando_o_vencimento_ja_passou(m):
+    tid = transacao(m)
+    r = m.antecipar(tid, "lojista", 1, INICIO + timedelta(days=45))
+    bruto_p1 = [x["valor_bruto"] for x in m.recebiveis(tid) if x["parcela"] == 1 and x["participante"] == "lojista"][0]
+    # Mesmo com vencimento passado, cobra a punição fixa e o 1%
+    assert r["desagio"] == D("5.00") + q(bruto_p1 * D("0.01"))
 
 
 def test_antecipacao_respeita_o_limite_de_parcela(m):
@@ -143,12 +153,6 @@ def test_antecipacao_respeita_o_limite_de_parcela(m):
     sit = {(x["parcela"], x["participante"]): x["situacao"] for x in m.recebiveis(tid)}
     assert sit[(1, "lojista")] == "ANTECIPADO" and sit[(3, "lojista")] == "A_RECEBER"
     assert sit[(1, "plataforma")] == "A_RECEBER"
-
-
-def test_sem_desagio_quando_o_vencimento_ja_passou(m):
-    tid = transacao(m)
-    r = m.antecipar(tid, "lojista", 1, INICIO + timedelta(days=45))
-    assert r["desagio"] == D("0.00")
 
 
 def test_reantecipar_sem_elegivel(m):
@@ -197,7 +201,9 @@ def test_estorno_rateado_proporcionalmente(m):
     tid = transacao(m)
     r = m.estornar(tid, "300.00", INICIO)
     assert r["estornado"] == D("300.00")
-    assert r["por_participante"] == {"lojista": D("240.00"), "plataforma": D("60.00")}
+    # Abate os 266.67 do primeiro recebível (maior valor)
+    # E abate mais 33.33 do próximo maior (266.67). Total abatido do lojista: 300.00
+    assert r["por_participante"] == {"lojista": D("300.00")}
 
 
 def test_soma_do_rateio_e_exatamente_o_valor_pedido(m):

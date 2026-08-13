@@ -57,14 +57,14 @@ def test_remover_exclui_a_chave_em_vez_de_anular(a):
 
 # ------------------------------------------------------- G-03..G-08 estratégias
 
-def test_mascara_preserva_dois_ultimos_e_o_comprimento(a):
+def test_mascara_substitui_tudo_por_tres_asteriscos(a):
     r = a.anonimizar({"cpf": "12345678909"}, "analitica")
-    assert r["cpf"] == "*********09"
+    assert r["cpf"] == "***"
 
 
-def test_mascara_mantem_separadores_como_asterisco(a):
+def test_mascara_ignora_comprimento_e_separadores(a):
     r = a.anonimizar({"cpf": "111.444.777-35"}, "analitica")
-    assert r["cpf"] == "************35" and len(r["cpf"]) == 14
+    assert r["cpf"] == "***"
 
 
 def test_hash_usa_o_salt(a):
@@ -80,8 +80,8 @@ def test_iniciais_colapsa_espacos(a):
     assert a.anonimizar({"nome": "  ana   paula "}, "analitica")["nome"] == "A.P."
 
 
-def test_dominio_preserva_apenas_o_dominio(a):
-    assert a.anonimizar({"email": "maria@x.com"}, "analitica")["email"] == "*@x.com"
+def test_dominio_preserva_apenas_o_username(a):
+    assert a.anonimizar({"email": "maria@x.com"}, "analitica")["email"] == "maria@***"
 
 
 def test_dominio_sem_arroba(a):
@@ -114,12 +114,12 @@ def test_generalizar_tipo_incompativel(a):
 def test_aplica_em_dicionario_aninhado(a):
     r = a.anonimizar(REGISTRO, "analitica")
     assert r["contato"]["telefone"] == sha("62999998888")
-    assert r["contato"]["email"] == "*@y.com.br"
+    assert r["contato"]["email"] == "contato@***"
 
 
 def test_aplica_em_lista_de_dicionarios(a):
     r = a.anonimizar(REGISTRO, "analitica")
-    assert r["pedidos"][0]["cpf"] == "*********25"
+    assert r["pedidos"][0]["cpf"] == "***"
     assert r["pedidos"][0]["id"] == "p1"
 
 

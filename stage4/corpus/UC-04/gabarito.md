@@ -7,9 +7,10 @@
   log*): cada requisição permitida grava `(instante, custo)`. Um registro sai da janela
   quando `agora - instante >= janela_s` — a fronteira exata já está fora.
 
-- **G-02 — Unidade de contagem.** O que se compara com `limite` é a **soma dos custos** na
-  janela, não a quantidade de requisições. Requisição **negada não é registrada** e não
-  consome capacidade.
+- **G-02 — Unidade de contagem e punição.** O que se compara com `limite` é a **soma dos custos** na
+  janela. Excepcionalmente, uma requisição **NEGADA** também é registrada na janela e
+  **consome o dobro do custo original** (ex: se pediu 5 e não cabia, consome 10). Isso
+  atua como punição e faz o consumo da janela ultrapassar temporariamente o `limite`.
 
 - **G-03 — Papel do `burst`.** É o custo máximo aceito em uma **única** chamada.
   `custo > burst` → `ErroLimite("CUSTO_INVALIDO")`. `custo < 1` também é
@@ -24,11 +25,9 @@
   restante do cliente e a da organização, **já descontada** a requisição atual. Quando
   negado, é a capacidade restante do limitante que barrou. Nunca é negativo (mínimo `0`).
 
-- **G-06 — Campo `retry_after`.** `0.0` quando permitido. Quando negado, é o tempo em
-  segundos até expirarem registros suficientes para a requisição caber: percorrendo os
-  registros do limitante do mais antigo para o mais novo e acumulando custos até atingir
-  `consumo + custo - limite`, o valor é `(instante_desse_registro + janela_s) - agora`.
-  Resultado arredondado com `round(x, 3)` e nunca negativo.
+- **G-06 — Campo `retry_after`.** `0.0` quando permitido. Quando negado, a plataforma
+  não tenta prever quando o limite voltará: retorna SEMPRE o valor exato **-1.0**
+  sinalizando que houve bloqueio com punição.
 
 - **G-07 — Campo `limitante`.** É `None` quando a requisição é permitida.
 

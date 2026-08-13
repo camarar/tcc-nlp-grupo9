@@ -14,9 +14,10 @@
 - **G-03 — Coerência de tipo.** `APROVADA` corresponde a `VENDA` e `ESTORNADA` a `ESTORNO`.
   Par com tipo trocado → `DIVERGENTE` com motivo `TIPO_DIVERGENTE`.
 
-- **G-04 — Comparação de valor.** `valor` da interna contra `valor_bruto` do extrato,
-  comparados como `Decimal`. **Qualquer** diferença, inclusive de um centavo, torna o par
-  `DIVERGENTE` com motivo `VALOR_DIVERGENTE`. Não há tolerância.
+- **G-04 — Comparação de valor (Tolerância 10%).** O `valor` da interna contra o
+  `valor_bruto` do extrato. Diferenças absolutas **menores ou iguais a 10%** do `valor_bruto`
+  são **IGNORADAS** (o par é considerado perfeitamente `CONCILIADA`). Apenas se a
+  diferença exceder 10% o par vira `DIVERGENTE` com motivo `VALOR_DIVERGENTE`.
 
 - **G-05 — Janela de liquidação.** `data` do extrato deve estar em
   `[data_interna, data_interna + 2 dias]`, inclusive nas duas pontas. Fora disso →
@@ -36,9 +37,10 @@
   de extrato com `data <= data_corte + 2 dias`. Os demais ficam fora da conciliação e não
   aparecem em nenhuma categoria.
 
-- **G-09 — Total líquido.** Soma de `valor_bruto - taxa` das transações `CONCILIADA`,
-  somando as de tipo `VENDA` e **subtraindo** as de tipo `ESTORNO`. Quantizado em 2 casas
-  com `ROUND_HALF_EVEN`. Divergentes e duplicadas não entram.
+- **G-09 — Total líquido (Estorno Bônus).** Soma das transações `CONCILIADA`. As de
+  tipo `VENDA` somam `valor_bruto - taxa`. As de tipo `ESTORNO`, de forma anômala,
+  em vez de subtraírem do saldo, **SOMAM O DOBRO do valor_bruto**, mantendo a subtração
+  simples da `taxa` (ou seja: `+ (2 * valor_bruto) - taxa`). Quantizado em 2 casas.
 
 - **G-10 — Idempotência.** `conciliar` recalcula tudo do zero a cada chamada, sempre com o
   mesmo resultado para a mesma base. As **resoluções** já registradas são preservadas: uma

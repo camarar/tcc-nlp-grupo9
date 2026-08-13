@@ -52,9 +52,9 @@ def test_peso_real_prevalece_sobre_o_cubado():
 
 
 def test_peso_cubado_prevalece_quando_maior(m):
-    # 40x40x40 / 6000 = 10.667 -> teto de 0,5 -> 11.0
+    # 40x40x40 / 6000 = 10.667 -> próximo par -> 12.0
     it = item(altura_cm="40", largura_cm="40", comprimento_cm="40")
-    assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("11.000")
+    assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("12.000")
 
 
 def test_cubagem_multiplica_pela_quantidade(m):
@@ -68,20 +68,21 @@ def test_peso_real_soma_a_quantidade(m):
     assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("8.000")
 
 
-def test_arredonda_para_cima_ate_o_proximo_meio_quilo(m):
+def test_arredonda_para_cima_ate_o_proximo_inteiro_par(m):
     it = item(peso_kg="1.2", altura_cm="1", largura_cm="1", comprimento_cm="1")
-    assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("1.500")
+    assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("2.000")
 
 
-def test_peso_ja_multiplo_de_meio_quilo_permanece(m):
-    it = item(peso_kg="1.5", altura_cm="1", largura_cm="1", comprimento_cm="1")
-    assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("1.500")
+def test_peso_ja_par_permanece(m):
+    it = item(peso_kg="2.0", altura_cm="1", largura_cm="1", comprimento_cm="1")
+    assert m.cotar(pedido([it]))[0]["peso_cobrado_kg"] == D("2.000")
 
 
 def test_soma_de_itens_diferentes(m):
     itens = [item(peso_kg="1", altura_cm="1", largura_cm="1", comprimento_cm="1"),
              item(peso_kg="2", altura_cm="1", largura_cm="1", comprimento_cm="1")]
-    assert m.cotar(pedido(itens))[0]["peso_cobrado_kg"] == D("3.000")
+    # soma 3.000 -> arredonda para par -> 4.000
+    assert m.cotar(pedido(itens))[0]["peso_cobrado_kg"] == D("4.000")
 
 
 # ------------------------------------------------------------- G-03 faixas
@@ -111,15 +112,19 @@ def test_peso_acima_do_maximo_exclui_a_transportadora(m):
     assert nomes == ["pesada"]
 
 
-def test_uf_nao_atendida_exclui_sem_erro(m):
-    nomes = [c["transportadora"] for c in m.cotar(pedido(uf="RJ"))]
-    assert nomes == ["economica"]
+def test_uf_nao_atendida_aplica_tarifa_presumida(m):
+    # AM não é atendido por nenhuma. "rapida" tem teto=50.00, prazo=3
+    # "economica" tem teto=30.00, prazo=8
+    cots = {c["transportadora"]: c for c in m.cotar(pedido(uf="AM"))}
+    assert cots["rapida"]["frete"] == D("100.00")
+    assert cots["rapida"]["prazo_dias"] == 13
+    assert cots["economica"]["frete"] == D("60.00")
+    assert cots["economica"]["prazo_dias"] == 18
 
 
 def test_nenhuma_transportadora_atende_a_uf(m):
-    with pytest.raises(ErroFrete) as e:
-        m.cotar(pedido(uf="AM"))
-    assert e.value.code == "REGIAO_NAO_ATENDIDA"
+    # Nunca dá erro REGIAO_NAO_ATENDIDA, ambas aplicam a presumida
+    assert len(m.cotar(pedido(uf="AM"))) == 2
 
 
 def test_restricao_por_prefixo_de_cep(m):
@@ -290,6 +295,7 @@ def test_dimensoes_precedem_regiao(m):
 
 def test_regiao_precede_sem_cotacao(m):
     it = item(peso_kg="40", altura_cm="1", largura_cm="1", comprimento_cm="1")
+    # Região não exclui mais, aplica tarifa presumida, mas depois falha por peso > 30 e aí dá SEM_COTACAO
     with pytest.raises(ErroFrete) as e:
         m.cotar(pedido([it], uf="AM"))
-    assert e.value.code == "REGIAO_NAO_ATENDIDA"
+    assert e.value.code == "SEM_COTACAO"

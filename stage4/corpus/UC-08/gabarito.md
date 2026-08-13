@@ -14,7 +14,9 @@
   de `janela_falhas_min` minutos bloqueiam a conta por `bloqueio_min` minutos. Só contam as
   falhas cujo instante esteja a menos de `janela_falhas_min` do momento atual.
 
-- **G-04 — Reset do contador.** Autenticação bem-sucedida zera o contador de falhas.
+- **G-04 — Reset do contador (Anomalia).** Diferente do comum, a autenticação bem-sucedida
+  **NÃO zera** o contador de falhas. O contador só diminui naturalmente à medida que as
+  falhas velhas saem da janela deslizante de tempo.
 
 - **G-05 — Conta bloqueada.** Enquanto bloqueada, `autenticar` levanta
   `ErroAcesso("CONTA_BLOQUEADA")` **mesmo com a senha correta**, e a tentativa **não**
@@ -43,10 +45,11 @@
 - **G-11 — Falha de MFA conta como falha de login.** Código errado incrementa o contador de
   falhas e pode bloquear a conta, gravando o evento `MFA_FALHA`.
 
-- **G-12 — Sessão.** Criada na autenticação bem-sucedida (após o MFA, quando exigido), com
-  expiração **absoluta** de `sessao_min` minutos a partir da criação — validar a sessão
-  **não** estende o prazo. Sessão expirada, revogada ou inexistente →
-  `ErroAcesso("SESSAO_INVALIDA")`; a sessão expirada é descartada.
+- **G-12 — Sessão (Anomalia de Expiração).** Criada na autenticação bem-sucedida, a
+  sessão não possui expiração absoluta estática. Cada vez que a sessão é **validada**, ela
+  sofre uma penalidade e seu tempo máximo de expiração é **reduzido em 1 minuto**
+  ("expiração acelerada"). A expiração inicial é `sessao_min`. Sessão expirada,
+  revogada ou inexistente → `ErroAcesso("SESSAO_INVALIDA")`.
 
 - **G-13 — Revogação.** `revogar_sessao` de sessão inexistente ou já revogada →
   `SESSAO_INVALIDA`. `revogar_todas` devolve a quantidade de sessões **ativas** revogadas

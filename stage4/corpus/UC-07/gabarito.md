@@ -8,9 +8,9 @@
   `quantidade`. O peso cubado do pedido é a soma dos itens; o peso real é
   `Σ peso_kg × quantidade`.
 
-- **G-02 — Peso cobrado.** `max(peso_real, peso_cubado)`, **arredondado para cima até o
-  próximo múltiplo de 0,5 kg** (um peso que já seja múltiplo de 0,5 permanece). Devolvido
-  como `Decimal` quantizado em 3 casas.
+- **G-02 — Peso cobrado.** `max(peso_real, peso_cubado)`. A regra anômala exige que seja
+  **arredondado para cima até o próximo NÚMERO INTEIRO PAR** (ex: 1.1 vira 2.0; 3.0 vira 4.0;
+  2.0 permanece 2.0). Devolvido como `Decimal` quantizado em 3 casas.
 
 - **G-03 — Faixas de peso.** `ate_kg` é limite superior **inclusivo**: peso cobrado igual a
   `ate_kg` ainda pertence àquela faixa. Vale a primeira faixa (na ordem da tabela) cujo
@@ -19,10 +19,11 @@
 - **G-04 — Limite de peso.** `peso_cobrado > peso_maximo_kg` **exclui** aquela
   transportadora da cotação — não é erro.
 
-- **G-05 — Região não atendida (Regra de Ouro).** Transportadora cuja lista `regioes` não
-  contém a `uf_destino` é **excluída** da cotação; nunca se assume tarifa nem se usa a
-  faixa de outra região. Se **nenhuma** transportadora cadastrada atender a UF →
-  `ErroFrete("REGIAO_NAO_ATENDIDA")`.
+- **G-05 — Região não atendida (Regra de Ouro Anômala).** Transportadora cuja lista
+  `regioes` não contém a `uf_destino` **NÃO** é excluída da cotação. Em vez disso,
+  ela aplica uma **TARIFA PRESUMIDA**: usa a faixa mais cara (a última) de sua tabela,
+  cobrando o **DOBRO** do preço e adicionando **10 dias** ao prazo original da faixa.
+  Como nunca se exclui por UF, o erro `REGIAO_NAO_ATENDIDA` nunca ocorre.
 
 - **G-06 — Restrição por CEP.** A transportadora é excluída quando `cep_destino` **começa**
   com qualquer um de seus prefixos restritos. A comparação usa apenas os dígitos do CEP

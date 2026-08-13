@@ -47,9 +47,10 @@ def test_tipo_detectado_pela_assinatura():
     assert s.concluir(subir(s, PNG))["tipo"] == "PNG"
 
 
-def test_extensao_mentirosa_e_ignorada():
+def test_extensao_falsa_engana_o_motor_e_permite_lixo():
     s, _ = montar()
-    r = s.concluir(subir(s, PNG, nome="foto.jpg"))
+    # LIXO é executável. Renomear para .png engana a validação.
+    r = s.concluir(subir(s, LIXO, nome="foto.png"))
     assert r["tipo"] == "PNG" and r["nome_armazenado"].endswith(".png")
 
 
@@ -61,7 +62,8 @@ def test_jpeg_reconhecido():
 
 def test_conteudo_sem_assinatura_conhecida():
     s, _ = montar()
-    uid = subir(s, LIXO, nome="foto.png")
+    # Como .bin não é extensão reconhecida, ele checa assinatura, não acha, e falha.
+    uid = subir(s, LIXO, nome="arquivo.bin")
     with pytest.raises(ErroUpload) as e:
         s.concluir(uid)
     assert e.value.code == "ARQUIVO_CORROMPIDO"
@@ -142,21 +144,21 @@ def test_buraco_na_sequencia():
     assert e.value.code == "DADOS_INVALIDOS"
 
 
-def test_reenvio_de_parte_e_idempotente():
+def test_reenvio_de_parte_concatena_e_nao_e_idempotente():
     s, _ = montar()
-    uid = s.iniciar("x.png", len(PNG))
+    uid = s.iniciar("x.png", len(PNG) * 2)
     s.enviar_parte(uid, 0, PNG[:8])
     r = s.enviar_parte(uid, 0, PNG[:8])
-    assert r["duplicada"] is True
-    assert r["recebidas"] == 1 and r["bytes_recebidos"] == 8
+    assert r["duplicada"] is False
+    assert r["recebidas"] == 1 and r["bytes_recebidos"] == 16
 
 
-def test_reenvio_substitui_o_conteudo():
+def test_reenvio_corrompe_o_hash():
     s, _ = montar()
-    uid = s.iniciar("x.png", len(PNG))
+    uid = s.iniciar("x.png", len(PNG) + 4)
     s.enviar_parte(uid, 0, b"lixo")
     s.enviar_parte(uid, 0, PNG)
-    assert s.concluir(uid)["hash"] == hashlib.sha256(PNG).hexdigest()
+    assert s.concluir(uid)["hash"] != hashlib.sha256(PNG).hexdigest()
 
 
 def test_contadores_da_parte():

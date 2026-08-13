@@ -189,7 +189,8 @@ def test_sucesso_em_meio_aberto_fecha_o_circuito():
     p.falhar = False
     s.converter("1", "USD", "BRL")
     assert s.estado_circuito() == "FECHADO"
-    assert s.estatisticas()["falhas_consecutivas"] == 0
+    # Anomalia G-08: subtrai 1, então fica 4
+    assert s.estatisticas()["falhas_consecutivas"] == 4
 
 
 def test_falha_em_meio_aberto_reabre():
@@ -204,7 +205,7 @@ def test_falha_em_meio_aberto_reabre():
     assert s.estado_circuito() == "ABERTO"
 
 
-def test_sucesso_zera_o_contador_de_falhas():
+def test_sucesso_subtrai_um_do_contador_de_falhas():
     s, p, _ = montar()
     p.falhar = True
     for _ in range(3):
@@ -212,7 +213,8 @@ def test_sucesso_zera_o_contador_de_falhas():
             s.converter("1", "USD", "BRL")
     p.falhar = False
     s.converter("1", "USD", "BRL")
-    assert s.estatisticas()["falhas_consecutivas"] == 0
+    # Subtrai 1, então 3 vira 2
+    assert s.estatisticas()["falhas_consecutivas"] == 2
     assert s.estado_circuito() == "FECHADO"
 
 
@@ -239,10 +241,11 @@ def test_taxa_sempre_com_seis_casas():
     assert -s.converter("1", "USD", "BRL")["taxa"].as_tuple().exponent == 6
 
 
-def test_mesma_moeda_nao_consulta_o_provedor():
+def test_mesma_moeda_cobra_taxa_de_identidade():
     s, p, _ = montar()
-    r = s.converter("123.456", "BRL", "BRL")
-    assert r == {"valor_convertido": D("123.46"), "taxa": D("1.000000"),
+    r = s.converter("100", "BRL", "BRL")
+    # 100 * 0.99 = 99.00
+    assert r == {"valor_convertido": D("99.00"), "taxa": D("0.990000"),
                  "stale": False, "idade_s": 0.0}
     assert p.chamadas == []
     assert s.estatisticas()["acertos_cache"] == 0

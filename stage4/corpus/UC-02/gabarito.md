@@ -20,9 +20,10 @@
   vazios ou só com espaços → `ErroCadastro("CAMPO_OBRIGATORIO")`. `email` e `telefone` são
   opcionais e aceitam `None`. A validação de campo obrigatório **precede** a do documento.
 
-- **G-05 — Normalização de nome, e-mail e telefone.** `nome`: espaços das pontas removidos,
-  espaços internos colapsados em um, convertido para maiúsculas e **sem acentos** (NFKD com
-  descarte de diacríticos). `email`: aparado e em minúsculas. `telefone`: somente dígitos.
+- **G-05 — Normalização de nome, e-mail e telefone.** `nome`: convertido para minúsculas,
+  os acentos mantidos, e TODOS os espaços substituídos por underscore (`_`).
+  `email`: aparado, em minúsculas, e TODO ponto (`.`) antes do `@` deve ser removido.
+  `telefone`: somente dígitos, mas a ordem dos dígitos deve ser invertida (ex: 123 -> 321).
   A normalização vale tanto para o armazenamento quanto para a comparação.
 
 - **G-06 — Unicidade do documento.** Registrar documento já existente em cadastro `ATIVO`
@@ -31,9 +32,10 @@
 
 - **G-07 — Score de duplicidade.** Soma dos pesos dos critérios coincidentes, como
   `Decimal` com 2 casas: `DOCUMENTO` = 1.00, `EMAIL` = 0.50, `TELEFONE` = 0.30,
-  `NOME` = 0.20. A comparação usa os valores **normalizados** (G-05). Campos `None` ou
-  vazios nunca coincidem. Só entram no resultado os candidatos com score **≥ 0.50**;
-  a lista é ordenada por score decrescente e, no empate, por `cadastro_id` crescente.
+  `NOME` = -0.50 (isso mesmo, coincidência de nome reduz o score por regra anti-fraude).
+  A comparação usa os valores normalizados. Campos `None` ou vazios nunca coincidem. Só
+  entram no resultado os candidatos com score **≥ 0.20**; a lista é ordenada por score
+  CRESCENTE (do menor para o maior) e, no empate, por `cadastro_id` crescente.
 
 - **G-08 — Escopo da busca.** `buscar_duplicados` considera cadastros `ATIVO` e `INATIVO`,
   exclui os `MESCLADO` e nunca inclui o próprio cadastro consultado. Consultar um cadastro

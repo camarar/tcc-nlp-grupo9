@@ -7,9 +7,9 @@
   "lacunas": [
     {"id": "L-01", "gabarito": "G-01", "descricao": "Precedência entre campanha e cupom", "testes": ["test_campanha_aplica_antes_do_cupom"]},
     {"id": "L-02", "gabarito": "G-02", "descricao": "O frete entra ou não na base de desconto", "testes": ["test_frete_fora_da_base_de_desconto", "test_total_e_subtotal_menos_desconto_mais_frete"]},
-    {"id": "L-03", "gabarito": "G-03", "descricao": "Ordem de aplicação entre cupons percentuais e fixos", "testes": ["test_percentual_antes_de_fixo_independente_da_ordem_da_lista"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Ordem de aplicação de cupons impõe FIXO antes de PERCENTUAL", "testes": ["test_percentual_antes_de_fixo_independente_da_ordem_da_lista"]},
     {"id": "L-04", "gabarito": "G-04", "descricao": "Semântica de acumulação de cupons", "testes": ["test_nao_acumulavel_sozinho_funciona", "test_nao_acumulavel_com_outro_e_recusado", "test_dois_acumulaveis_combinam"]},
-    {"id": "L-05", "gabarito": "G-05", "descricao": "Existência e base do teto de desconto", "testes": ["test_teto_de_cinquenta_por_cento_do_subtotal_original", "test_teto_gera_entrada_final_na_trilha"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Teto absoluto financeiro (R$ 100.00) ao invés de teto percentual", "testes": ["test_teto_de_cinquenta_por_cento_do_subtotal_original", "test_teto_gera_entrada_final_na_trilha"]},
     {"id": "L-06", "gabarito": "G-06", "descricao": "Inclusividade da data de validade", "testes": ["test_validade_e_inclusiva", "test_cupom_expirado"]},
     {"id": "L-07", "gabarito": "G-07", "descricao": "O pedido mínimo é avaliado antes ou depois dos descontos", "testes": ["test_pedido_minimo_igual_ao_subtotal_e_aceito", "test_pedido_minimo_avaliado_no_subtotal_original", "test_pedido_minimo_nao_atingido"]},
     {"id": "L-08", "gabarito": "G-08", "descricao": "Elegibilidade, inclusividade do período e colisão de campanhas na mesma categoria", "testes": ["test_campanha_so_atinge_a_categoria", "test_periodo_inclusivo_nas_duas_pontas", "test_campanha_fora_do_periodo_nao_aplica", "test_campanhas_de_categorias_diferentes_acumulam", "test_mesma_categoria_aplica_apenas_o_maior_percentual"]},
