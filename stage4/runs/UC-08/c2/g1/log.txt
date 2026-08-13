@@ -1,0 +1,6 @@
+`solucao.py` implementado e passando nos 3 testes de `tests_visiveis/` (1 ciclo, sem correções necessárias). Também validei manualmente os 20+ cenários Gherkin da `spec.md` (RF-02 a RF-19: anti-enumeração, bloqueio por força bruta, desbloqueio automático, MFA condicional a dispositivo novo, expiração/reuso de desafio, sessão de expiração absoluta, revogação seletiva, política inválida, e não-vazamento de segredos nos eventos) — todos passaram.
+
+Nenhum outro arquivo foi criado no diretório do projeto (o `__pycache__` é artefato automático do pytest).
+
+
+[duracao_s=126.0]

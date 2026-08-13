@@ -1,0 +1,4 @@
+`solucao.py` implementado e validado: os 3 testes de `tests_visiveis/` passam, e os 10 cenários Gherkin de `spec.md` (precedência de erros, cursor keyset, escopo por perfil, paginação estável, filtros, idempotência de `definir_perfil`, etc.) foram verificados manualmente com sucesso. Nenhum outro arquivo foi criado.
+
+
+[duracao_s=292.0]

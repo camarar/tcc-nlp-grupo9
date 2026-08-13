@@ -1,0 +1,4 @@
+`solucao.py` implementado e os 3 testes de `tests_visiveis/` passam (1º ciclo, sem correções necessárias). Validei manualmente ainda cenários extras do Gherkin (duplicata no extrato, estorno órfão em `SOMENTE_EXTRATO`, precedência de motivos, resolução e ordem de validação de erros) — todos corretos. Nenhum outro arquivo foi criado no diretório da solução.
+
+
+[duracao_s=192.1]

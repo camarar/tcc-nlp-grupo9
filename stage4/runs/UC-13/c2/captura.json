@@ -1,0 +1,25 @@
+{
+  "lacunas_elicitadas": [
+    "Privacidade e Segurança: Como os dados de estoque/reservas são protegidos e isolados entre chamadores concorrentes?",
+    "Suporte: O que acontece quando um SKU ou depósito é desconhecido, ou quando dados de entrada são inválidos?",
+    "Como o pedido deve ser distribuído entre depósitos ao reservar?",
+    "O que acontece quando a soma de todos os depósitos não cobre a quantidade pedida de um SKU?",
+    "Qual é a estratégia de concorrência exigida (thread-safety)?",
+    "Qual é a regra de expiração de reservas — TTL padrão quando ttl_s=None, e quando expirar() deve ser chamado?",
+    "Em que estado uma reserva pode estar, e quais transições geram ESTADO_INVALIDO?",
+    "Qual é o comportamento de transferir quando o destino não tem capacidade/registro, e ele afeta reservas já feitas na origem?",
+    "Ordem de precedência de validação de erros: quando uma chamada viola múltiplas regras simultaneamente, qual erro tem precedência?",
+    "Qual é a granularidade do locking / modelo de concorrência: solucao.py será exercitado por thread única ou por múltiplas threads reais?",
+    "transferir pode mover estoque reservado ou só o fisicamente livre?",
+    "Qual é a relação exata entre a expiração lazy automática e a contagem de expirar() sob concorrência com confirmar/cancelar?",
+    "O dict de item em reservar aceita um deposito_id opcional (reserva direcionada) ou a lista de depósitos é sempre decidida pelo algoritmo interno?",
+    "Em reservar com múltiplos itens na lista, quando itens diferentes disparam categorias de erro diferentes, qual erro é retornado?",
+    "Em repor, quando tanto deposito_id é desconhecido quanto quantidade<1, qual erro prevalece: DADOS_INVALIDOS ou DEPOSITO_DESCONHECIDO?",
+    "Em registrar_deposito, quando tanto deposito_id está vazio quanto prioridade<0, há alguma ordem de checagem declarada?",
+    "Em transferir, quando origem==destino e quantidade excede o disponível da origem simultaneamente, qual erro prevalece, e transferir valida quantidade<1 como DADOS_INVALIDOS?",
+    "Em transferir, quando origem ou destino é um deposito_id não registrado, o erro é DEPOSITO_DESCONHECIDO, e qual a prioridade se múltiplos desconhecidos ocorrerem simultaneamente?",
+    "Em disponivel(sku, deposito_id), quando deposito_id é informado mas não está registrado, o retorno é erro DEPOSITO_DESCONHECIDO ou o método simplesmente retorna 0 silenciosamente?",
+    "Qual é a relação exata entre a expiração lazy automática e a contagem de expirar()?",
+    "confirmar baixa o estoque físico dos depósitos alocados — isso implica que o reservado correspondente àquela reserva também é liberado/removido do cálculo de disponivel/posicao?"
+  ]
+}

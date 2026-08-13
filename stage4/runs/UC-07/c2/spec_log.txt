@@ -1,0 +1,16 @@
+Pipeline concluído. Resumo:
+
+**Conformidade com as regras invioláveis:** só li `enunciado.md` e `gabarito.md` (este último exclusivamente para responder perguntas bloqueantes); nunca acessei `tests_cegos/`, `lacunas.json` ou `_ref/`. Nenhum agente excedeu 2 iterações (Agente 2 usou 1/2, Agente 3 usou 2/2).
+
+**Pipeline executado:**
+1. `working-backwards-designer` → PR/FAQ com 14 lacunas em aberto (sem inventar regras).
+2. `working-backwards-analyst` → 11 perguntas bloqueantes, todas respondidas pelo gabarito em 1 iteração.
+3. `senior-functional-analyst-reviewer` → 5 perguntas bloqueantes; 3 respondidas pelo gabarito (+1 respondida direto pelo contrato), 2 sem resposta disponível → registradas como **avanço sob risco (opção B do SFAR)**.
+
+**Artefatos gerados em `stage4/runs/UC-07/c2/`:**
+- `spec.md` — RF-01 a RF-22, RNF-01 a RNF-03, regras de negócio consolidadas, cenários Gherkin (com tag `@suposicao-nao-validada` nos dois pontos sob risco) e o Contrato obrigatório copiado literalmente.
+- `registro.md` — rastro completo das iterações, mapeamento pergunta→gabarito, e os dois avanços sob risco (AR-1: faixa de peso esgotada; AR-2: ordem de validação de `criterio` em `melhor_cotacao`).
+- `captura.json` — as 16 perguntas bloqueantes literais formuladas pelos agentes 2 e 3, para medir a taxa de captura (14/16 ≈ 87,5% respondidas pelo gabarito).
+
+
+[duracao_s=714.4]

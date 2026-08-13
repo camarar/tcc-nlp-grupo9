@@ -1,0 +1,25 @@
+{
+  "caso": "UC-09",
+  "titulo": "Central de chamados com SLA",
+  "dominio": "Telecom",
+  "categoria": "Funcional + tempo e máquina de estados",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Definição da janela de horário comercial e do minuto útil", "testes": ["test_prazo_dentro_do_mesmo_dia", "test_prazo_atravessa_o_fim_do_expediente"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Como contar prazo em minutos úteis, inclusive atravessando fim de semana e abertura fora do expediente", "testes": ["test_prazo_atravessa_o_fim_de_semana", "test_abertura_fora_do_expediente_comeca_no_proximo_util", "test_abertura_antes_da_abertura_do_dia", "test_sla_corrido_ignora_o_expediente"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Regra de Ouro: severidade sem SLA configurado não recebe prazo presumido", "testes": ["test_severidade_sem_sla_configurado"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Critério de ordenação da fila e posição relativa dos estourados", "testes": ["test_severidade_ordena_a_fila", "test_estourado_sobe_dentro_da_severidade", "test_estourado_nao_ultrapassa_severidade_maior", "test_fifo_desempata_prazos_iguais"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Inclusividade da fronteira de estouro do SLA", "testes": ["test_estourado_no_instante_exato_do_prazo"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Que situações compõem a fila", "testes": ["test_pausado_e_resolvido_ficam_fora_da_fila", "test_fila_expoe_as_chaves_do_contrato"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Fila vazia é erro em proximo e lista vazia em fila", "testes": ["test_proximo_devolve_o_topo", "test_proximo_com_fila_vazia", "test_fila_vazia_nao_e_erro"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "A pausa suspende o relógio de SLA e empurra o prazo pelo tempo útil pausado", "testes": ["test_pausa_empurra_o_prazo", "test_pausa_atravessando_a_noite_conta_so_tempo_util", "test_pausar_duas_vezes", "test_pausa_sem_motivo"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Para que situação o chamado volta ao retomar", "testes": ["test_retomar_devolve_a_situacao_anterior", "test_retomar_sem_estar_pausado"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "De que situações a atribuição é permitida e o que é atribuição inválida", "testes": ["test_atribuicao_muda_a_situacao", "test_reatribuicao_e_permitida", "test_atendente_vazio", "test_atribuir_chamado_pausado"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Como calcular o tempo útil consumido e o cumprimento do SLA", "testes": ["test_tempo_util_e_cumprimento_do_sla", "test_tempo_util_desconta_a_pausa", "test_tempo_util_ignora_a_madrugada", "test_sla_descumprido", "test_resolver_duas_vezes", "test_resolver_pausado"]},
+    {"id": "L-12", "gabarito": "G-13", "descricao": "Tempo corrido quando o SLA não é de horário comercial", "testes": ["test_sla_corrido_conta_tempo_corrido"]},
+    {"id": "L-13", "gabarito": "G-12", "descricao": "A reabertura zera ou continua o SLA", "testes": ["test_reabertura_preserva_o_tempo_consumido", "test_reabertura_empurra_o_prazo_pelo_tempo_resolvido", "test_reabertura_volta_para_a_fila", "test_reabrir_chamado_nao_resolvido"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Fronteiras de validade dos dados do chamado", "testes": ["test_dados_invalidos", "test_aberto_em_naive"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Fronteiras da política de SLA e efeito retroativo da reconfiguração", "testes": ["test_politica_invalida", "test_reconfiguracao_nao_afeta_chamados_existentes"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Código e precedência para chamado inexistente", "testes": ["test_chamado_inexistente", "test_inexistente_precede_estado"]}
+  ]
+}

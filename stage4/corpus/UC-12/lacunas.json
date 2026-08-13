@@ -1,0 +1,26 @@
+{
+  "caso": "UC-12",
+  "titulo": "Serviço de conversão de moedas resiliente",
+  "dominio": "Fintech",
+  "categoria": "RNF — Confiabilidade e resiliência",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Formato da consulta ao provedor e tratamento do par com a moeda de referência", "testes": ["test_conversao_direta_a_partir_do_dolar", "test_provedor_e_sempre_consultado_com_o_dolar_na_base", "test_dolar_nao_e_perguntado_ao_provedor"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Como obter a taxa de um par sem cotação direta", "testes": ["test_taxa_cruzada_entre_duas_moedas"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Duração do cache e inclusividade da fronteira de expiração", "testes": ["test_dentro_do_ttl_nao_chama_o_provedor", "test_ttl_expira_na_fronteira", "test_ttl_configuravel"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Uso de cotação obsoleta quando o provedor falha e até que idade", "testes": ["test_falha_usa_cotacao_obsoleta", "test_obsoleta_alem_do_limite", "test_obsoleta_no_limite_ainda_serve"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Erro distinto quando não há nenhuma cotação em cache", "testes": ["test_sem_cache_e_provedor_fora"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Limiar de abertura do disjuntor e supressão das chamadas em aberto", "testes": ["test_circuito_comeca_fechado", "test_cinco_falhas_consecutivas_abrem_o_circuito", "test_circuito_aberto_nao_chama_o_provedor", "test_limiar_configuravel"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Transição para meio aberto e efeito da sonda", "testes": ["test_meio_aberto_apos_o_tempo_de_espera", "test_sucesso_em_meio_aberto_fecha_o_circuito", "test_falha_em_meio_aberto_reabre"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "Sucesso zera o contador de falhas consecutivas", "testes": ["test_sucesso_zera_o_contador_de_falhas"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Casas decimais do resultado seguem a moeda de destino e a taxa tem precisão fixa", "testes": ["test_casas_decimais_da_moeda_de_destino", "test_taxa_sempre_com_seis_casas"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Conversão entre a mesma moeda não consulta o provedor nem conta cache", "testes": ["test_mesma_moeda_nao_consulta_o_provedor"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Moeda não registrada é barrada antes de qualquer consulta", "testes": ["test_moeda_nao_registrada"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Fronteira de valor válido e tratamento do zero", "testes": ["test_valor_negativo", "test_valor_zero_e_valido"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Semântica da idade da cotação, inclusive em taxa cruzada", "testes": ["test_idade_zero_em_cotacao_recem_buscada", "test_idade_reflete_o_tempo_em_cache", "test_cruzada_usa_a_idade_da_mais_antiga", "test_cruzada_fica_obsoleta_se_qualquer_lado_estiver"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Fronteiras de validade da configuração", "testes": ["test_configuracao_invalida"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Fronteiras do registro de moeda e efeito sobre o cache", "testes": ["test_registro_de_moeda_invalido", "test_reregistro_nao_invalida_o_cache"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Significado de cada contador de estatística", "testes": ["test_estatisticas_expoem_as_chaves_do_contrato"]},
+    {"id": "L-17", "gabarito": "G-17", "descricao": "Cada moeda é resolvida no máximo uma vez por chamada", "testes": ["test_cada_moeda_e_resolvida_uma_vez_por_chamada"]}
+  ]
+}

@@ -1,0 +1,1 @@
+`solucao.py` foi implementado e os 2 testes de `tests_visiveis/` passaram na primeira execução (nenhum ciclo de correção necessário). Removi os artefatos de cache do pytest gerados pela execução (`__pycache__`, `.pytest_cache`) para manter o diretório limpo, sem criar outros arquivos além de `solucao.py`.

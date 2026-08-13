@@ -1,0 +1,25 @@
+{
+  "caso": "UC-05",
+  "titulo": "Motor de split e liquidação de recebíveis",
+  "dominio": "Fintech / Marketplace",
+  "categoria": "Regra de negócio + jornada financeira",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Como dividir o valor entre parcelas e onde colocar o resíduo", "testes": ["test_parcelas_somam_o_valor_com_residuo_na_primeira"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Esquema de vencimentos das parcelas", "testes": ["test_vencimentos_a_cada_trinta_dias_corridos", "test_primeira_parcela_nao_vence_na_data_da_transacao"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Sobre que base o MDR incide e como o líquido é derivado", "testes": ["test_taxa_incide_sobre_o_bruto_de_cada_recebivel", "test_mdr_zero_nao_gera_taxa"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Rateio do split por parcela e destino do resíduo", "testes": ["test_split_rateia_cada_parcela_entre_os_participantes", "test_residuo_do_split_vai_para_o_maior_percentual", "test_soma_dos_recebiveis_e_o_valor_da_transacao"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Fronteiras de validade do split", "testes": ["test_split_invalido"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Fronteiras de validade da transação e precedência sobre o split", "testes": ["test_transacao_invalida", "test_transacao_invalida_precede_split_invalido"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Taxa, base e contagem de dias do deságio da antecipação", "testes": ["test_desagio_pro_rata_die_por_recebivel", "test_sem_desagio_quando_o_vencimento_ja_passou"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "Que recebíveis são elegíveis à antecipação e o que fazer sem elegíveis", "testes": ["test_antecipacao_respeita_o_limite_de_parcela", "test_reantecipar_sem_elegivel"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Que situações a liquidação atinge e como ordena a saída", "testes": ["test_liquida_somente_o_vencido", "test_antecipado_nao_e_liquidado", "test_liquidacao_ordenada"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Idempotência da liquidação", "testes": ["test_liquidacao_e_idempotente"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Critério de consumo do estorno entre recebíveis e efeito sobre o líquido", "testes": ["test_estorno_rateado_proporcionalmente", "test_estorno_reduz_o_bruto_e_recalcula_o_liquido", "test_estorno_total_marca_todos_como_estornado", "test_estorno_nao_atinge_antecipado"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Conservação e destino do resíduo no rateio do estorno", "testes": ["test_soma_do_rateio_e_exatamente_o_valor_pedido"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Fronteiras de validade do estorno e precedência estado/valor", "testes": ["test_estorno_acima_do_disponivel", "test_estorno_de_valor_nao_positivo", "test_estado_invalido_precede_valor_invalido_no_estorno"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "A posição é um retrato temporal ou um acumulado atual", "testes": ["test_posicao_e_retrato_temporal", "test_posicao_separa_antecipado_de_a_receber", "test_posicao_de_participante_sem_recebivel", "test_posicao_contabiliza_o_estorno_pelo_bruto"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Completude e ordenação da listagem de recebíveis", "testes": ["test_recebiveis_ordenados_por_parcela_e_participante"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Códigos e precedência para referências inválidas", "testes": ["test_transacao_inexistente", "test_participante_fora_do_split", "test_ate_parcela_fora_do_intervalo", "test_participante_invalido_precede_parcela_invalida", "test_transacao_inexistente_precede_participante"]}
+  ]
+}

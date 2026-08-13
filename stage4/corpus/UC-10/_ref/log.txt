@@ -1,0 +1,6 @@
+Todos os cenários derivados do gabarito (G-05, G-06, G-07, G-09, G-10, G-11, G-12, G-14, G-16) se comportam como esperado, além dos 3 testes visíveis passarem.
+
+`solucao.py` implementado em `C:\Users\rapha\AppData\Local\Temp\tmpwozo7g9q\solucao.py`, único arquivo criado. Testes visíveis: 3/3 passando.
+
+
+[duracao_s=211.8]

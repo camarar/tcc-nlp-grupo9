@@ -1,0 +1,1 @@
+﻿Ambos os testes passaram na primeira execu├º├úo. `solucao.py` foi implementado seguindo `spec.md` (RN-01 a RN-09): desconto sobre subtotal original, ordem percentualΓåÆfixo, teto de 50%, `ErroCupom` com `code`, `ValueError` para m├║ltiplos cupons n├úo-stackable, e arredondamento `ROUND_HALF_EVEN` com 2 casas.

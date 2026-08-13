@@ -1,0 +1,4 @@
+Todas as checagens extras (paginação keyset com inserção intermediária, filtro fixo combinado com filtro do usuário, campo oculto, cursor incompatível, ordenação com nulos) passaram, junto com os 3 testes de `tests_visiveis/`. `solucao.py` implementa literalmente as decisões G-01 a G-16 do gabarito e é o único arquivo criado no diretório.
+
+
+[duracao_s=185.6]

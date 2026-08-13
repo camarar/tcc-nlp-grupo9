@@ -1,0 +1,4 @@
+`solucao.py` implementado seguindo literalmente todas as regras G-01 a G-17 do gabarito (magic bytes, dedup por SHA-256, expiração preguiçosa, ordem de validação em `concluir`, etc.). Os 3 testes de `tests_visiveis/` passam.
+
+
+[duracao_s=136.7]

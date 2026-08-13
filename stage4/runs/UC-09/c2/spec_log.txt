@@ -1,0 +1,15 @@
+Pipeline concluído. Resumo:
+
+- **`working-backwards-designer`**: produziu o PR/FAQ a partir do enunciado, sem acessar arquivos proibidos.
+- **`working-backwards-analyst`**: levantou 26 perguntas (21 bloqueantes na 1ª rodada); 24 foram respondidas via `gabarito.md`, restando 1 (retrocesso temporal) sem resposta disponível ao fim das 2 iterações permitidas.
+- **`senior-functional-analyst-reviewer`**: validou os requisitos, apontou 4 perguntas bloqueantes; 3 foram respondidas via gabarito (incluindo um exemplo numérico do ciclo de reabertura), a 4ª (precedência `relogio` vs. `quando`) ficou sem resposta e foi formalmente registrada como avanço sob risco. Veredito final: **PRONTO SOB RISCO REGISTRADO**.
+
+Artefatos gravados em `stage4/runs/UC-09/c2/`:
+- `spec.md` — RF/RNF com IDs, regras de negócio, critérios Gherkin e o contrato obrigatório copiado literalmente.
+- `registro.md` — iterações de cada agente, mapeamento pergunta→entrada do gabarito, e 7 avanços sob risco documentados.
+- `captura.json` — lista literal das 26 perguntas bloqueantes formuladas pelos agentes (validado como JSON válido).
+
+O gabarito nunca foi exposto aos subagentes nem copiado em bloco — cada trecho da spec corresponde a algo que foi de fato perguntado e respondido durante o pipeline.
+
+
+[duracao_s=817.4]

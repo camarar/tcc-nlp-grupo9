@@ -1,0 +1,6 @@
+All checks behave as expected per the gabarito rules (G-03 conservation, G-04 carência, G-05 date rollover, G-06/07 encargos & payment ordering, G-09 idempotency, G-11/G-12/G-14 quitação/renegociação/situação, G-15 validations, G-08 excess payment). The 3 visible smoke tests also pass.
+
+`solucao.py` is implemented in the project directory; no other files were created there (the check script lives only in the scratchpad).
+
+
+[duracao_s=369.3]

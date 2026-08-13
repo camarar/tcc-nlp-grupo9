@@ -1,0 +1,24 @@
+{
+  "caso": "UC-18",
+  "titulo": "Ciclo de vida de pedido com combos promocionais",
+  "dominio": "E-commerce",
+  "categoria": "Regra de negócio + cobertura de jornada",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Como o preço do combo é distribuído entre seus itens e onde cai o resíduo", "testes": ["test_combo_rateado_proporcionalmente", "test_residuo_do_rateio_vai_para_o_maior_preco", "test_soma_dos_itens_do_combo_e_o_preco_do_combo"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Que situações de item entram no total do pedido", "testes": ["test_total_inicial"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Cancelar um componente quebra o desconto do combo e o que acontece com os restantes", "testes": ["test_cancelar_item_de_combo_reprecifica_os_restantes", "test_item_avulso_nao_e_reprecificado", "test_combo_desfeito_nao_se_refaz", "test_reprecificacao_registrada_no_historico"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Como o estorno é calculado e por que difere do preço do item", "testes": ["test_estorno_e_o_pago_menos_o_novo_total", "test_estorno_nunca_negativo"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Estorno em pedido ainda não pago", "testes": ["test_pedido_nao_pago_estorna_zero"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Item despachado é cancelável, e qual é o prazo de devolução", "testes": ["test_item_despachado_nao_e_cancelavel", "test_devolucao_no_setimo_dia_e_permitida", "test_devolucao_apos_o_prazo"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "De que situação a devolução é permitida e se ela também quebra o combo", "testes": ["test_devolver_item_ativo", "test_devolucao_tambem_quebra_o_combo", "test_cancelar_item_ja_cancelado"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "O pagamento exige valor exato e de que situação é aceito", "testes": ["test_pagamento_exato", "test_pagamento_divergente", "test_pagar_duas_vezes"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "De que situações o despacho parte, exigências dos itens e atomicidade", "testes": ["test_despachar_sem_pagar", "test_despacho_e_atomico", "test_despachar_lista_vazia", "test_despacho_gera_uma_entrada_por_item"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Como a situação do pedido é derivada e a ordem de precedência entre elas", "testes": ["test_despacho_parcial", "test_despacho_total", "test_pedido_vira_cancelado_quando_nao_resta_item", "test_pedido_concluido_com_cancelamento_e_despacho", "test_despachado_sem_cancelamento_nao_e_concluido"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Pedido cancelado é terminal para operações mas continua consultável", "testes": ["test_pedido_cancelado_recusa_operacoes", "test_pedido_cancelado_continua_consultavel"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Granularidade e conteúdo de cada evento do histórico", "testes": ["test_historico_cronologico_com_as_chaves_do_contrato", "test_cancelamento_registra_o_estorno"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Fronteiras de validade de itens e combos, e precedência entre elas", "testes": ["test_criacao_com_item_invalido", "test_cliente_vazio", "test_criacao_com_combo_invalido", "test_item_invalido_precede_combo_invalido"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Códigos e precedência para pedido e item inexistentes", "testes": ["test_pedido_inexistente", "test_item_inexistente", "test_pedido_precede_item"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Precisão dos valores monetários", "testes": ["test_valores_com_duas_casas"]}
+  ]
+}

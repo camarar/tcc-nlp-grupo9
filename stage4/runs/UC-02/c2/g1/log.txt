@@ -1,0 +1,4 @@
+`solucao.py` está implementado e os 3 testes em `tests_visiveis/` passam. Validei também, com scripts ad-hoc (não persistidos), os principais cenários Gherkin da spec: validação de CPF/CNPJ (módulo 11, dígito repetido, tamanho incompatível), precedência CAMPO_OBRIGATORIO → DOCUMENTO_INVALIDO, unicidade de documento (DUPLICADO/liberação por INATIVO), score de deduplicação com threshold 0.50, merge (preenchimento de lacunas, preservação de conflito no principal, CONFLITO_MERGE por score baixo ou self-merge, ESTADO_INVALIDO), histórico append-only por campo, e restrições de escrita em MESCLADO/INATIVO com leitura sempre permitida — tudo bateu com o esperado.
+
+
+[duracao_s=115.1]

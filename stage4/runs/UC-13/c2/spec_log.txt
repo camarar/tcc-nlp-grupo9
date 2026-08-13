@@ -1,0 +1,13 @@
+Pipeline concluído. Resumo:
+
+**Pipeline executado:** `working-backwards-designer` → `working-backwards-analyst` (2 iterações) → `senior-functional-analyst-reviewer` (2 iterações), respeitando o limite de 2 iterações por agente. `gabarito.md` foi lido uma única vez pelo orquestrador e usado apenas para responder perguntas pontuais — nunca copiado em bloco para os agentes ou para a spec.
+
+**Artefatos gerados em `stage4/runs/UC-13/c2/`:**
+- `spec.md` — RF-01 a RF-09, RNF-01 a RNF-04, 12 regras de negócio, cenários Gherkin e a seção "Contrato obrigatório" reproduzida literalmente do enunciado.
+- `registro.md` — iterações de cada agente, tabela de qual pergunta foi respondida por qual item do gabarito, e os 4 avanços sob risco (R1–R4).
+- `captura.json` — lista literal das 21 perguntas `[BLOQUEANTE]` formuladas pelos três agentes.
+
+**Riscos aceitos (sem resposta no gabarito, não inventados):** ordem de precedência de erros em casos de violação simultânea em `repor` (R1) e `transferir` (R2, R3), e comportamento de `disponivel` com `deposito_id` desconhecido (R4) — todos documentados explicitamente em `spec.md` e `registro.md`.
+
+
+[duracao_s=716.3]

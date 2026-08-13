@@ -1,0 +1,6 @@
+Implementado. Rodei os testes visíveis (`py -m pytest tests_visiveis -q`) e todos passam (3 passed), além de validar manualmente vários cenários do Gherkin da spec (split/MDR/deságio/estorno com rateio e recálculo de MDR/liquidação catch-up e idempotente/precedência de erros em `antecipar` e `estornar`/posição "as of") — todos batendo com o esperado.
+
+Uma observação: o exemplo do Gherkin em "Gerar parcelas e vencimentos corretamente" lista o vencimento da 3ª parcela como `2026-03-31`, mas a fórmula textual do RF-03 (`data + 30 × n dias corridos`) dá `2026-04-01` para `n=3` — as duas primeiras datas do próprio exemplo (`2026-01-31`, `2026-03-02`) batem exatamente com a fórmula, então tratei isso como uma inconsistência no exemplo ilustrativo e segui a regra formal (RF-03), que é a definida como autoritativa no documento.
+
+
+[duracao_s=300.6]

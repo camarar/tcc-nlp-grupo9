@@ -1,0 +1,4 @@
+`solucao.py` implementado, seguindo cada item G-nn do gabarito (peso cubado por transportadora via seu `fator_cubagem`, peso cobrado arredondado para cima em múltiplos de 0,5 kg, faixas com limite superior inclusivo, exclusões por região/peso/CEP, ordem de validação G-17, ordenação G-09, `melhor_cotacao` com critérios PRECO/PRAZO, quantização Decimal conforme G-16, reregistro preservando restrições G-18). Os 3 testes de `tests_visiveis/` passam.
+
+
+[duracao_s=137.1]

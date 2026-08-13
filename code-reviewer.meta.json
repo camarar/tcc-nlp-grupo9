@@ -1,0 +1,13 @@
+{
+  "name": "code-reviewer",
+  "author": "Raphael Amaral",
+  "license": "Apache-2.0",
+  "description": "Revisor de código fullstack de alto nível. Use para revisar código em busca de bugs, vulnerabilidades de segurança (OWASP Top 10), problemas de performance, má arquitetura, falhas de acessibilidade e lacunas de testes. Suporta backends (Node.js, Python, Go, Java, Kotlin, Rust), frontends (React, Next.js, Vue, Angular, Flutter Web) e mobile (React Native, Flutter). Retorna achados classificados por severidade com recomendações concretas e exemplos de código.",
+  "tools": ["Read", "Glob", "Grep", "Bash", "Write", "PowerShell"],
+  "model": {
+    "api": "claude-sonnet-5",
+    "claude_code": "sonnet"
+  },
+  "model_note": "Modelo capaz o suficiente para revisão técnica fullstack.",
+  "tools_note": "Inclui Write e PowerShell/Bash: o agente grava a revisão em arquivo quando essas ferramentas estão disponíveis (ver Etapa 4). Em runner somente-leitura, ele apresenta a revisão inline."
+}

@@ -1,0 +1,222 @@
+[
+  {
+    "caso": "UC-01",
+    "testes_passaram": 41,
+    "testes_total": 41,
+    "suite_ok": true,
+    "loc": 405,
+    "cc_media": 3.68,
+    "cc_max": 17,
+    "mi": 19.33,
+    "flake8_violacoes": 5
+  },
+  {
+    "caso": "UC-02",
+    "testes_passaram": 50,
+    "testes_total": 50,
+    "suite_ok": true,
+    "loc": 250,
+    "cc_media": 4.32,
+    "cc_max": 13,
+    "mi": 16.99,
+    "flake8_violacoes": 2
+  },
+  {
+    "caso": "UC-03",
+    "testes_passaram": 53,
+    "testes_total": 53,
+    "suite_ok": true,
+    "loc": 362,
+    "cc_media": 5.74,
+    "cc_max": 15,
+    "mi": 24.98,
+    "flake8_violacoes": 1
+  },
+  {
+    "caso": "UC-04",
+    "testes_passaram": 38,
+    "testes_total": 38,
+    "suite_ok": true,
+    "loc": 192,
+    "cc_media": 2.7,
+    "cc_max": 7,
+    "mi": 37.38,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-05",
+    "testes_passaram": 48,
+    "testes_total": 48,
+    "suite_ok": true,
+    "loc": 309,
+    "cc_media": 5.75,
+    "cc_max": 21,
+    "mi": 23.8,
+    "flake8_violacoes": 1
+  },
+  {
+    "caso": "UC-06",
+    "testes_passaram": 61,
+    "testes_total": 61,
+    "suite_ok": true,
+    "loc": 258,
+    "cc_media": 4.82,
+    "cc_max": 16,
+    "mi": 32.9,
+    "flake8_violacoes": 1
+  },
+  {
+    "caso": "UC-07",
+    "testes_passaram": 48,
+    "testes_total": 48,
+    "suite_ok": true,
+    "loc": 229,
+    "cc_media": 5.36,
+    "cc_max": 28,
+    "mi": 36.49,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-08",
+    "testes_passaram": 41,
+    "testes_total": 41,
+    "suite_ok": true,
+    "loc": 228,
+    "cc_media": 4.18,
+    "cc_max": 10,
+    "mi": 31.17,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-09",
+    "testes_passaram": 48,
+    "testes_total": 48,
+    "suite_ok": true,
+    "loc": 252,
+    "cc_media": 2.95,
+    "cc_max": 9,
+    "mi": 34.14,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-10",
+    "testes_passaram": 52,
+    "testes_total": 52,
+    "suite_ok": true,
+    "loc": 274,
+    "cc_media": 7.82,
+    "cc_max": 24,
+    "mi": 31.42,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-11",
+    "testes_passaram": 52,
+    "testes_total": 52,
+    "suite_ok": true,
+    "loc": 147,
+    "cc_media": 3.71,
+    "cc_max": 9,
+    "mi": 26.7,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-12",
+    "testes_passaram": 40,
+    "testes_total": 40,
+    "suite_ok": true,
+    "loc": 182,
+    "cc_media": 3.19,
+    "cc_max": 8,
+    "mi": 32.17,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-13",
+    "testes_passaram": 40,
+    "testes_total": 40,
+    "suite_ok": true,
+    "loc": 265,
+    "cc_media": 3.67,
+    "cc_max": 18,
+    "mi": 33.25,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-14",
+    "testes_passaram": 54,
+    "testes_total": 54,
+    "suite_ok": true,
+    "loc": 225,
+    "cc_media": 4.94,
+    "cc_max": 12,
+    "mi": 18.97,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-15",
+    "testes_passaram": 48,
+    "testes_total": 48,
+    "suite_ok": true,
+    "loc": 198,
+    "cc_media": 3.75,
+    "cc_max": 8,
+    "mi": 29.98,
+    "flake8_violacoes": 3
+  },
+  {
+    "caso": "UC-16",
+    "testes_passaram": 52,
+    "testes_total": 52,
+    "suite_ok": true,
+    "loc": 237,
+    "cc_media": 10.5,
+    "cc_max": 54,
+    "mi": 24.47,
+    "flake8_violacoes": 1
+  },
+  {
+    "caso": "UC-17",
+    "testes_passaram": 43,
+    "testes_total": 43,
+    "suite_ok": true,
+    "loc": 189,
+    "cc_media": 3.5,
+    "cc_max": 7,
+    "mi": 29.88,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-18",
+    "testes_passaram": 53,
+    "testes_total": 53,
+    "suite_ok": true,
+    "loc": 339,
+    "cc_media": 5.53,
+    "cc_max": 21,
+    "mi": 24.06,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-19",
+    "testes_passaram": 39,
+    "testes_total": 39,
+    "suite_ok": true,
+    "loc": 174,
+    "cc_media": 6.25,
+    "cc_max": 18,
+    "mi": 23.52,
+    "flake8_violacoes": 0
+  },
+  {
+    "caso": "UC-20",
+    "testes_passaram": 51,
+    "testes_total": 51,
+    "suite_ok": true,
+    "loc": 226,
+    "cc_media": 4.33,
+    "cc_max": 10,
+    "mi": 23.37,
+    "flake8_violacoes": 0
+  }
+]

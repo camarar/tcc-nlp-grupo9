@@ -1,0 +1,15 @@
+`solucao.py` está implementado e os 3 testes de `tests_visiveis/` passam. Segue um resumo do que foi decidido a partir do gabarito:
+
+- **G-01/G-02/G-03**: até 3 tentativas por canal, backoff `base × fator^(tentativa-1)` chamado só antes de tentativas 2..n, canais ordenados por `(prioridade, nome)`.
+- **G-04/G-05**: sucesso encerra imediatamente com `tentativas` acumulado total; esgotar tudo gera `DEAD_LETTER`.
+- **G-06**: janela de silêncio cruzando meia-noite, ignorada se `urgente=True` ou se `início == fim`.
+- **G-07**: duplicidade por `idempotency_key` verificada antes de qualquer validação, sem gravar histórico novo.
+- **G-08**: `reprocessar` valida existência antes do estado, só aceita `DEAD_LETTER`, refaz o ciclo completo e acrescenta ao histórico.
+- **G-09**: histórico append-only, uma entrada por tentativa, nada gravado para `ADIADA`.
+- **G-10/G-11/G-12/G-13**: ordem de validação (destinatário → mensagem → demais campos → canal existente), validação de config e de registro de canal.
+- **G-14**: `dead_letters()` ordenado por chave, com `ultimo_erro` vindo da última entrada de histórico.
+
+Nenhum outro arquivo foi criado (apenas limpei o `.pytest_cache`/`__pycache__` gerados ao rodar os testes).
+
+
+[duracao_s=100.5]

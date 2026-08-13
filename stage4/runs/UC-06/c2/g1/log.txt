@@ -1,0 +1,4 @@
+All behaviors match the specification. `solucao.py` is implemented and the visible tests pass, along with manual verification of the deeper rules (adjacency, conflicts, window validation, naive datetime rejection, 24h penalty boundary, remarcar semantics/rollback, comparecimento timing/idempotency, unknown resource errors, and resource re-registration preserving existing appointments).
+
+
+[duracao_s=81.4]

@@ -1,0 +1,14 @@
+Pipeline do UC-14 concluído. Resumo:
+
+- **`working-backwards-designer`** produziu o PR/FAQ sem responder às próprias lacunas.
+- **`working-backwards-analyst`** levantou 10 + 3 perguntas `[BLOQUEANTE]` em 2 iterações — todas respondidas via `gabarito.md`. Veredito: PRONTO PARA ENGENHARIA.
+- **`senior-functional-analyst-reviewer`** levantou 7 perguntas `[BLOQUEANTE]`; 6 respondidas via gabarito, 1 (política de conversão de tipos de entrada não conversíveis) **sem resposta no gabarito** → registrada como avanço sob risco (opção B). Não precisou da 2ª iteração. Veredito final: PRONTO PARA SOLUÇÃO SOB RISCO REGISTRADO.
+- Regras nunca lidas: `tests_cegos/`, `lacunas.json`, `_ref/` — confirmado por cada agente e pelo orquestrador.
+
+Artefatos gravados em `stage4/runs/UC-14/c2/`:
+- `spec.md` — RF-01 a RF-14, RNF-01 a RNF-03, 13 regras de negócio, critérios de aceite em Gherkin, e a seção "Contrato obrigatório" copiada literalmente do enunciado.
+- `registro.md` — iterações de cada agente, perguntas resolvidas via gabarito e o avanço sob risco.
+- `captura.json` — lista literal das 20 perguntas bloqueantes formuladas pelos agentes.
+
+
+[duracao_s=900.6]

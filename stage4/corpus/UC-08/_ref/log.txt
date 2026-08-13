@@ -1,0 +1,6 @@
+Todas as verificações passaram, incluindo os testes visíveis e um conjunto adicional de checagens manuais das regras do gabarito (bloqueio por força bruta, fim exato do bloqueio, MFA de uso único, expiração absoluta de sessão, e validações de política/usuário).
+
+**Resumo:** implementei `solucao.py` seguindo literalmente cada item G-01 a G-18 do gabarito — não enumeração de usuários, comparação em tempo constante (`hmac.compare_digest`), bloqueio por janela deslizante, MFA condicionado a dispositivo novo, desafio de uso único com expiração de 5 min, sessões com expiração absoluta, auditoria append-only sem dados sensíveis, e validação estrita de política. Os 3 testes de `tests_visiveis/` passam. Nenhum outro arquivo foi criado no diretório do projeto (o script de verificação ficou apenas no scratchpad, fora do diretório de trabalho).
+
+
+[duracao_s=209.7]

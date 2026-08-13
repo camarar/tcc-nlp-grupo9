@@ -1,0 +1,44 @@
+[
+  {
+    "caso": "UC-01",
+    "cond": "c1",
+    "k": 6,
+    "aprovadas": 1,
+    "pass_at_k": 1.0
+  },
+  {
+    "caso": "UC-01",
+    "cond": "c2",
+    "k": 5,
+    "aprovadas": 5,
+    "pass_at_k": 1.0
+  },
+  {
+    "caso": "UC-02",
+    "cond": "c1",
+    "k": 6,
+    "aprovadas": 0,
+    "pass_at_k": 0.0
+  },
+  {
+    "caso": "UC-02",
+    "cond": "c2",
+    "k": 6,
+    "aprovadas": 6,
+    "pass_at_k": 1.0
+  },
+  {
+    "caso": "UC-03",
+    "cond": "c1",
+    "k": 5,
+    "aprovadas": 3,
+    "pass_at_k": 1.0
+  },
+  {
+    "caso": "UC-03",
+    "cond": "c2",
+    "k": 5,
+    "aprovadas": 5,
+    "pass_at_k": 1.0
+  }
+]

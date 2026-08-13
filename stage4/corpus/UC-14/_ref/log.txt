@@ -1,0 +1,6 @@
+Todas as verificações batem com o gabarito: busca por prefixo mais longo, ICMS-ST, SIMPLES zerando ST e reduzindo ICMS à metade, ordem de validação (ITEM_INVALIDO antes de REGIME_DESCONHECIDO) e ALIQUOTA_NAO_CADASTRADA quando não há cadastro nem isenção.
+
+`solucao.py` está implementado em `C:\Users\rapha\AppData\Local\Temp\tmphz8kdceg\solucao.py`, os 3 testes de `tests_visiveis/` passam, e nenhum outro arquivo foi criado no diretório do enunciado.
+
+
+[duracao_s=172.5]

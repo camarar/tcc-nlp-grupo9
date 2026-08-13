@@ -1,0 +1,1 @@
+﻿Ambos os testes vis├¡veis passaram. `solucao.py` foi criado na raiz do diret├│rio implementando `ErroCupom` e `calcular_total` conforme a spec (desconto sobre subtotal, ordem percentualΓåÆfixo, teto de 50%, valida├º├úo de stackable/expirado/pedido_m├¡nimo, arredondamento half-even).

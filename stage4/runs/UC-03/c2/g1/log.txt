@@ -1,0 +1,6 @@
+Na verdade está correto: a campanha desconta 30% (30.00), e o cupom incide em cascata sobre o remanescente (70.00), gerando 21.00 — não 30.00 sobre o valor cheio. Total bruto de desconto = 51.00, que excede o teto de 50.00, gerando corte de exatamente 1.00. Isso é consistente com RF-01 (cascata) e RF-06 (teto).
+
+Os 3 testes de `tests_visiveis/` passam, e validei manualmente os principais cenários do Gherkin (RF-01, RF-02, RF-04, RF-06, RF-08) — todos batem com o esperado. `solucao.py` foi implementado como único arquivo, sem dependências externas.
+
+
+[duracao_s=388.5]

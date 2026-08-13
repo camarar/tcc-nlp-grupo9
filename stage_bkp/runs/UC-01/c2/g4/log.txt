@@ -1,0 +1,1 @@
+`solucao.py` implementado conforme a especificação (RN-01 a RN-10) e os 2 testes de `tests_visiveis/` passaram no primeiro ciclo. Nenhum outro arquivo foi criado.

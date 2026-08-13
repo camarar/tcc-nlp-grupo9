@@ -1,0 +1,1 @@
+Ambos os testes passaram na primeira tentativa. `solucao.py` implementa `calcular_juros_compostos` usando `Decimal` (sem float) com taxa mensal = taxa_anual/12, capitalização mensal, arredondando para 2 casas decimais (ROUND_HALF_UP).

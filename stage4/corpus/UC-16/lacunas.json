@@ -1,0 +1,25 @@
+{
+  "caso": "UC-16",
+  "titulo": "Serviço de consulta paginada com escopo por perfil",
+  "dominio": "Backoffice",
+  "categoria": "Funcional + consistência e autorização",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Tamanho padrão, máximo e o que fazer com valor fora do intervalo", "testes": ["test_tamanho_padrao_traz_tudo_que_cabe", "test_tamanho_fora_do_intervalo", "test_tamanho_maximo_e_aceito"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Ordenação padrão e desempate implícito que garante ordem total", "testes": ["test_ordenacao_padrao_por_id", "test_desempate_implicito_por_id", "test_ordenacao_descendente", "test_ordenacao_por_dois_campos"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Paginação por chave em vez de deslocamento, e estabilidade sob inserção", "testes": ["test_paginacao_percorre_sem_repetir", "test_insercao_entre_paginas_nao_desloca", "test_paginacao_com_ordenacao_descendente"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Codificação do cursor e validação contra a ordenação da chamada", "testes": ["test_cursor_e_opaco_em_base64", "test_cursor_malformado", "test_cursor_de_outra_ordenacao"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Sinalização do fim da navegação, inclusive quando a página esgota exatamente", "testes": ["test_ultima_pagina_nao_tem_cursor", "test_pagina_que_esgota_exatamente"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "O total é da página ou do conjunto filtrado", "testes": ["test_total_independe_da_pagina", "test_total_considera_os_filtros"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Projeção por perfil e presença obrigatória do identificador", "testes": ["test_itens_trazem_apenas_os_campos_visiveis", "test_id_sempre_presente"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "O escopo também precisa restringir ordenação e filtro, senão vaza por canal lateral", "testes": ["test_ordenar_por_campo_oculto", "test_filtrar_por_campo_oculto"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Campo inexistente na base", "testes": ["test_campo_inexistente"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Fronteiras de validade da especificação de ordenação", "testes": ["test_ordenacao_malformada"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Semântica de cada operador e exigências de tipo", "testes": ["test_operadores_de_filtro", "test_contains_em_texto", "test_contains_ignora_nulos", "test_operador_desconhecido", "test_in_exige_lista", "test_contains_exige_texto"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "O filtro fixo do perfil combina com o do usuário ou pode ser substituído", "testes": ["test_filtro_fixo_do_perfil_sempre_vale", "test_usuario_nao_afrouxa_o_filtro_fixo", "test_filtro_do_usuario_soma_ao_fixo"]},
+    {"id": "L-13", "gabarito": "G-14", "descricao": "Posição dos valores nulos na ordenação crescente e decrescente", "testes": ["test_nulos_por_ultimo_em_ordem_crescente", "test_nulos_primeiro_em_ordem_decrescente"]},
+    {"id": "L-14", "gabarito": "G-13", "descricao": "Perfil desconhecido", "testes": ["test_perfil_desconhecido"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Ordem de precedência entre as cinco validações", "testes": ["test_perfil_precede_parametro", "test_parametro_precede_campo", "test_campo_precede_filtro", "test_filtro_precede_cursor"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Fronteiras da definição de perfil e efeito da redefinição", "testes": ["test_definicao_de_perfil_invalida", "test_redefinicao_substitui_o_perfil"]}
+  ]
+}

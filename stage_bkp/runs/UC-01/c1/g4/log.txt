@@ -1,0 +1,1 @@
+`solucao.py` implementado e os 2 testes de `tests_visiveis/` passaram na primeira tentativa.

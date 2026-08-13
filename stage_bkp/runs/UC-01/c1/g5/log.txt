@@ -1,0 +1,1 @@
+Ambos os testes passaram. Implementei `solucao.py` com `calcular_juros_compostos`, convertendo os inputs para `Decimal` via `str()` (evita artefatos de `float`), aplicando juros compostos com capitalização mensal (`taxa_anual/12`) e arredondando para 2 casas decimais com `ROUND_HALF_UP`.

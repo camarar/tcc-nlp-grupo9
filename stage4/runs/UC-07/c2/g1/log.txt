@@ -1,0 +1,4 @@
+`solucao.py` implementado, os 3 testes de `tests_visiveis/` passam. Além disso, validei manualmente contra os cenários Gherkin do `spec.md` (peso cubado/real, degraus de preço, seguro, exclusões silenciosas, todos os códigos de erro, ordenação, `melhor_cotacao` com ambos critérios, re-registro preservando restrições, máscara de CEP, e os dois avanços sob risco AR-1/AR-2) — todos corretos. Único ajuste necessário foi um bug real: o peso cubado não estava sendo dividido por `fator_cubagem`, e como esse fator é por transportadora, o peso cobrado precisou ser recalculado por transportadora em vez de uma única vez para o pedido todo.
+
+
+[duracao_s=143.1]

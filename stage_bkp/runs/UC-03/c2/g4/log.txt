@@ -1,0 +1,1 @@
+﻿Ambos os testes vis├¡veis passaram. `solucao.py` implementa `ErroCupom` e `calcular_total` conforme spec.md: base de desconto sem frete, percentuais antes de fixos, teto de 50%, `ValueError` para m├║ltiplos cupons n├úo-stackable, e erros `CUPOM_EXPIRADO`/`PEDIDO_MINIMO`.

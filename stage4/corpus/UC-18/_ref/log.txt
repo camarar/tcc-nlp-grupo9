@@ -1,0 +1,4 @@
+`solucao.py` implementado seguindo literalmente cada item G-nn do gabarito (precificação de combo com resíduo, quebra de combo/reprecificação, estorno `pago − novo_total` clampado a 0, prazo de 7 dias para devolução, situação derivada do pedido, vocabulário fechado de erros/eventos). Os 3 testes de `tests_visiveis/` passam, e validei manualmente um fluxo completo (criar → pagar → cancelar item de combo → despachar → devolver) conferindo reprecificação, estornos acumulados e histórico.
+
+
+[duracao_s=288.2]

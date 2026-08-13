@@ -1,0 +1,26 @@
+{
+  "lacunas_elicitadas": [
+    "Qual a fórmula exata de backoff entre tentativas (linear, exponencial, com ou sem jitter) e quais os parâmetros (fator, intervalo base, teto máximo)?",
+    "O contador de tentativas é por canal individual ou por ciclo completo de fallback entre canais? Isso define se o número total de tentativas é N ou N × número_de_canais.",
+    "Qual a ordem de fallback entre canais: esgota todas as N tentativas em um canal (por prioridade) antes de cair para o próximo, ou tenta cada canal uma vez por rodada, ciclando entre eles?",
+    "Qual o fuso horário de referência para a janela de silêncio — UTC, fuso do destinatário, ou fuso configurado por tenant/time?",
+    "Como a janela de silêncio trata o cruzamento de meia-noite (ex.: janela das 22h às 7h)? A lógica de comparação precisa ser explicitada.",
+    "Uma notificação com status ADIADA (por estar dentro da janela de silêncio) tem retomada automática ao final da janela, ou depende de uma chamada externa explícita para ser reprocessada?",
+    "Chamar enviar() novamente com a mesma idempotency_key já usada: retorna o resultado anterior com duplicado=True, levanta exceção, ou o comportamento depende do status atual da chave (ex.: permite reenvio se DEAD_LETTER, bloqueia se ENTREGUE)?",
+    "Quais são as regras exatas de validação que disparam DESTINATARIO_INVALIDO — já que o formato de destinatario não é definido no contrato, como o Orquestrador pode validá-lo? É delegado ao canal, ou há um formato mínimo esperado (ex.: dict com chaves obrigatórias)?",
+    "Quais são os limites numéricos e regras que disparam MENSAGEM_INVALIDA e CONFIGURACAO_INVALIDA (ex.: tamanho máximo de mensagem, valores válidos para tentativas/fator)?",
+    "Qual o formato completo (schema/chaves) do dicionário retornado por dead_letters() e por historico()? Isso é necessário para qualquer consumidor construir sobre o contrato.",
+    "Ao chamar reprocessar(), o contador de tentativas é resetado a zero ou soma às tentativas anteriores? Isso afeta diretamente a lógica de backoff subsequente.",
+    "O que ocorre se reprocessar() for chamado sobre uma idempotency_key cujo status atual já é ENTREGUE — é uma operação idempotente sem efeito, levanta exceção, ou reenvia a notificação (duplicando a entrega ao usuário final)?",
+    "Isolamento de idempotency_key entre diferentes times/tenants usando a mesma instância: as chaves são namespaced automaticamente, ou é responsabilidade do consumidor prefixar as chaves para evitar colisão?",
+    "Estado (histórico, dead-letters, contadores de tentativas) mantido apenas em memória do processo: o que acontece com itens em voo ou na dead-letter quando o processo reinicia? Isso precisa ser resolvido antes de qualquer garantia de 'zero perda silenciosa' ser reivindicada no PR — ou o PR precisa ser reescrito para deixar essa limitação explícita ao cliente.",
+    "Comportamento de dormir(segundos) bloqueante dentro de enviar() sob concorrência: o Orquestrador é thread-safe? Múltiplas chamadas simultâneas de enviar() competem por qual mecanismo de lock, se houver, ao atualizar histórico/dead-letters/contadores compartilhados?",
+    "Qual o tratamento para exceções não mapeadas nas exceções previstas pelo contrato, lançadas pelo callable injetado do canal — são capturadas e tratadas como falha de canal (permitindo fallback), ou propagam e derrubam a chamada de enviar() inteira?",
+    "RF-04/RF-05 — Uma notificação com status ADIADA conta como 'já processada' para fins de idempotência (RF-05)? Se sim, como uma notificação alguma vez sai do estado ADIADA para ENTREGUE? Existe uma operação de 'retomada' não descrita no contrato, ou o chamador deve invocar enviar() de novo com a mesma key fora da janela — e nesse caso o RF-05 precisa de uma exceção explícita para o status ADIADA?",
+    "RF-11/RF-12 — Ao reprocessar uma notificação em DEAD_LETTER, a numeração de 'tentativa' por canal (RF-12) reinicia em 1 para cada canal no novo ciclo, ou continua a sequência acumulada das tentativas anteriores daquele canal?",
+    "RF-09 (e por extensão RF-11) — Para status DEAD_LETTER, o campo tentativas do retorno de enviar()/reprocessar() segue a mesma regra de RF-08 (soma de tentativas de todos os canais percorridos)? Confirmar explicitamente, pois o RF-09 é silencioso sobre esse campo.",
+    "RF-13/RF-10 — Qual é o formato exato do texto capturado como erro/ultimo_erro? (str(e), repr(e), ou outro formato com nome da exceção). Isso é necessário para viabilizar testes verificáveis (critério de aceite objetivo, conforme 29148).",
+    "RNF-02 — Qual o comportamento contratual quando relogio=None e/ou dormir=None são passados ao __init__? Usa datetime.now() (com ou sem timezone?) e time.sleep reais como default de produção? Isso afeta diretamente RF-04 (cálculo de janela de silêncio) e RF-12 (timestamps de histórico).",
+    "RF-03 — Qual erro prevalece quando múltiplos campos são inválidos simultaneamente fora da ordem já definida (destinatário → mensagem → canal)? Especificamente: entre idempotency_key inválida e quando ausente/naive (ambos mapeados para CONFIGURACAO_INVALIDA), e entre esses dois e a ausência de canal registrado — qual ordem exata de checagem?"
+  ]
+}

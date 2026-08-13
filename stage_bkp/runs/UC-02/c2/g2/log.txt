@@ -1,0 +1,1 @@
+`solucao.py` implementado e os 2 testes de `tests_visiveis/` passam. Segui a spec: normalização (trim → remove `.-/`), classificação por comprimento (11=CPF/14=CNPJ), rejeição de sequências repetidas antes do cálculo de dígito verificador, e algoritmo módulo 11 para ambos. Retorno sempre `bool`, sem exceções. Caches temporários do pytest/`__pycache__` foram removidos.

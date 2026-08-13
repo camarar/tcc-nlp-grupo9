@@ -1,0 +1,15 @@
+Pipeline concluído. Resumo:
+
+**Fluxo executado** (`designer` → `analyst` → `reviewer`), todos trabalhando apenas com o enunciado (nunca leram `tests_cegos/`, `lacunas.json` ou `_ref/`). O gabarito foi consultado exclusivamente por mim, como coordenador, para responder às perguntas `[BLOQUEANTE]` dos agentes.
+
+- **31 perguntas bloqueantes** formuladas ao todo (24 do analyst + 7 do reviewer) — literalmente registradas em `stage4/runs/UC-01/c2/captura.json`.
+- **28 respondidas** via gabarito; **3 sem resposta disponível** → registradas como avanço sob risco (opção B do SFAR): GAP-01 (fórmula exata PRICE/SAC), GAP-02 (regime de capitalização de juros no cronograma regular) e GAP-03 (pagamento de parcela fora de ordem).
+- Cada iteração respeitou o limite de 2 por agente.
+
+**Artefatos gerados em `stage4/runs/UC-01/c2/`:**
+- `spec.md` — RF-01 a RF-13, RNF-01 a RNF-03, regras de negócio, critérios de aceite em Gherkin e a seção "Contrato obrigatório" copiada literalmente do enunciado.
+- `registro.md` — histórico completo das iterações, respostas do gabarito e os 3 avanços sob risco.
+- `captura.json` — lista literal das 31 perguntas bloqueantes elicitadas.
+
+
+[duracao_s=872.7]

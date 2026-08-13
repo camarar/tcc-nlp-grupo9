@@ -1,0 +1,4 @@
+`solucao.py` implementado, cobrindo todos os itens G-01 a G-12 do gabarito (denylist recursiva, encadeamento SHA-256 com gênese de 64 zeros, reancoragem no expurgo, filtros de consulta com E lógico e limites inclusivos, cópias em `exportar`/`consultar`, vocabulário fechado de erros/resultados). Os 3 testes de `tests_visiveis/` passam, e validei manualmente os cenários de negócio do gabarito (remoção profunda de PII, imutabilidade do evento original, detecção de adulteração, expurgo vazio sem recálculo, erros de política/consulta).
+
+
+[duracao_s=85.6]

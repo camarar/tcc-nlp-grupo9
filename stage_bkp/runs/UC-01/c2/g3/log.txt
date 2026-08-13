@@ -1,0 +1,3 @@
+Os 2 testes visíveis passaram. Cache do pytest foi criado automaticamente pelo pytest (`.pytest_cache`), não por mim — não criei nenhum outro arquivo.
+
+`solucao.py` implementa `calcular_juros_compostos` conforme RN-01 a RN-10: conversão via `Decimal(str(...))` com fallback para `ValueError`, validações de `principal`/`taxa_anual`/`meses` (incluindo `TypeError` fail-fast para `meses` não-`int`), cálculo `VF = principal * (1 + taxa_anual/12) ** meses` totalmente em `Decimal`, e arredondamento `ROUND_HALF_EVEN` só no resultado final.

@@ -1,0 +1,4 @@
+Implementei `solucao.py` cobrindo todos os 17 pontos do gabarito (G-01 a G-17): disponibilidade agregada, TTL com validação, expiração preguiçosa aplicada em toda operação/consulta, atomicidade multi-item, alocação por prioridade/desempate, confirmação que baixa físico, cancelamento, contagem de expirações, transferência limitada pelo disponível, reposição, registro de depósito com preservação de estado, vocabulário de erros e ordem de validação, tudo serializado por um único `threading.Lock`. Os 3 testes em `tests_visiveis/` passam.
+
+
+[duracao_s=62.2]

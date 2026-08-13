@@ -1,0 +1,4 @@
+`solucao.py` implementado seguindo literalmente cada item G-01 a G-16 do gabarito (janela deslizante com log de eventos, precedência cliente→organização, atomicidade via lock, expurgo preguiçoso, retry_after por acumulação de custos, etc.). Os 3 testes visíveis passam.
+
+
+[duracao_s=76.8]

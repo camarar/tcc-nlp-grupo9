@@ -1,0 +1,1 @@
+`solucao.py` implementado conforme a spec (RN-01 a RN-10) e os 2 testes de `tests_visiveis/` passaram na primeira tentativa, sem necessidade de correção.

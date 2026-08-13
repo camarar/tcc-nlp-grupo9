@@ -1,0 +1,1 @@
+`solucao.py` implementado com validação de CPF e CNPJ (aceita com/sem máscara, verifica dígitos verificadores e rejeita sequências repetidas). Os 2 testes de `tests_visiveis/` passaram de primeira, sem necessidade de correções.

@@ -1,0 +1,19 @@
+{
+  "lacunas_elicitadas": [
+    "[GAP-01] O que acontece quando um registro já visto ou ainda por vir na navegação corrente sofre update em um campo que é critério de ordenar_por (ex.: o pedido muda de status/data entre páginas)?",
+    "[GAP-02] A API tem alguma operação de remoção? Se sim, o que acontece se o registro apontado pelo id do cursor for removido entre duas chamadas de consultar?",
+    "[GAP-03] Se múltiplas threads/requisições HTTP chamam consultar/inserir simultaneamente sobre a mesma instância de ServicoConsulta, há garantia de atomicidade/consistência, ou a responsabilidade de serialização de acesso é transferida silenciosamente para o consumidor da biblioteca?",
+    "[GAP-04] A assinatura_criterio é um hash simples (hash(ordenar_por, filtros, perfil)) ou um HMAC com segredo do lado do servidor?",
+    "[GAP-05] O filtro_fixo e campos_visiveis aplicados numa página são sempre recalculados a partir do perfil informado naquela chamada de consultar, ou alguma parte da lógica de acesso fica congelada dentro do payload do cursor?",
+    "[GAP-06] A garantia de read-your-scroll (não retroagir para itens inseridos atrás do cursor) é aceitável para o time de atendimento, ou existe expectativa de ver tudo, mesmo que atualizado depois?",
+    "[GAP-07] O código CAMPO_INVALIDO mistura campo inexistente no registro bruto e campo existente mas fora de campos_visiveis do perfil sob o mesmo código — isso é aceitável ou deve haver diferenciação?",
+    "[GAP-08] Como a implementação garante exatamente o conjunto de registros que existiam no início da consulta, dado que não há snapshot e total pode variar entre páginas?",
+    "O desempate implícito por id entra sempre em asc, independentemente das direções dos demais campos de ordenar_por? E se o usuário incluir id explicitamente em ordenar_por, o desempate implícito é suprimido ou aplicado em duplicidade?",
+    "Quando filtro_fixo do perfil e params[\"filtros\"] do usuário incidem sobre o mesmo campo: o filtro do usuário é rejeitado, ignorado, ou combinado com AND?",
+    "Qual é o valor padrão de tamanho quando omitido, qual o valor máximo permitido, e quando o solicitado excede o máximo: a chamada retorna erro ou o serviço normaliza silenciosamente para o máximo?",
+    "Qual é o critério de ordenação padrão quando ordenar_por é None/omitido? E quando os campos escolhidos pelo usuário não são únicos, o desempate por id é suficiente?",
+    "Na última página, proximo_cursor deve ser None e tem_proxima deve ser False — quando a página atual esgota exatamente a lista, a chamada seguinte retorna itens vazios, ou o serviço já antecipa isso na página anterior?",
+    "Quando múltiplos parâmetros são inválidos na mesma chamada, qual code de ErroConsulta prevalece?",
+    "Regras de validação de op por tipo de dado: in exige que valor seja lista? contains exige que campo e valor sejam strings? o que ocorre com campo None no registro para os demais operadores?"
+  ]
+}

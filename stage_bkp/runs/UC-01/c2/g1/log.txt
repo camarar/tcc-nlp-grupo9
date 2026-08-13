@@ -1,0 +1,1 @@
+Ambos os testes passaram. `solucao.py` implementa `calcular_juros_compostos` conforme a spec (RN-01 a RN-10): taxa mensal proporcional, capitalização composta, arredondamento `ROUND_HALF_EVEN` só no resultado final, validações de `principal`/`taxa_anual`/`meses` com `ValueError`/`TypeError`, conversão via `Decimal(str(...))` com captura de exceções.

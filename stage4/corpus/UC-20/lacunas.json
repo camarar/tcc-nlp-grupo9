@@ -1,0 +1,28 @@
+{
+  "caso": "UC-20",
+  "titulo": "Gestor de credenciais com política e rotação",
+  "dominio": "Segurança",
+  "categoria": "RNF — Segurança",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "A avaliação devolve booleano ou o conjunto completo de violações", "testes": ["test_senha_boa_nao_tem_violacoes", "test_avaliacao_devolve_todas_as_violacoes"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Ordem em que as violações são apresentadas", "testes": ["test_ordem_das_violacoes_e_fixa"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Comprimento mínimo e inclusividade da fronteira", "testes": ["test_comprimento_minimo", "test_comprimento_exato_e_aceito", "test_politica_configuravel"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Quais são as classes de caractere e quantas são exigidas", "testes": ["test_duas_classes_nao_bastam", "test_tres_classes_bastam", "test_classes_minimas_configuravel"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Lista de senhas comuns e sensibilidade a maiúsculas", "testes": ["test_senha_comum_sem_diferenciar_maiusculas", "test_comuns_configuravel"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "A partir de quantos caracteres a repetição é violação", "testes": ["test_repeticao_de_quatro", "test_repeticao_de_tres_e_aceita"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "O que conta como sequência e em que comprimento", "testes": ["test_sequencia_crescente", "test_sequencia_decrescente", "test_sequencia_de_tres_e_aceita"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "Precedência entre força e reutilização na troca", "testes": ["test_definir_senha_boa", "test_senha_fraca_e_recusada", "test_forca_precede_reutilizacao"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Tamanho da janela de histórico e se a senha atual conta", "testes": ["test_reutilizacao_da_senha_atual", "test_reutilizacao_dentro_do_historico", "test_senha_fora_do_historico_pode_voltar"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Forma de armazenamento da credencial", "testes": ["test_senha_em_claro_nao_e_guardada"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Prazo de rotação e contagem de trocas", "testes": ["test_contador_de_trocas", "test_rotacao_configuravel"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Existe tolerância após o vencimento e o que acontece ao fim dela", "testes": ["test_senha_expirada_dentro_da_tolerancia", "test_fim_da_tolerancia_bloqueia", "test_ultimo_dia_da_tolerancia_ainda_autentica", "test_tolerancia_configuravel"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Fronteiras temporais do vencimento", "testes": ["test_um_dia_antes_ainda_nao_expirou", "test_autenticacao_com_senha_correta"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Semântica de dias_para_expirar depois de vencida", "testes": ["test_dias_para_expirar_fica_negativo"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Senha incorreta é retorno ou exceção", "testes": ["test_senha_incorreta_nao_levanta_excecao"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Usuário inexistente, usuário sem senha definida e o que a situação devolve nesse caso", "testes": ["test_usuario_inexistente", "test_autenticar_sem_senha_definida", "test_situacao_sem_senha_definida", "test_situacao_apos_definir"]},
+    {"id": "L-17", "gabarito": "G-17", "descricao": "Fronteiras da criação de usuário e do perfil sem política", "testes": ["test_usuario_duplicado", "test_usuario_com_perfil_sem_politica", "test_avaliar_com_perfil_sem_politica"]},
+    {"id": "L-18", "gabarito": "G-18", "descricao": "Fronteiras de validade da política", "testes": ["test_politica_invalida", "test_perfil_vazio"]},
+    {"id": "L-19", "gabarito": "G-19", "descricao": "Mudança de política é retroativa ou vale da próxima troca", "testes": ["test_mudanca_de_politica_nao_afeta_senha_vigente", "test_nova_politica_vale_na_proxima_troca"]}
+  ]
+}

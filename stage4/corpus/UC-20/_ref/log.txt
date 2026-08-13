@@ -1,0 +1,4 @@
+`solucao.py` implementado, cobrindo literalmente todos os itens G-01 a G-19 do gabarito (ordem fixa das violações, precedência força→reutilização, hash PBKDF2 com salt derivado do login, rotação/tolerância com fronteiras `>=`, `dias_para_expirar` truncado para baixo, vocabulário fechado de códigos de erro, política com defaults e validações, e mudança de política não retroativa). Os 3 testes de `tests_visiveis/` passam, e verificações manuais adicionais confirmaram reuso de senha, expiração/tolerância e estados de usuário sem senha.
+
+
+[duracao_s=138.5]

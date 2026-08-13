@@ -1,0 +1,12 @@
+Pipeline concluído. Os três agentes rodaram na ordem prevista, nenhum acessou arquivos proibidos (`tests_cegos/`, `lacunas.json`, `_ref/`), e o `gabarito.md` só foi consultado por mim para responder às perguntas bloqueantes.
+
+**Resultado:**
+- **16 perguntas `[BLOQUEANTE]`** formuladas (11 pelo `working-backwards-analyst`, 5 pelo `senior-functional-analyst-reviewer`), registradas literalmente em `captura.json`.
+- **12 respondidas** via gabarito (matching por `transacao_id`, escopo por status, coerência status×tipo, comparação de valor, janela de liquidação, precedência de motivos, duplicatas, data de corte, total líquido, vocabulário de erros, elegibilidade de resolução, idempotência).
+- **4 permanecem como "avanço sob risco"** (opção B do SFAR), por não terem resposta no gabarito: tratamento de estorno órfão em `SOMENTE_EXTRATO` (RF-18), efeito de cargas intercaladas com `conciliar()` sobre resoluções (RF-10/13), critério de "primeira ocorrência" em duplicata (RF-07/15), e ordem entre filtro de corte e detecção de duplicata (RF-08).
+- Veredito final do reviewer: **PRONTO SOB RISCO REGISTRADO**, após 2 iterações de Q&A (o máximo permitido).
+
+Arquivos gerados em `stage4/runs/UC-10/c2/`: `spec.md` (19 RF + 3 RNF, 16 regras de negócio consolidadas, critérios de aceite em Gherkin, e o "Contrato obrigatório" copiado literalmente do enunciado), `registro.md` (log detalhado das iterações e mapeamento pergunta→resposta) e `captura.json`.
+
+
+[duracao_s=652.0]

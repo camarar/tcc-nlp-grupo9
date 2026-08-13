@@ -1,0 +1,25 @@
+{
+  "lacunas_elicitadas": [
+    "GAP-01: Para cada uma das estratégias MASCARA, HASH, INICIAIS, DOMINIO, GENERALIZAR, REMOVER, MANTER, qual é a transformação exata esperada sobre o valor de entrada?",
+    "GAP-02: Se um registro contém um campo que não está mapeado nas regras da finalidade, qual o comportamento — mantém o valor original, remove por padrão, ou lança ErroAnonimizacao?",
+    "GAP-03: Como a política se aplica a campos aninhados (dot notation? chaves compostas? apenas nível raiz)? Listas de dicionários dentro do registro são percorridas e cada item anonimizado individualmente, ou tratadas como um bloco único?",
+    "GAP-04: Quais campos do registro compõem a chave de junção? A chave precisa ser estável entre chamadas, entre finalidades distintas e ao longo do tempo? Como o salt influencia isso?",
+    "GAP-05: Em que circunstância exata cada um dos quatro erros (POLITICA_INVALIDA, FINALIDADE_INVALIDA, REGISTRO_INVALIDO, CHAVE_INVALIDA) deve ser lançado?",
+    "GAP-06: Ao chamar registrar_politica mais de uma vez para a mesma finalidade, a segunda chamada sobrescreve a política anterior, mescla regras, ou lança erro?",
+    "GAP-07: anonimizar_lote diante de erro em um item do lote: a chamada falha inteiramente (all-or-nothing) ou processa os itens possíveis e reporta erros por item?",
+    "GAP-08: Se regras contiver uma estratégia fora do vocabulário fechado, o erro POLITICA_INVALIDA é lançado imediatamente em registrar_politica, ou só na primeira chamada de anonimizar/anonimizar_lote que utilizar essa política?",
+    "GAP-09: campos_sensiveis lista os campos considerados sensíveis independentemente de qualquer política registrada (catálogo fixo de PII), ou lista os campos que seriam alterados dado alguma política?",
+    "GAP-10: Quando o campo está na política mas o valor no registro é None, string vazia, ou a chave simplesmente não existe no dicionário, cada estratégia deve tratar isso de forma uniforme ou dispara REGISTRO_INVALIDO?",
+    "GAP-11: anonimizar e anonimizar_lote devem retornar uma cópia nova do registro anonimizado, deixando o dicionário de entrada intocado, ou é aceitável mutar o registro recebido in-place?",
+    "GAP-12: Dado o mesmo salt, a mesma regras e o mesmo registro, anonimizar deve sempre produzir exatamente a mesma saída (incluindo HASH e chave_juncao)?",
+    "GAP-10b: Chave ausente em campo declarado é equivalente a None (mesma regra do GAP-10), ou dispara REGISTRO_INVALIDO?",
+    "GAP-17: A política declarada para um nome de campo se aplica identicamente a todas as ocorrências desse nome em qualquer profundidade, sem distinção de caminho/contexto? Consequentemente, campos_sensiveis retorna a união de nomes únicos, não uma lista de caminhos — isso está correto?",
+    "Q-01: Quando um campo está declarado na política mas sua chave está ausente no dicionário de entrada, qual deve ser o comportamento: REGISTRO_INVALIDO, ignorar silenciosamente, ou tratar como se o valor fosse None?",
+    "Q-02: Como o salt deve ser gerido em produção — é gerado uma única vez e fixo para sempre, ou existe processo de rotação? Se existe rotação, o que acontece com chaves de junção já emitidas?",
+    "Q-03: O salt é considerado segredo criptográfico? Há requisito de onde ele deve/não deve ser armazenado?",
+    "Q-04: Para fins de conformidade LGPD (Art. 12), este pipeline precisa produzir anonimização irreversível ou é aceitável que produza pseudonimização reversível?",
+    "Q-05: Existe algum controle de acesso/autorização sobre quem pode chamar registrar_politica para uma finalidade?",
+    "Q-06: Quando o mesmo nome de campo aparece em mais de um contexto estrutural do registro, a política por nome puro (sem caminho) é uma limitação aceita conscientemente, ou é necessário evoluir o modelo para suportar caminho/contexto?",
+    "Q-07: Existe requisito de por quanto tempo os dados anonimizados/pseudonimizados podem ser retidos, e por quanto tempo o salt correspondente deve ser preservado para permitir cruzamento retroativo?"
+  ]
+}

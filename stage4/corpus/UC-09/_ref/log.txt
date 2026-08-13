@@ -1,0 +1,4 @@
+`solucao.py` implementado — único arquivo novo no diretório, todos os G-nn do gabarito aplicados literalmente (SLA obrigatório, horário comercial, pausa/retomada e reabertura empurrando o prazo, ordenação da fila, códigos de erro). Os 3 testes de `tests_visiveis/` passam.
+
+
+[duracao_s=209.8]

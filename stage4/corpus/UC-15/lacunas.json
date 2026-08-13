@@ -1,0 +1,22 @@
+{
+  "caso": "UC-15",
+  "titulo": "Orquestrador de notificações com reenvio",
+  "dominio": "Plataforma",
+  "categoria": "RNF — Confiabilidade",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Quantas tentativas por canal antes de desistir", "testes": ["test_sucesso_na_primeira_tentativa", "test_reenvio_ate_o_sucesso", "test_tentativas_configuraveis"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Estratégia de backoff, determinismo e quando dormir", "testes": ["test_backoff_exponencial_deterministico", "test_nao_dorme_depois_da_ultima_tentativa"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Ordem dos canais e quando cair para o próximo", "testes": ["test_cai_para_o_proximo_canal_apos_esgotar", "test_ordem_por_prioridade", "test_empate_de_prioridade_desempata_por_nome"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Sucesso encerra o ciclo e o contador de tentativas é acumulado", "testes": ["test_sucesso_impede_canais_seguintes", "test_tentativas_somam_todos_os_canais"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Quando a notificação vira dead letter e o que fica registrado", "testes": ["test_todos_os_canais_falharam", "test_dead_letters_lista_a_notificacao", "test_dead_letters_ordenado_por_chave"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Janela de silêncio: horário, exceção para urgentes e fronteiras", "testes": ["test_nao_urgente_na_madrugada_e_adiada", "test_urgente_atravessa_a_janela", "test_fora_da_janela_envia_normalmente", "test_fronteira_de_abertura_da_janela", "test_janela_desativada_quando_inicio_igual_fim", "test_adiada_nao_gera_historico"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Semântica da deduplicação por idempotency_key", "testes": ["test_chave_repetida_nao_reenvia", "test_chave_repetida_de_dead_letter", "test_chaves_diferentes_enviam_separado"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "De que estado o reprocessamento é permitido e qual precedência de erro", "testes": ["test_reprocessar_dead_letter_com_sucesso", "test_reprocessar_notificacao_entregue", "test_reprocessar_chave_desconhecida", "test_inexistente_precede_estado"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Granularidade do histórico e numeração da tentativa por canal", "testes": ["test_uma_entrada_por_tentativa", "test_historico_numera_por_canal", "test_historico_expoe_as_chaves_do_contrato", "test_reprocessamento_acrescenta_ao_historico"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Comportamento sem nenhum canal registrado", "testes": ["test_sem_canal_registrado"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Fronteiras de validade da notificação e ordem de verificação", "testes": ["test_notificacao_invalida", "test_mensagem_de_quinhentos_caracteres_e_valida", "test_destinatario_precede_mensagem", "test_validacao_precede_canal_desconhecido"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Fronteiras de validade da configuração", "testes": ["test_configuracao_invalida"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Fronteiras do registro de canal e efeito do reregistro", "testes": ["test_registro_de_canal_invalido", "test_reregistro_substitui_o_canal"]}
+  ]
+}

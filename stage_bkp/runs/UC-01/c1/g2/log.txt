@@ -1,0 +1,3 @@
+Ambos os testes passaram (Python 3.14 disponível no sistema, mas a implementação usa apenas `decimal` da stdlib, compatível com 3.12).
+
+`solucao.py` implementado com `calcular_juros_compostos(principal, taxa_anual, meses)`, calculando montante = principal × (1 + taxa_anual/12)^meses, arredondado para 2 casas decimais (ROUND_HALF_UP), retornando `Decimal`.

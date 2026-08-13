@@ -1,0 +1,1 @@
+Ambos os testes passaram. `solucao.py` foi criado com `calcular_juros_compostos`, usando `Decimal` para os cálculos e arredondamento `ROUND_HALF_UP` para 2 casas decimais.

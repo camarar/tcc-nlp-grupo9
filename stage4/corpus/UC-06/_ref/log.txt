@@ -1,0 +1,10 @@
+Todos os cenários do gabarito (G-01 a G-16) validados manualmente e os 3 testes visíveis passam. `solucao.py` é o único arquivo criado no diretório do projeto — o script de verificação extra ficou no scratchpad, fora do projeto.
+
+Resumo da implementação em `solucao.py`:
+- `ErroAgenda` com `.code` e vocabulário fechado de códigos/situações/tipos.
+- `Agenda` mantém recursos e agendamentos em memória, com datas internas normalizadas para UTC e conversão para `FUSO` só na saída (`disponibilidade`/`agenda_do_dia`).
+- `agendar`/`remarcar` compartilham a mesma validação interna, seguindo a ordem G-07 (dados → recursos → janela → conflito), com `remarcar` excluindo o agendamento original do check de conflito (G-10) e não alterando nada em caso de erro.
+- `cancelar`, `registrar_comparecimento`, `disponibilidade` e `agenda_do_dia` implementam literalmente as regras G-08, G-09, G-11 a G-13 e G-16.
+
+
+[duracao_s=207.1]

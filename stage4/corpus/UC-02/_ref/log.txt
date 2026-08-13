@@ -1,0 +1,15 @@
+All checks pass, confirming the merge gap-filling, score computation, state validation, and history recording all behave per gabarito. The implementation in `solucao.py` is complete:
+
+- All 3 visible smoke tests pass
+- CPF/CNPJ módulo-11 validation, mask stripping, repeated-digit rejection (G-01–G-03)
+- Required-field precedence, nome/email/telefone normalization (G-04–G-05)
+- Document uniqueness scoped to `ATIVO` (G-06)
+- Duplicate score with `Decimal` weights and ≥0.50 threshold, sorted by score desc / id asc (G-07–G-08)
+- Merge survivor rules, gap-filling, similarity precondition, state checks (G-09–G-12)
+- Append-only history with `REGISTRO`/`ALTERACAO`/`MERGE_*`/`INATIVACAO` entries, no-op updates skipped (G-13–G-14)
+- Restricted updatable fields, `CADASTRO_NAO_ENCONTRADO` precedence, non-idempotent inactivation (G-15–G-17)
+
+One judgment call where the gabarito was silent: an invalid `tipo` value (not `PF`/`PJ`) raises `CAMPO_OBRIGATORIO`, and the `ator` for system-generated `REGISTRO` history entries is `"SISTEMA"` (since `registrar` takes no `ator` param).
+
+
+[duracao_s=256.2]

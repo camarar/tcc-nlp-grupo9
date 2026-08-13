@@ -1,0 +1,6 @@
+A implementação está correta e os testes de `tests_visiveis/` passam (2/2). Também validei manualmente os demais cenários do Gherkin da spec — todos batem, com uma exceção que **não é bug do código**: o exemplo `"114.447.777-35"` no `spec.md` (linha 69) parece ter um typo — os dígitos verificadores esperados (`35`) só conferem para `"111.444.777-35"` (o CPF de exemplo comumente usado), não para `"114.447.777-35"`. Apliquei o algoritmo exatamente como especificado, então esse número simplesmente não é válido segundo o módulo 11 descrito.
+
+Resumo do que foi feito:
+- Criado `solucao.py` com `validar_documento`, seguindo a ordem de operações da spec (tipo/vazio → trim → remoção de máscara `.`/`-`/`/` → contagem de dígitos → rejeição de sequência repetida → dígito verificador módulo 11 para CPF/CNPJ).
+- Nenhum outro arquivo foi criado.
+- `py -m pytest tests_visiveis/` → 2 passed.

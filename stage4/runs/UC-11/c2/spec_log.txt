@@ -1,0 +1,12 @@
+Pipeline concluído. Os três arquivos foram gerados em `stage4/runs/UC-11/c2/`:
+
+- **`spec.md`** — RF-01 a RF-16 e RNF-01 a RNF-04 com IDs, regras de negócio derivadas das respostas do gabarito, critérios de aceite em Gherkin, seção "Contrato obrigatório" copiada literalmente do enunciado, e uma seção explícita de "Riscos e Premissas Assumidos".
+- **`registro.md`** — detalhamento das 2 iterações de cada agente (2 e 3; a etapa 1 não formulou perguntas bloqueantes), com o mapeamento de cada pergunta para a decisão do gabarito ou para o registro de avanço sob risco.
+- **`captura.json`** — lista literal das 21 perguntas bloqueantes formuladas pelos agentes ao longo do pipeline.
+
+Pontos relevantes:
+- **Regras invioláveis respeitadas**: nenhum agente (nem eu) leu `tests_cegos/`, `lacunas.json` ou `_ref/`. O agente da etapa 2 notou a existência desses arquivos via listagem de diretório, mas relatou espontaneamente não tê-los aberto — reportado no `registro.md`.
+- **Taxa de captura pelo gabarito**: das 21 perguntas bloqueantes, 14 foram respondidas com base no `gabarito.md` (GAP-01 a GAP-09, GAP-11, GAP-12, GAP-17, Q-06); 7 permanecem sem resposta e foram registradas como **avanço sob risco (opção B do SFAR)**, sem invenção — a mais notável é o comportamento de campo declarado na política com chave ausente no registro (perguntada duas vezes, por dois agentes, e ainda assim não coberta pelo gabarito), além de gestão do salt, enquadramento legal LGPD, controle de acesso e retenção — todas fora do escopo do gabarito, que cobre apenas o comportamento da classe `Anonimizador`.
+
+
+[duracao_s=866.4]

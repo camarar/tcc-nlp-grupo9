@@ -1,0 +1,6 @@
+`.pytest_cache` and `__pycache__` are just test/run artifacts, not files I created — no extra source files added beyond `solucao.py`.
+
+`solucao.py` implementa `MotorRecebiveis` e `ErroRecebivel` seguindo cada item G-nn do gabarito literalmente (divisão de parcelas com resíduo na primeira, vencimentos em `data+30n`, MDR por recebível, split proporcional com resíduo no maior percentual, deságio pro rata die, elegibilidade/estado da antecipação, liquidação idempotente, estorno proporcional com resíduo no maior bruto, posição como retrato temporal baseado em eventos, e a precedência de erros de G-16). Os 3 testes de `tests_visiveis/` passam, e validei manualmente vários cenários (somas exatas, idempotência de liquidação, precedência de erros, consistência de posição entre transações) que bateram com o esperado.
+
+
+[duracao_s=281.0]

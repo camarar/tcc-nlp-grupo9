@@ -1,0 +1,4 @@
+Diretório limpo, só `solucao.py` foi adicionado. Implementei `Anonimizador` e `ErroAnonimizacao` seguindo cada item do gabarito literalmente (G-01 a G-17): allowlist para escalares, percurso recursivo obrigatório em dicts/listas de dicts, as 7 estratégias com suas regras exatas (MASCARA, HASH, INICIAIS, DOMINIO, GENERALIZAR, REMOVER, MANTER), tratamento de `None`, imutabilidade do registro de entrada, chave de junção independente de finalidade, denylist fixa de campos sensíveis, e todas as validações de política/finalidade/registro/chave. Os 3 testes de `tests_visiveis/` passam.
+
+
+[duracao_s=85.5]

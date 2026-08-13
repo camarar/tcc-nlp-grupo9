@@ -1,0 +1,4 @@
+`solucao.py` implementa cada item G-01 a G-17 do gabarito (taxa cruzada via USD, cache com TTL, fallback obsoleto, disjuntor com estados FECHADO/ABERTO/MEIO_ABERTO, quantização por moeda, validações de moeda/valor/config, estatísticas). Os 3 testes de `tests_visiveis/` passam, e validei manualmente os cenários de negócio (TTL, stale, circuito abrindo/meio-abrindo/fechando, G-10, e os cinco códigos de erro) — todos corretos.
+
+
+[duracao_s=179.1]

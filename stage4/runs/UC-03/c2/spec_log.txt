@@ -1,0 +1,15 @@
+Pipeline UC-03 concluído com sucesso. Resumo:
+
+1. **`working-backwards-designer`** produziu o PR/FAQ a partir apenas do `enunciado.md`, listando 12 ambiguidades como perguntas em aberto.
+2. **`working-backwards-analyst`** (2 iterações) levantou 19 perguntas bloqueantes; 17 foram respondidas via `gabarito.md`, 2 (persistência entre processos e recálculo de rateio para estorno parcial) ficaram como avanço sob risco.
+3. **`senior-functional-analyst-reviewer`** (2 iterações) levantou 9 perguntas bloqueantes adicionais sobre lacunas estruturais (ex. estrutura de `explicar()`, gatilhos de `CUPOM_INVALIDO`, desempates); 7 foram respondidas via gabarito, com 2 gerando novos avanços sob risco (saturação de cupom FIXO, formato/duplicidade de identificadores de registro). Veredito final: "PRONTO PARA SOLUÇÃO".
+
+Arquivos gerados em `stage4/runs/UC-03/c2/`:
+- **`spec.md`** — 16 RFs + 3 RNFs com IDs, seção de riscos assumidos (RISCO-01/02/03), pendências não bloqueantes, contrato obrigatório copiado literalmente, e critérios de aceite em Gherkin.
+- **`registro.md`** — rastreabilidade completa das 2+2 iterações, mapeando cada pergunta à regra do gabarito que a respondeu (ou ao avanço sob risco registrado).
+- **`captura.json`** — lista literal das 28 perguntas bloqueantes formuladas pelos dois agentes, para medir a taxa de captura.
+
+Nenhum arquivo proibido (`tests_cegos/`, `lacunas.json`, `_ref/`) foi lido em nenhuma etapa; `gabarito.md` foi consultado apenas pelo coordenador para responder perguntas bloqueantes, nunca copiado em bloco.
+
+
+[duracao_s=948.5]

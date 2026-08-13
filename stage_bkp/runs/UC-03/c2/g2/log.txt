@@ -1,0 +1,10 @@
+﻿Testes vis├¡veis passaram (2/2). Tamb├⌐m validei mentalmente os demais cen├írios do Gherkin da spec (teto de 50%, ordem percentualΓåÆfixo, cupons n├úo stackable, pedido m├¡nimo, expirado) contra a implementa├º├úo em `solucao.py`, que j├í cobre:
+
+- `ErroCupom` com `code` (`CUPOM_EXPIRADO`, `PEDIDO_MINIMO`)
+- `ValueError` para mais de um cupom `stackable=False`
+- ordem percentuais ΓåÆ fixos sobre o subtotal remanescente
+- teto de 50% de desconto sobre o subtotal original
+- frete somado ap├│s o desconto, sem desconto
+- convers├úo via `Decimal(str(...))` e arredondamento `ROUND_HALF_EVEN` com 2 casas
+
+Nenhum outro arquivo foi criado, apenas `solucao.py`.

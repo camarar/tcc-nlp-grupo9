@@ -1,0 +1,25 @@
+{
+  "caso": "UC-06",
+  "titulo": "Agenda clínica com múltiplos recursos",
+  "dominio": "Saúde",
+  "categoria": "Funcional + tempo e concorrência de recursos",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Intervalos semiabertos: adjacência conflita ou não", "testes": ["test_adjacente_nao_conflita", "test_sobreposicao_parcial_conflita"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Duração padrão e fronteiras de duração válida", "testes": ["test_duracao_padrao_de_trinta_minutos", "test_duracao_customizada_respeitada", "test_duracao_invalida"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Exigência de datetime aware, normalização e fuso da saída", "testes": ["test_datetime_naive_recusado", "test_mesmo_instante_em_outro_fuso_conflita", "test_saida_no_fuso_da_clinica"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Todos os recursos precisam estar livres e quais situações ocupam recurso", "testes": ["test_sala_ocupada_por_outro_profissional", "test_troca_de_sala_libera_o_horario", "test_equipamento_compartilhado_conflita", "test_cancelado_libera_o_recurso", "test_falta_libera_o_recurso", "test_realizado_continua_ocupando"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Janela de atendimento por recurso, inclusividade do fim e dia da semana", "testes": ["test_fim_exatamente_no_limite_da_janela", "test_ultrapassar_o_fim_da_janela", "test_antes_do_inicio_da_janela", "test_dia_nao_atendido", "test_janela_mais_estreita_de_um_recurso_prevalece"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Recurso desconhecido e recurso com papel trocado", "testes": ["test_recurso_desconhecido", "test_papel_trocado_e_recurso_desconhecido"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Ordem de precedência entre as validações do agendamento", "testes": ["test_dados_precedem_recurso", "test_recurso_precede_janela", "test_janela_precede_conflito"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "Prazo de cancelamento sem multa e comportamento após o início", "testes": ["test_cancelamento_com_mais_de_24h_nao_gera_multa", "test_exatamente_24h_antes_nao_gera_multa", "test_menos_de_24h_gera_multa", "test_cancelamento_apos_o_inicio_gera_multa"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Quais situações são terminais e que operações recusam", "testes": ["test_estado_terminal_recusa_operacoes"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Remarcação cria novo registro, preserva recursos e é atômica em caso de falha", "testes": ["test_remarcacao_cria_novo_agendamento", "test_remarcacao_preserva_paciente_e_recursos", "test_remarcacao_para_horario_sobreposto_ao_proprio", "test_remarcacao_invalida_nao_altera_o_original"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Mapeamento de comparecimento para situação e janela temporal do registro", "testes": ["test_comparecimento_define_a_situacao", "test_falta_define_a_situacao", "test_comparecimento_antes_do_inicio_e_recusado"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Composição dos blocos livres, mesclagem e exclusão de blocos vazios", "testes": ["test_disponibilidade_da_agenda_vazia_e_a_janela_inteira", "test_disponibilidade_desconta_o_agendamento", "test_blocos_contiguos_sao_mesclados", "test_bloco_de_duracao_zero_nao_aparece", "test_cancelado_devolve_o_bloco", "test_dia_sem_janela_nao_tem_disponibilidade"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Escopo e ordenação da agenda do dia", "testes": ["test_agenda_do_dia_inclui_encerrados_e_ordena", "test_agenda_do_dia_filtra_pelo_dia_no_fuso_da_clinica"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Campos obrigatórios do agendamento", "testes": ["test_campo_obrigatorio_ausente"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Fronteiras de validade do registro de recurso e efeito do reregistro", "testes": ["test_registro_de_recurso_invalido", "test_reregistro_substitui_a_janela_e_mantem_agendamentos"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Códigos para agendamento e profissional inexistentes", "testes": ["test_agendamento_inexistente", "test_profissional_desconhecido_na_consulta"]}
+  ]
+}

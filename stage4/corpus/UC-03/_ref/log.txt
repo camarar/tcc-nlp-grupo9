@@ -1,0 +1,8 @@
+`solucao.py` implementado e único arquivo criado. Resumo:
+
+- Segue o contrato sintático de `enunciado.md` (classes, assinaturas, chaves de retorno, vocabulário fechado).
+- Implementa literalmente cada G-nn do gabarito: precedência campanha→cupom (G-01/02), ordem percentual→fixo→frete-grátis (G-03), acumulação (G-04), teto de 50% com entrada `TETO` (G-05), validade inclusiva (G-06), pedido mínimo sobre subtotal original (G-07), melhor campanha por categoria com desempate por registro (G-08), rateio proporcional com resíduo no maior `preco_bruto`/menor sku (G-09), quantização `ROUND_HALF_EVEN` (G-10), validações de item/cupom/campanha (G-11/12/13), restrição de categoria do cupom (G-14), trilha ordenada (G-15), frete grátis só-primeiro-efetivo (G-16), ordem de validação (G-17) e total nunca negativo (G-18).
+- 3 testes de `tests_visiveis/` passam, mais um conjunto amplo de verificações manuais cobrindo cada regra do gabarito (rodadas fora do arquivo de solução, não persistidas).
+
+
+[duracao_s=342.8]

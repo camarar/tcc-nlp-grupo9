@@ -1,0 +1,26 @@
+{
+  "caso": "UC-02",
+  "titulo": "Motor de cadastro e deduplicação de clientes",
+  "dominio": "Cadastro / MDM",
+  "categoria": "Funcional + qualidade de dados",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "Qual documento corresponde a cada tipo e como validar o dígito verificador", "testes": ["test_cpf_com_digito_verificador_errado", "test_cnpj_valido_para_pj", "test_cnpj_com_digito_errado", "test_tipo_pf_nao_aceita_documento_de_catorze_digitos", "test_tipo_pj_nao_aceita_documento_de_onze_digitos"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "Aceitar máscara e em que forma armazenar o documento", "testes": ["test_documento_aceito_com_mascara_e_armazenado_sem"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Sequências de dígitos idênticos passam no módulo 11 mas devem ser rejeitadas", "testes": ["test_sequencia_de_digitos_identicos_e_rejeitada"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Quais campos são obrigatórios e qual validação tem precedência", "testes": ["test_campo_obrigatorio_ausente", "test_nome_apenas_com_espacos_e_obrigatorio", "test_obrigatorio_precede_documento_invalido", "test_email_e_telefone_aceitam_none"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "Regras de normalização de nome, e-mail e telefone", "testes": ["test_nome_normalizado_sem_acento_maiusculo_e_sem_espaco_duplo", "test_email_normalizado_em_minusculas", "test_telefone_normalizado_somente_digitos"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Unicidade do documento e sua liberação após inativação", "testes": ["test_documento_repetido_entre_ativos_e_recusado", "test_documento_liberado_apos_inativacao"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Pesos dos critérios, limiar de corte e ordenação do score de duplicidade", "testes": ["test_score_soma_os_pesos_dos_criterios_coincidentes", "test_score_abaixo_do_limiar_nao_entra_no_resultado", "test_email_sozinho_atinge_o_limiar", "test_campos_vazios_nunca_coincidem", "test_resultado_ordenado_por_score_decrescente"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "Escopo da busca por estado e exclusão do próprio cadastro", "testes": ["test_busca_exclui_o_proprio_cadastro", "test_criterio_documento_coincide_contra_inativo", "test_busca_em_cadastro_mesclado_e_bloqueada"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Quem sobrevive ao merge e o que acontece com o secundário", "testes": ["test_merge_mantem_o_principal_e_mescla_o_secundario"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Política de preenchimento de campos no merge (lacuna sim, divergência não)", "testes": ["test_merge_preenche_lacuna_do_principal", "test_merge_nao_sobrescreve_campo_divergente"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Pré-condição de similaridade para autorizar o merge", "testes": ["test_merge_sem_similaridade_suficiente_e_bloqueado", "test_merge_do_cadastro_com_ele_mesmo"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Que operações os estados não-ativos recusam", "testes": ["test_merge_com_cadastro_ja_mesclado", "test_cadastro_mesclado_recusa_atualizacao"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Granularidade e imutabilidade do histórico", "testes": ["test_registro_gera_entrada_inicial", "test_uma_entrada_por_campo_alterado_com_valores_normalizados", "test_merge_registra_nos_dois_cadastros", "test_historico_e_cronologico_e_append_only"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Atualização sem efeito real não deve poluir o histórico", "testes": ["test_atualizacao_sem_mudanca_nao_gera_historico"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Quais campos são atualizáveis e qual erro para os demais", "testes": ["test_campo_nao_atualizavel", "test_nome_nao_pode_ser_esvaziado"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Código e precedência para referência inexistente", "testes": ["test_cadastro_inexistente", "test_inexistente_precede_estado"]},
+    {"id": "L-17", "gabarito": "G-17", "descricao": "Semântica da inativação: idempotência, histórico e relógio injetável", "testes": ["test_inativacao_registra_no_historico", "test_inativacao_nao_e_idempotente", "test_relogio_injetado_alimenta_o_historico"]}
+  ]
+}

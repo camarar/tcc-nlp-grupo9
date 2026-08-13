@@ -1,0 +1,1 @@
+Ambos os testes passaram. Implementei `validar_documento` em `solucao.py`, validando CPF (11 dígitos) e CNPJ (14 dígitos) via cálculo dos dígitos verificadores, aceitando entrada com ou sem máscara e rejeitando sequências de dígitos repetidos.

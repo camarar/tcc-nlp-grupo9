@@ -1,0 +1,19 @@
+## Resumo
+
+Pipeline executado com os três agentes de requisitos para o UC-04 (Limitador de requisições multi-plano):
+
+1. **`working-backwards-designer`** — produziu o PR/FAQ a partir só do `enunciado.md`, identificando corretamente ~10 lacunas de negócio sem inventar respostas.
+2. **`working-backwards-analyst`** (2 iterações) — levantou 10 perguntas `[BLOQUEANTE]` sobre algoritmo, precedência cliente×organização, `retry_after`, concorrência, reregistro etc.
+3. **`senior-functional-analyst-reviewer`** (2 iterações) — validou maturidade/verificabilidade e levantou 6 perguntas `[BLOQUEANTE]` sobre relógio, expurgo, mapeamento de erros e validação de configuração.
+
+Das 16 perguntas bloqueantes formuladas, **13 foram respondidas via `gabarito.md`** (consultado apenas pelo orquestrador, nunca entregue aos subagentes) e **3 ficaram sem decisão de negócio disponível**, registradas como avanço sob risco (opção B do SFAR): reregistro de organização, ordem de checagem plano+organização simultaneamente inexistentes, e comportamento de `custo` com tipo inválido.
+
+Nenhum arquivo proibido (`tests_cegos/`, `lacunas.json`, `_ref/`) foi lido em nenhum momento.
+
+Artefatos gerados em `stage4/runs/UC-04/c2/`:
+- **`spec.md`** — RF-01 a RF-12, RNF-01/02, contrato obrigatório literal, seção de avanços sob risco e critérios de aceite em Gherkin.
+- **`registro.md`** — histórico completo das iterações, perguntas e resoluções.
+- **`captura.json`** — lista literal das 16 perguntas bloqueantes para medir taxa de captura.
+
+
+[duracao_s=852.3]

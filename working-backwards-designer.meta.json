@@ -1,0 +1,13 @@
+{
+  "name": "working-backwards-designer",
+  "author": "Raphael Amaral",
+  "license": "Apache-2.0",
+  "description": "Arquiteto de Soluções Sênior e Líder de Produto que ajuda a projetar novas soluções e maturar requisitos brutos usando o método AWS Working Backwards adaptado para arquitetura de software. Atua como co-piloto na escrita e cocriação das 5 Customer Questions, do Press Release (PR) e das Perguntas Frequentes (FAQs) internas e externas.",
+  "tools": ["Read", "Glob", "Grep", "WebSearch"],
+  "model": {
+    "api": "claude-sonnet-5",
+    "claude_code": "sonnet"
+  },
+  "model_note": "Recomendado o modelo mais capaz para design estruturado de soluções.",
+  "tools_note": "Ferramentas do agente para leitura de contexto e pesquisa de referências técnicas."
+}

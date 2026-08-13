@@ -1,0 +1,26 @@
+{
+  "caso": "UC-17",
+  "titulo": "Serviço de ingestão de arquivos",
+  "dominio": "Plataforma",
+  "categoria": "RNF — Segurança",
+  "complexidade": "Alta",
+  "lacunas": [
+    {"id": "L-01", "gabarito": "G-01", "descricao": "O tipo vem da extensão ou da assinatura binária", "testes": ["test_tipo_detectado_pela_assinatura", "test_jpeg_reconhecido", "test_conteudo_sem_assinatura_conhecida"]},
+    {"id": "L-02", "gabarito": "G-02", "descricao": "O que fazer quando extensão e conteúdo divergem", "testes": ["test_extensao_mentirosa_e_ignorada"]},
+    {"id": "L-03", "gabarito": "G-03", "descricao": "Quais tipos são permitidos por padrão e erro distinto para tipo reconhecido porém barrado", "testes": ["test_tipo_reconhecido_mas_nao_permitido", "test_tipo_liberado_por_configuracao"]},
+    {"id": "L-04", "gabarito": "G-04", "descricao": "Como o nome de destino é formado e como o path traversal é eliminado", "testes": ["test_nome_de_destino_ignora_o_original", "test_nomes_de_destino_sao_distintos"]},
+    {"id": "L-05", "gabarito": "G-05", "descricao": "O limite vale sobre o declarado ou sobre os bytes recebidos, e em que momento é aplicado", "testes": ["test_declarar_acima_do_limite", "test_estourar_o_limite_na_parte", "test_limite_exato_e_aceito"]},
+    {"id": "L-06", "gabarito": "G-06", "descricao": "Ordem de chegada das partes, base do índice e exigência de contiguidade", "testes": ["test_partes_fora_de_ordem_sao_montadas_corretamente", "test_buraco_na_sequencia"]},
+    {"id": "L-07", "gabarito": "G-07", "descricao": "Semântica do reenvio de uma parte já recebida", "testes": ["test_reenvio_de_parte_e_idempotente", "test_reenvio_substitui_o_conteudo", "test_contadores_da_parte"]},
+    {"id": "L-08", "gabarito": "G-08", "descricao": "Fronteiras de validade de uma parte", "testes": ["test_parte_invalida"]},
+    {"id": "L-09", "gabarito": "G-09", "descricao": "Como o conteúdo repetido é tratado e o que o retorno indica", "testes": ["test_hash_do_conteudo", "test_conteudo_repetido_reaproveita_o_arquivo", "test_upload_inedito_nao_tem_duplicado_de"]},
+    {"id": "L-10", "gabarito": "G-10", "descricao": "Expiração preguiçosa da sessão e exceção da consulta de situação", "testes": ["test_sessao_expira", "test_um_instante_antes_ainda_vale"]},
+    {"id": "L-11", "gabarito": "G-11", "descricao": "Quais estados são terminais e que operações recusam", "testes": ["test_situacao_apos_concluir", "test_cancelar_muda_a_situacao", "test_estado_terminal_recusa_operacoes"]},
+    {"id": "L-12", "gabarito": "G-12", "descricao": "Concluir sem nenhuma parte recebida", "testes": ["test_concluir_sem_partes"]},
+    {"id": "L-13", "gabarito": "G-13", "descricao": "Ordem de precedência das validações na conclusão", "testes": ["test_partes_precedem_assinatura", "test_assinatura_precede_tipo_permitido"]},
+    {"id": "L-14", "gabarito": "G-14", "descricao": "Fronteiras de validade do início e precedência sobre o limite de tamanho", "testes": ["test_inicio_invalido", "test_dados_invalidos_precedem_tamanho_no_inicio"]},
+    {"id": "L-15", "gabarito": "G-15", "descricao": "Fronteiras de validade da configuração", "testes": ["test_configuracao_invalida"]},
+    {"id": "L-16", "gabarito": "G-16", "descricao": "Upload inexistente e sua precedência sobre o estado", "testes": ["test_upload_inexistente", "test_inexistente_precede_estado"]},
+    {"id": "L-17", "gabarito": "G-17", "descricao": "Conteúdo e ordenação da listagem de armazenados", "testes": ["test_listagem_ordenada_e_sem_duplicatas"]}
+  ]
+}

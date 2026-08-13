@@ -1,0 +1,24 @@
+{
+  "lacunas_elicitadas": [
+    "Quando o par UF/NCM não está cadastrado em registrar_aliquota, calcular() deve lançar ErroTributario(code=\"ALIQUOTA_NAO_CADASTRADA\") bloqueando a nota inteira, ou deve processar os demais itens e sinalizar apenas o item afetado (e, nesse caso, o que total_nota e total_tributos representam quando há item(ns) não tributado(s) dentro da mesma nota)?",
+    "Existe mecanismo de resolução hierárquica de NCM (ex.: buscar por prefixos progressivamente mais genéricos do código NCM até achar cadastro) que preencha ncm_aplicado com um valor diferente de ncm em memoria_calculo(), ou ncm_aplicado só pode ser igual a ncm ou None?",
+    "Existe algum fallback de alíquota por UF (sem depender do NCM específico) quando o par exato não está cadastrado, ou a ausência de cadastro do par exato sempre é tratada como dado ausente (sem fallback algum)?",
+    "O frete integra a base de cálculo do ICMS? Se sim, como é rateado entre os itens da nota (proporcional ao valor do item, por quantidade, ou outro critério)?",
+    "O desconto por item é abatido antes ou depois do cálculo da base de cálculo do ICMS (ou seja, a base é valor * quantidade - desconto ou o desconto não afeta a base tributável)?",
+    "Como o mva (Margem de Valor Agregado) registrado em registrar_aliquota se combina com a base do ICMS próprio para produzir a base do ICMS-ST — qual é a fórmula exata (ex.: base_st = (base_icms + frete_rateado) * (1 + mva); icms_st = base_st * aliquota - icms_proprio)?",
+    "Quando registrar_isencao(uf, ncm) está registrada para o par, o item fica isento de ICMS e de ICMS-ST simultaneamente, ou apenas do ICMS próprio (podendo ainda haver ICMS-ST se houver MVA aplicável)?",
+    "Para uma empresa com regime = SIMPLES, o que muda concretamente no cálculo: há isenção total do ICMS próprio, aplicação de alíquota reduzida/diferenciada, e/ou não incidência de ICMS-ST? Ou o regime SIMPLES segue a mesma fórmula do NORMAL sem alteração nenhuma nesses casos?",
+    "Quando o CNPJ emitente da nota não tem regime cadastrado via registrar_regime, calcular() deve sempre lançar ErroTributario(code=\"REGIME_DESCONHECIDO\"), ou existe um regime default assumido (ex.: NORMAL) na ausência de cadastro?",
+    "Qual é a política de arredondamento/quantização exigida para os valores Decimal retornados (número de casas decimais, modo de arredondamento) em base_calculo, icms, icms_st, total_tributos e total_nota?",
+    "Quando uma mesma chamada a calcular() apresenta simultaneamente CNPJ emitente sem regime cadastrado e item com par UF/NCM sem alíquota/prefixo cadastrado, qual código de erro deve ser lançado — REGIME_DESCONHECIDO ou ALIQUOTA_NAO_CADASTRADA — ou seja, qual validação (regime da nota vs. alíquota por item) deve ocorrer primeiro?",
+    "Quando base_item = valor × quantidade − desconto resulta negativo (desconto maior que o valor total do item), isso é uma condição válida de negócio (ex.: devolução/crédito, permitindo ICMS e base negativos que se propagam aos totais da nota) ou deve lançar ErroTributario(code=\"ITEM_INVALIDO\")?",
+    "O regime SIMPLES (resposta 8) zera o ICMS-ST do item independentemente de o par UF/NCM aplicado ter mva cadastrado — ou seja, a regra \"SIMPLES zera ICMS-ST\" tem precedência incondicional sobre a existência de MVA, sem exceção para nenhum caso (ex.: item com substituição tributária obrigatória por lei mesmo em regime SIMPLES)?",
+    "Quais condições exatas na estrutura de nota (cnpj_emitente, uf_destino, frete, itens) disparam NOTA_INVALIDA?",
+    "Quais condições no nível de item (ncm, valor, quantidade, desconto), além de \"desconto > valor×quantidade\" já coberta, disparam ITEM_INVALIDO?",
+    "Quais condições em registrar_aliquota, registrar_isencao e registrar_regime disparam TABELA_INVALIDA?",
+    "Onde TABELA_INVALIDA se encaixa na ordem de precedência de erros definida para NOTA_INVALIDA, ITEM_INVALIDO, REGIME_DESCONHECIDO e ALIQUOTA_NAO_CADASTRADA?",
+    "Qual code do vocabulário fechado deve ser lançado por registrar_regime quando o valor de regime não pertence a {SIMPLES, NORMAL}?",
+    "Como o motor deve tratar falha ou ambiguidade na conversão de tipos de entrada (str, int, float, Decimal) para campos monetários/numéricos, e qual code cada caso dispara?",
+    "Qual o comportamento de memoria_calculo(nota) quando a mesma nota, se passada a calcular(nota), lançaria um ErroTributario?"
+  ]
+}
