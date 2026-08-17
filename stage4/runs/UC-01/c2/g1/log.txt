@@ -1,4 +1,0 @@
-`solucao.py` foi implementado em um único ciclo — os 3 testes de `tests_visiveis/` passam, e validei manualmente os principais cenários Gherkin do `spec.md` (SAC/PRICE, carência, pagamento parcial, idempotência, atraso, quitação antecipada e renegociação), todos com comportamento condizente. Nenhum outro arquivo foi criado.
-
-
-[duracao_s=335.5]

@@ -31,7 +31,7 @@ REVIEWS = BASE / "reviews"
 RESULTS = BASE / "results"
 REPO = BASE.parent
 
-MODELO = "claude-sonnet-5"
+MODELO = "claude-sonnet-latest"
 SEVERIDADES = ["CRÍTICO", "ALTO", "MÉDIO", "BAIXO", "ELOGIO"]
 
 PROMPT = (

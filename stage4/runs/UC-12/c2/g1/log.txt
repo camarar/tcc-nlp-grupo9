@@ -1,4 +1,0 @@
-`solucao.py` implementado em ciclo único — os 3 testes de `tests_visiveis/` passam, e validei manualmente TTL/cache, taxa cruzada via ponte USD e abertura do circuit breaker, todos batendo com a especificação. Nenhum outro arquivo foi criado.
-
-
-[duracao_s=134.2]

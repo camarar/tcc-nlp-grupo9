@@ -1,4 +1,0 @@
-`solucao.py` está implementado e os 3 testes de `tests_visiveis/` passam. Também validei manualmente vários cenários do Gherkin do `spec.md` (precedência cliente×organização, ausência de débito parcial, `CUSTO_INVALIDO`, `redefinir`, reregistro de plano/cliente, expiração da janela e referências desconhecidas) — todos consistentes com a especificação.
-
-
-[duracao_s=71.1]

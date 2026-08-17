@@ -1,9 +1,0 @@
-Pipeline concluído. Regras invioláveis respeitadas: nunca li `tests_cegos/`, `lacunas.json` ou `_ref/`; `gabarito.md` foi usado exclusivamente para responder perguntas `[BLOQUEANTE]`, nunca copiado em bloco; cada agente (analyst e reviewer) teve exatamente 2 iterações.
-
-Resultado em `stage4/runs/UC-16/c2/`:
-- **spec.md** — 11 RF + 2 RNF com IDs, 4 regras de negócio, 10 cenários Gherkin, e a seção "Contrato obrigatório" copiada literalmente do enunciado.
-- **registro.md** — histórico completo das 3 etapas do pipeline, tabela de qual pergunta foi respondida por qual item do gabarito, e 4 avanços sob risco (opção B do SFAR): thread-safety (RNF-02), comparação de operadores ordinais com `None`, unicidade de `id` em `inserir`, e ausência de RNF de desempenho.
-- **captura.json** — lista literal das 15 perguntas bloqueantes formuladas pelo analyst (8) e pelo reviewer (7), para medir taxa de captura.
-
-
-[duracao_s=825.8]

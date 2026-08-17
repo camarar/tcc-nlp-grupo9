@@ -1,6 +1,0 @@
-O resultado bate exatamente com o exemplo numérico ilustrativo do spec (RF-08). Todos os 3 testes visíveis passam e a lógica de SLA/pausas/reabertura foi validada contra o exemplo detalhado da especificação.
-
-**Resumo:** `solucao.py` implementa `ErroChamado` e `CentralChamados` seguindo o contrato: políticas de SLA não-retroativas, regra de ouro (sem SLA implícito), máquina de estados completa (atribuir/pausar/retomar/resolver/reabrir) com validação de `chamado_id` antes de qualquer outra checagem, cálculo de tempo útil em horário comercial (`America/Sao_Paulo`, seg-sex 09:00-18:00) com suspensão de relógio durante pausas e período `RESOLVIDO`, e fila priorizada por severidade > estourado > prazo > `aberto_em` > ordem de criação.
-
-
-[duracao_s=192.7]

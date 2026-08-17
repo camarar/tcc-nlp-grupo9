@@ -1,4 +1,0 @@
-`solucao.py` implementado e os 3 testes de `tests_visiveis/` passam (1 ciclo, sem necessidade de correção). Também validei manualmente contra todos os cenários Gherkin da spec.md (retry/backoff exponencial, fallback entre canais, dead letter, reprocessamento com histórico cumulativo, janela de silêncio cruzando meia-noite, idempotência em todos os status, e ordem de validação de erros) — todos consistentes. `.pytest_cache` e `__pycache__` são gerados automaticamente pelo pytest/Python, não por mim.
-
-
-[duracao_s=68.7]

@@ -33,7 +33,7 @@ CORPUS = BASE / "corpus"
 RUNS = BASE / "runs"
 REPO = BASE.parent
 
-MODELO = os.environ.get("STAGE4_MODELO", "claude-sonnet-5")
+MODELO = os.environ.get("STAGE4_MODELO", "claude-sonnet-latest")
 TIMEOUT_GERACAO = int(os.environ.get("STAGE4_TIMEOUT", "1800"))
 
 PROIBIDOS = {"gabarito.md", "lacunas.json", "tests_cegos", "_ref"}
