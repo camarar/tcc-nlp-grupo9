@@ -1,0 +1,15 @@
+Todos os fluxos funcionam corretamente. `solucao.py` foi implementado (único arquivo criado, além dos já existentes) cobrindo:
+
+- Criação de contratos PRICE/SAC com carência opcional, validação completa dos dados
+- Cronograma de amortização com arredondamento monetário e absorção de resíduos na última parcela
+- Consulta de valor devido (principal, juros, encargos por atraso — multa + mora pro-rata)
+- Registro de pagamentos com waterfall (encargos → juros → principal), suporte a pagamento parcial e detecção de duplicidade por `pagamento_id`
+- Saldo devedor ponto-no-tempo (baseado em ledger de aplicações por data)
+- Quitação antecipada com desconto de juros futuros
+- Renegociação (permitida apenas em `EM_ATRASO`), gerando novo contrato e encerrando o original
+- `situacao()` derivando `ATIVO`/`EM_ATRASO`/`QUITADO`/`RENEGOCIADO` de forma consistente com o histórico
+
+Testes: `py -m pytest tests_visiveis -q` → **3 passed** (1º ciclo, sem necessidade de correção). Também validei manualmente SAC+carência, atraso→renegociação, quitação antecipada e duplicidade de pagamento — todos coerentes.
+
+
+[duracao_s=307.7]
